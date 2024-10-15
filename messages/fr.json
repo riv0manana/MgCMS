@@ -1,0 +1,363 @@
+{
+    "Common": {
+        "order": {
+            "status": {
+                "DELIVERED": "Délivrée",
+                "PENDING": "En attente",
+                "READY": "Prête",
+                "CANCELED": "Annulée",
+                "REFUND": "Remboursée",
+                "PREPARING": "En préparation"
+            }
+        },
+        "zod": {
+            "min": "Doit contenir au moins {min} charactères",
+            "max": "Doit contenir {max} charactères au maximum",
+            "password": {
+                "minus": "Doit contenir au moins un charactère minuscule",
+                "capital": "Doit contenir au moins un charactère Majuscule",
+                "number": "Doit contenir au moins un chiffre",
+                "special": "Doit contenir au moins un charactère spécial",
+                "not-match": "Les deux mot de passe ne correspondent pas"
+            },
+            "phone": "Le N° de téléphone est invalide",
+            "required": "Veuillez remplir ce champ",
+            "xss": "Fraude XSS detectée",
+            "url": "Image url invalide",
+            "NaN": "Valeur invalide"
+        }
+    },
+    "Public": {
+        "Home": {
+            "pageTitle": "Démo boutique | {storeName}",
+            "pageDescription": "Site de démo: Fastfood en ligne, créer avec MgCMS",
+            "keywords": "Food store, healthy food, e-commerce, online store, online food order, online cms"
+        },
+        "Tracking": {
+            "pageTitle": "Suivi Commande N°: {id} | {storeName}",
+            "ogTitle": "Suivi Commande | {storeName}",
+            "pageDescription": "Suivre ma commande en ligne facilement",
+            "keywords": "Food store, healthy food, e-commerce, online store, online food order, online cms",
+            "content": {
+                "title": "Suivre ma commande",
+                "phrase": "Merci pour votre fidélité."
+            }
+        },
+        "Order": {
+            "pageTitle": "Commande N°: {id} | {storeName}",
+            "pageDescription": "Validation et résumé de ma commande",
+            "keywords": "Food store, healthy food, e-commerce, online store, online food order, online cms",
+            "content": {
+                "wait": {
+                    "title": "Confirmer votre commande",
+                    "phrase": "Commande a été envoyé et en attente de votre confirmation"
+                },
+                "confirmed": {
+                    "title": "Validation en cours",
+                    "phrase": "Votre commande sera préparer des validation de notre part"
+                }
+            }
+        }
+    },
+    "Authenticated": {
+        "Login": {
+            "pageTitle": " | {storeName}",
+            "pageDescription": "",
+            "keywords": ""
+        },
+        "Product": {
+            "pageTitle": " | {storeName}",
+            "pageDescription": "",
+            "keywords": ""
+        },
+        "Order": {
+            "pageTitle": " | {storeName}",
+            "pageDescription": "",
+            "keywords": ""
+        }
+    },
+    "components": {
+        "templates": {
+            "TNewestProduct": {
+                "title": "Fraîchement ajoutés",
+                "basketBtn": "J'en profite"
+            },
+            "TProductListing": {
+                "title": "Tous nos produits",
+                "basketBtn": "Ajouter au panier"
+            },
+            "TRecommendedProduct": {
+                "title": "Nos recommandations",
+                "basketBtn": "J'en profite"
+            }
+        },
+        "organisms": {
+            "ProductAddBtn": {
+                "dialog": {
+                    "title": "Nouveau produit"
+                },
+                "label": "Nouveau"
+            },
+            "ProductEditBtn": {
+                "dialog": {
+                    "title": "Edition - {name}"
+                }
+            },
+            "ProductTable": {
+                "title": "Tableau de produits",
+                "search": {
+                    "placeholder": "Entrez pour rechercher"
+                },
+                "table": {
+                    "img": "Image",
+                    "name": "Nom",
+                    "description": "Description",
+                    "price": "Prix",
+                    "action": "Actions"
+                }
+            },
+            "OrderTable": {
+                "title": "Tableau de commandes",
+                "search": {
+                    "placeholder": "Entrez pour rechercher"
+                },
+                "toast": {
+                    "error": {
+                        "title": "Imposible de mettre à jour le status"
+                    },
+                    "success": {
+                        "title": "Status à jour"
+                    }
+                },
+                "table": {
+                    "phone": "N° de Tel",
+                    "payRef": "Référence",
+                    "clientName": "Client",
+                    "details": "Détails",
+                    "total": "Total",
+                    "status": "Statut",
+                    "date": "Commande du",
+                    "action": "Actions"
+                }
+            },
+            "Header": {
+                "sr-btn": {
+                    "cart": "Mon Panier",
+                    "tracking": "Suive ma commande"
+                }
+            }
+        },
+        "molecules": {
+            "OrderBasket": {
+                "title": "Mon Panier",
+                "empty": {
+                    "phrase": "Votre panier est vide, choisissez un ou des produits"
+                }
+            },
+            "OrderForm": {
+                "toast": {
+                    "error": {
+                        "title": "Impossible de commander",
+                        "description": "Verifier vos données"
+                    },
+                    "success": {
+                        "title": "Commande envoyée",
+                        "description": "Vous allez être redirigé"
+                    }
+                },
+                "form": {
+                    "clientName": {
+                        "label": "Noms *",
+                        "placeholder": "Entrer la référence du paiement"
+                    },
+                    "clientNumber": {
+                        "label": "N° Tel *",
+                        "placeholder": "Numéro Tel."
+                    },
+                    "clientAddress": {
+                        "label": "Adresse *",
+                        "placeholder": "Votre adresse exacte"
+                    },
+                    "details": {
+                        "label": "Autre information (optionnel)",
+                        "placeholder": "Autre détails utiles pour la livraison"
+                    },
+                    "submit": {
+                        "label": "Je commande"
+                    }
+                }
+            },
+            "ProductForm": {
+                "toast": {
+                    "edit": {
+                        "error": {
+                            "title": "Edition non effectuée",
+                            "description": "Verifier les données"
+                        },
+                        "success": {
+                            "title": "Mise à jour effectuée"
+                        }
+                    },
+                    "add": {
+                        "error": {
+                            "title": "Impossible d'ajouter",
+                            "description": "Verifier les données"
+                        },
+                        "success": {
+                            "title": "Produit ajouté"
+                        }
+                    }
+                },
+                "form": {
+                    "name": {
+                        "label": "Nom *",
+                        "placeholder": "Donnez un nom au produit"
+                    },
+                    "sku": {
+                        "label": "sku *",
+                        "placeholder": "Identification unique du produit"
+                    },
+                    "price": {
+                        "label": "Prix *",
+                        "placeholder": "Tapez un montant"
+                    },
+                    "description": {
+                        "label": "Description *",
+                        "placeholder": "Décrivez votre produit"
+                    },
+                    "promoted": {
+                        "label": "Recommander?",
+                        "description": "Ajouter dans les recommandées"
+                    },
+                    "submit": {
+                        "label": "Sauvegarder"
+                    }
+                }
+            },
+            "BasicPayForm": {
+                "toast": {
+                    "error": {
+                        "title": "Erreur lors du paiement",
+                        "description": "Verifier la Rérérence"
+                    },
+                    "success": {
+                        "title": "Référence ajoutée"
+                    }
+                },
+                "form": {
+                    "payRef": {
+                        "label": "Référence de paiement",
+                        "placeholder": "Entrer la référence du paiement"
+                    },
+                    "submit": {
+                        "label": "Confirmer"
+                    }
+                }
+            },
+            "PayRefForm": {
+                "toast": {
+                    "error": {
+                        "title": "Référence non trouvée",
+                        "description": "Verifier votre Rérérence de paiement"
+                    },
+                    "success": {
+                        "title": "Référence valide",
+                        "description": "Vous allez être redirigé"
+                    }
+                },
+                "form": {
+                    "payRef": {
+                        "label": "Référence de paiement",
+                        "placeholder": "Entrer la référence du paiement"
+                    },
+                    "submit": {
+                        "label": "Voir ma commande"
+                    }
+                }
+            },
+            "OrderTracker": {
+                "label": "Commande n° {id}"
+            },
+            "LoginForm": {
+                "title": "Espace Administration",
+                "description": "Identifiez-vous avec votre email et mot de passe",
+                "toast": {
+                    "error": {
+                        "title": "Impossible de s'authentifier",
+                        "description": "Vérifier votre email/mot de passe"
+                    },
+                    "success": {
+                        "title": "Vous être authentifié",
+                        "description": "Vous allez être redirigé"
+                    }
+                },
+                "form": {
+                    "email": {
+                        "label": "Référence de paiement",
+                        "placeholder": "email@example.com"
+                    },
+                    "password": {
+                        "label": "Confirmer",
+                        "placeholder": ""
+                    },
+                    "submit": {
+                        "label": "S'authentifier"
+                    }
+                },
+                "link": {
+                    "forgot": {
+                        "label": "Mot de passe perdu"
+                    }
+                }
+            },
+            "BasketButton": {
+                "sr-btn": "Mon panier"
+            },
+            "Footer": {
+                "address":"St Fiction 43Rd",
+                "email": "contact@riv0manana.dev",
+                "phone": "03X XX XXX XX",
+                "copy": "MgCMS © 2024 <link>riv0manana.dev</link>",
+                "copy-link": "https://riv0manana.dev"
+            }
+        },
+        "atoms": {
+            "OrderStatusFilter": {
+                "all": "Toutes"
+            },
+            "ShortOrderDetails": {
+                "title": "Details de la commande:",
+                "subtitle": "N° {id}",
+                "resume": {
+                    "estimation": "Temps d'attente estimé: {value} min"
+                },
+                "links": {
+                    "track": "Suivre",
+                    "home": "Catalogue"
+                }
+            },
+            "Uploader": {
+                "loading": "Ajout en cours",
+                "label": "Ajouter une image",
+                "toast": {
+                    "error": {
+                        "title": "Impossible d'uploader l'image",
+                        "description": "Verifier le fichier/image"
+                    },
+                    "success": {
+                        "title": "Fichier/Image ajouté"
+                    }
+                }
+            },
+            "BasicPaymentWrapper": {
+                "phrase": "Merci de payer la somme de {amount} à:",
+                "num": "N°/email:",
+                "name": "Au noms de:"
+            },
+            "BasketSummary": {
+                "title": "Montant",
+                "total": "Total"
+            }
+        }
+    }
+}

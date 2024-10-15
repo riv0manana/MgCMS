@@ -1,36 +1,100 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MgCMS
+
+MgCMS is a basic e-commerce CMS built with Next.js and Appwrite. It follows a **code-first** approach, allowing developers to customize it as needed. The CMS is designed with **Component Driven Development** and **Atomic Design** principles in mind, making it modular and easy to extend. MgCMS separates backend logic from the frontend using **server actions**, ensuring seamless customization of the front end.
+
+## Features
+
+- **Code-First Approach**: Full flexibility for developers to customize and extend the platform.
+- **Component Driven Development**: Build reusable, modular components.
+- **Atomic Design**: Easily scalable design system by breaking the UI into smaller components.
+- **Next.js Framework**: Modern, fast, and SEO-friendly React framework.
+- **Appwrite Integration**: Use Appwrite as the database for secure and fast data management.
+- **Frontend Flexibility**: With isolated backend logic, developers can freely adjust the frontend for unique requirements.
+
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+To get started with MgCMS, you need:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Node.js**: v16 or later
+- **Next.js**: v14 or later
+- **Appwrite**: Running on your server or cloud instance
+- **Git**: For version control and cloning the repository
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Clone the repository:
 
-## Learn More
+   ```bash
+   git clone https://github.com/riv0manana/MgCMS.git
+   cd MgCMS
 
-To learn more about Next.js, take a look at the following resources:
+2. Install dependencies:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```bash
+   npm install
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Set up Appwrite:
 
-## Deploy on Vercel
+  - Make sure you have Appwrite set up and running.
+  - Create a new Appwrite project and configure your environment variables in a .env file:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    ```bash
+    NEXT_PUBLIC_APPWRITE_PROJECT=
+    APPWRITE_DATABASE_ID=
+    NEXT_APPWRITE_KEY=
+    NEXT_PUBLIC_CLOUDINARY_PRESET=
+    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=
+    PAY_NAME=
+    PAY_NUMBER=
+    WEBDOMAIN=
+    
+4. Start the development server::
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```bash
+   npm run dev
+
+5. Access MgCMS Store demo page at `http://localhost:3000`.
+
+6. Access MgCMS Manager page at `http://localhost:3000/dashboard`.
+
+## File Structure
+
+    ```bash
+    mgcms/
+    ├── components/    # UI components
+    ├── app/           # Next.js pages
+    ├── services/      # Server actions & external API
+    ├── lib/           # Shared utilities
+    ├── messages/      # i18n files
+    ├── public/        # Static assets
+    ├── .env.example   # Environment variables
+    ├── package.json   # Project dependencies and scripts
+    └── README.md      # Project documentation
+
+## Customizations
+
+MgCMS allows full customization of both the backend and frontend:
+
+   - **Frontend Customization**: The front end is built using components based on Atomic Design. You can easily extend or override any components to suit your project needs.
+   - **Backend Customization**: The backend is isolated and uses server actions that make it easy to connect to your own APIs or extend existing functionality without altering the frontend.
+
+## Next steps
+
+MgCMS is in its starting stage. Well I Hope locale community gets familiar with it and make the adoption smooth.
+
+What is planned:
+
+   - **Themes repository**: Allow install custom styles from community
+   - **Local Payment integration**: Add different local payment accepted in Madagascar.
+   - **In-App i18n manager**: Ease i18n editions without build
+
+## Licensing
+
+This project is licensed under the **Creative Commons Attribution-NonCommercial (CC BY-NC)** license for non-profit and community use. For more details, see [LICENSE](./LICENSE).
+
+For commercial use, a one-time license fee per domain is required. Commercial users are allowed to modify, distribute, and use the software for profit. To review the terms, please see [LICENSE-COMMERCIAL](./LICENSE-COMMERCIAL.md).
+
+Contact **contact@riv0manana.dev** to purchase a commercial license.

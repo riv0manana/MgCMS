@@ -1,3 +1,33 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "extends": [
+    "next/core-web-vitals",
+    "next/typescript",
+    "plugin:storybook/recommended",
+    "plugin:jsonc/prettier",
+    "plugin:jsonc/recommended-with-json"
+  ],
+  "rules": {
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-empty-object-type": "off",
+    "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
+    "override": [
+      {
+        "files": [
+          "./messages/**/*.json"
+        ],
+        "parser": "jsonc-eslint-parser",
+        "rules": {
+          "jsonc/sort-keys": [
+            "error",
+            "asc",
+            {
+              "caseSensitive": true,
+              "natural": false,
+              "minKeys": 3
+            }
+          ]
+        }
+      }
+    ]
+  }
 }
