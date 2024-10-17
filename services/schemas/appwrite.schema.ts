@@ -27,7 +27,7 @@ const ProductShema: SCHEMA[] = [
 
 
 const OrderSchema: SCHEMA[] = [
-    {key: 'status', type: 'string', possibleValues: [
+    {key: 'status', type: 'enum', possibleValues: [
         'CANCELED', 'DELIVERED', 'PENDING', 'PREPARING', 'READY', 'REFUND'
     ] as ORDER_STATUS[], xdefault: 'PENDING'},
     {key: 'details', type: 'string', size: 1000},
