@@ -23,8 +23,8 @@ import { useTranslations } from "next-intl"
 export type ProductAddBtnProps = Omit<ProductFormProps, 'product' | 'callback'>
 
 const ProductAddBtn = (props: ProductAddBtnProps) => {
-    const { show, close, change, open } = useDialog();
     const t = useTranslations('components.organisms.ProductAddBtn')
+    const { show, close, change, open } = useDialog();
     return (
         <Dialog
             title={t('dialog.title')}

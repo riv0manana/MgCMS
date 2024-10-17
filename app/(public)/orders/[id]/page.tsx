@@ -29,7 +29,7 @@ export async function generateMetadata({
 }: RouteQueryProps) {
     const [, order] = await getOrder(id);
 
-    const t = await getTranslations('Public.Home');
+    const t = await getTranslations('Public.Order');
     const [, appConfig] = await getAppConfig();
   
     return {
@@ -38,7 +38,7 @@ export async function generateMetadata({
       openGraph: {
         type: "website",
         url:  `https://${appConfig?.webDomain}`,
-        title: t('pageTitle', { storeName: appConfig?.storeName}),
+        title: t('ogTitle', { storeName: appConfig?.storeName }),
         description: t('pageDescription'),
         siteName: appConfig?.storeName,
         images: [{

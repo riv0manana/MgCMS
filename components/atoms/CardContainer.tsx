@@ -40,7 +40,9 @@ const CardContainer = ({
           {subtitle}
         </CardDescription>}
       </CardHeader>
-      {children}
+      <div className="p-5">
+        {children}
+      </div>
     </Card>
   )
 }

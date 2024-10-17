@@ -17,6 +17,7 @@
 import { clsx, type ClassValue } from "clsx"
 import { DateTime } from "luxon";
 import { twMerge } from "tailwind-merge"
+import { z } from "zod";
 
 
 export function cn(...inputs: ClassValue[]) {
@@ -33,6 +34,15 @@ export enum UiVariant {
 }
 
 export const variants = (value: keyof typeof UiVariant) => UiVariant[value];
+
+export const isFormSafe = <T extends z.AnyZodObject>(data: any, form: T) => {
+  try {
+    const safeForm = form.safeParse(data);
+    return safeForm.success;
+  } catch {
+    return false;
+  }
+}
 
 export function formatAmount(amount: number, currency = 'Ar'): string {
   return `${amount.toLocaleString('fr-Fr', {

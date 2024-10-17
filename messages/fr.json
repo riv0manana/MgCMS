@@ -14,6 +14,8 @@
             "min": "Doit contenir au moins {min} charactères",
             "max": "Doit contenir {max} charactères au maximum",
             "password": {
+                "min": "La valeur minimum est de ${min}",
+                "max": "La valeur maximum est de ${max}",
                 "minus": "Doit contenir au moins un charactère minuscule",
                 "capital": "Doit contenir au moins un charactère Majuscule",
                 "number": "Doit contenir au moins un chiffre",
@@ -45,6 +47,7 @@
         },
         "Order": {
             "pageTitle": "Commande N°: {id} | {storeName}",
+            "ogTitle": "Ma commande | {storeName}",
             "pageDescription": "Validation et résumé de ma commande",
             "keywords": "Food store, healthy food, e-commerce, online store, online food order, online cms",
             "content": {
@@ -61,19 +64,24 @@
     },
     "Authenticated": {
         "Login": {
-            "pageTitle": " | {storeName}",
-            "pageDescription": "",
-            "keywords": ""
+            "pageTitle": "Administration | {storeName}",
+            "pageDescription": "Portail d'administration"
         },
         "Product": {
-            "pageTitle": " | {storeName}",
-            "pageDescription": "",
-            "keywords": ""
+            "pageTitle": "Produits | {storeName}",
+            "pageDescription": "Gérer vos produits"
         },
         "Order": {
-            "pageTitle": " | {storeName}",
-            "pageDescription": "",
-            "keywords": ""
+            "pageTitle": "Commandes | {storeName}",
+            "pageDescription": "Gérer vos commande"
+        },
+        "Setup": {
+            "pageTitle": "Configuration | {storeName}",
+            "pageDescription": "Configuration super admin et base de données",
+            "content": {
+                "title": "Configuration",
+                "description": "Base de donneés non configurée. Appuyer sur Démarrer pour la configuration automatique."
+            }
         }
     },
     "components": {
@@ -148,6 +156,20 @@
             }
         },
         "molecules": {
+            "BootstrapConfigButton": {
+                "label": "Démarrer",
+                "inProgress": "en cours",
+                "toast": {
+                    "error": {
+                        "title": "Imposible de mettre à jour le status",
+                        "description": "Verifier vos configurations"
+                    },
+                    "success": {
+                        "title": "Configuration terminée",
+                        "description": "Vous allez être redirigé"
+                    }
+                }
+            },
             "OrderBasket": {
                 "title": "Mon Panier",
                 "empty": {
@@ -168,7 +190,7 @@
                 "form": {
                     "clientName": {
                         "label": "Noms *",
-                        "placeholder": "Entrer la référence du paiement"
+                        "placeholder": "Votre noms"
                     },
                     "clientNumber": {
                         "label": "N° Tel *",
@@ -293,15 +315,51 @@
                 },
                 "form": {
                     "email": {
-                        "label": "Référence de paiement",
+                        "label": "Email *",
                         "placeholder": "email@example.com"
                     },
                     "password": {
-                        "label": "Confirmer",
-                        "placeholder": ""
+                        "label": "Mot de passe *",
+                        "placeholder": "Votre mot de passe"
                     },
                     "submit": {
                         "label": "S'authentifier"
+                    }
+                },
+                "link": {
+                    "forgot": {
+                        "label": "Mot de passe perdu"
+                    }
+                }
+            },
+            "SignUpForm": {
+                "title": "Espace Administration",
+                "description": "Créer votre compte",
+                "toast": {
+                    "error": {
+                        "title": "Impossible de créer le compte",
+                        "description": "Vérifier votre email/mot de passe"
+                    },
+                    "success": {
+                        "title": "Votre compte administrateur à été créer",
+                        "description": "Vous allez être redirigé"
+                    }
+                },
+                "form": {
+                    "email": {
+                        "label": "Email *",
+                        "placeholder": "email@example.com"
+                    },
+                    "password": {
+                        "label": "Mot de passe *",
+                        "placeholder": "Votre mot de passe"
+                    },
+                    "name": {
+                        "label": "Noms *",
+                        "placeholder": "Votre noms"
+                    },
+                    "submit": {
+                        "label": "Créer le compte"
                     }
                 },
                 "link": {
