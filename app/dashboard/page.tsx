@@ -14,9 +14,14 @@
 import TLoginForm from '@/components/templates/TLoginForm';
 import TOrderTable from '@/components/templates/TOrderTable';
 import { getLoggedInUser } from '@/services/actions/admin.action'
+import { checkUserSettings } from '@/services/actions/config.action';
+import { redirect } from 'next/navigation';
 import React from 'react'
 
 const AdminPage = async () => {
+    const [hasError] = await checkUserSettings();
+    if (hasError?.message) redirect('/dashboard/setup');
+    
     const [error, data] = await getLoggedInUser();
 
     return data && !error

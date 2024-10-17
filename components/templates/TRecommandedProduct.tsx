@@ -23,6 +23,9 @@ const TRecommendedProduct = async () => {
     const [, data] = await getPromotedProducts({limit: 20});
     const products = data?.documents || [];
     const t = await getTranslations('components.templates.TRecommendedProduct')
+
+    if (!products.length) return null;
+    
     return (
         <ScrollableSection title={t('title')}>
             {products.map((product, i) => (

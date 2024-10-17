@@ -12,6 +12,8 @@
  */
 
 declare type ActionStatusMsg = 
+    | 'setting_check_failed'
+    | 'seeting_bootstrap_failed'
     | 'success'
     | 'upload_error'
     | 'unknow_server_error'
@@ -48,6 +50,34 @@ declare type ActionStatus = {
 declare type ActionResponse<T> = [error?: ActionStatus, data?: T];
 
 /* DB MODEL */
+declare type SCHEMA = {
+    key: string;
+    type: 
+        | 'string'
+        | 'integer'
+        | 'float'
+        | 'boolean'
+        | 'ref'
+        | 'enum';
+    size?: number;
+    required?: boolean;
+    xdefault?: string | number | boolean;
+    min?: number;
+    max?: number;
+    isArray?: boolean;
+    possibleValues?: string[];
+    collectionRef?: string;
+    typeRef?: 
+        | 'oneToOne'
+        | 'manyToOne'
+        | 'manyToMany'
+        | 'oneToMany';
+    collectionRef?: string;
+    twoWay?: boolean;
+    twoWayKey?: string;
+    cascade?: 'restrict' | 'cascade' | 'setNull';
+}
+
 declare type  ORDER_STATUS =
     | 'PENDING'
     | 'PREPARING'

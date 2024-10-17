@@ -23,39 +23,35 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { ChevronLeft, Mail, Lock } from "lucide-react"
+import { ChevronLeft, Mail, Lock, User2 } from "lucide-react"
 import Link from 'next/link'
 import {
     Form,
 } from "@/components/ui/form"
 import Input from '@/components/atoms/Input'
-import { userSignInForm } from '@/lib/forms'
+import { userSignUpForm } from '@/lib/forms'
 import { useToast } from '@/hooks/use-toast'
 import { useTranslations } from 'next-intl'
 
-export type LoginFormProps = {
-    submit: (data: SignInParams) => Promise<ActionResponse<UserSession>>;
+export type SignUpFormProps = {
+    submit: (data: SignUpParams) => Promise<ActionResponse<UserSession>>;
 }
 
-export default function LoginForm({
+export default function SignUpForm({
     submit,
-}: LoginFormProps) {
+}: SignUpFormProps) {
     const [isLoading, action] = useTransition();
     const { toast } = useToast()
-    const t = useTranslations('components.molecules.LoginForm')
+    const t = useTranslations('components.molecules.SignUpForm')
     const z = useTranslations('Common.zod')
 
-    const loginSchema = userSignInForm(z);
+    const signUpSchema = userSignUpForm(z);
 
-    const form = useForm<z.infer<typeof loginSchema>>({
-        resolver: zodResolver(loginSchema),
-        defaultValues: {
-            email: "",
-            password: "",
-        },
+    const form = useForm<z.infer<typeof signUpSchema>>({
+        resolver: zodResolver(signUpSchema),
     })
 
-    const onSubmit = (data: z.infer<typeof loginSchema>) => {
+    const onSubmit = (data: z.infer<typeof signUpSchema>) => {
         action(async () => {
             const [error, res] = await submit(data);
             if (error) {
@@ -91,6 +87,13 @@ export default function LoginForm({
                 <CardContent>
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                            <Input
+                                control={form.control}
+                                type='text'
+                                name='name'
+                                placeholder={t('form.name.placeholder')}
+                                start={<User2 className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />}
+                            />
                             <Input
                                 control={form.control}
                                 type='email'

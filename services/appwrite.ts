@@ -11,7 +11,7 @@
  * For commercial use, please contact: contact@riv0manana.dev
  */
 
-import { Client, Account, Databases, Users, Query, Models, ID, Teams, Permission, Role } from "node-appwrite";
+import { Client, Account, Databases, Users, Query, Models, ID, Teams, Permission, Role, RelationshipType } from "node-appwrite";
 
 /**
  * createSessionClient
@@ -56,6 +56,7 @@ export function createAdminClient() {
     .setKey(process.env.NEXT_APPWRITE_KEY!);
 
   return {
+    get generateId() { return ID },
     get account() {
       return new Account(client);
     },
@@ -69,6 +70,46 @@ export function createAdminClient() {
       return new Teams(client);
     }
   };
+}
+
+
+/* Appwrite collection helper*/
+export const collectionQuery = (db: Databases) => {
+  const DBID = process.env.APPWRITE_DATABASE_ID!;
+  return {
+    get queryAll() {
+      return () => db.listCollections(DBID);
+    },
+    get newCollection() {
+      return (id: string, name: string) => db.createCollection(DBID, id, name, [
+        Permission.read(Role.team('admins')),
+        Permission.write(Role.team('admins'))
+      ])
+    },
+
+    get setAttributes () {
+      return (collectionId: string, schema?: SCHEMA[]) => {
+        const fields = schema?.map(({key, type, min, max, xdefault, required, isArray, ...field}) => {
+          switch(type) {
+            case 'integer':
+              return db.createIntegerAttribute(DBID, collectionId, key, !!required, min, max, xdefault as number, isArray);
+            case 'float':
+              return db.createFloatAttribute(DBID, collectionId, key, !!required, min, max, xdefault as number, isArray);
+            case 'boolean':
+              return db.createBooleanAttribute(DBID, collectionId, key, !!required, xdefault as boolean, isArray);
+            case 'enum':
+              return db.createEnumAttribute(DBID, collectionId, key, field.possibleValues || [], !!required, xdefault as string, isArray);
+            case 'ref':
+              return db.createRelationshipAttribute(DBID, collectionId, field.collectionRef!, field.typeRef as any, field.twoWay, key, field.twoWayKey, field.cascade as any);
+            case 'string':
+            default:
+              return db.createStringAttribute(DBID, collectionId, key, field.size || 100, !!required, xdefault as string, isArray);
+          }
+        })
+        return fields;
+      }
+    }
+  }
 }
 
 /**

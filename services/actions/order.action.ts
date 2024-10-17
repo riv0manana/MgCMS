@@ -63,6 +63,7 @@ export async function createOrder(data: OrderParams) {
         revalidateTag('orders');
         return parseStringify(order);
     } catch (error) {
+        console.log(error)
         return handleAppError(error);
     }
 }
