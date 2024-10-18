@@ -28,13 +28,12 @@ export async function createOrder(data: OrderParams) {
         const { database } = createAdminClient();
 
         // manually validate the total price to avoid price tampering
-        const { queryAll, queryBuilder: q } = dbQuery<Product>('product', database);
-        const product_items = await queryAll([
-            q.equal('$id', items.map(i => i.product.$id!))
-        ])
+        const { query } = dbQuery<Product>('product', database);
+        const promises = items.map(i => query(i.product.$id!))
+        const product_items = await Promise.all(promises);
 
         const products = items.map(i => {
-            const tmp = (product_items.documents || []).find(p => p.$id === i.product.$id);
+            const tmp = (product_items || []).find(p => p.$id === i.product.$id);
             return { ...i, product: tmp!}
         })
 
@@ -48,7 +47,7 @@ export async function createOrder(data: OrderParams) {
         const { addQuery, generateId } = dbQuery<Order>('order', database);
         // make sure to parse only needed data
         const order = await addQuery({
-            products: product_items.documents.map(i => parseModelId(i)),
+            products: product_items.map(i => parseModelId(i)),
             amount: total,
             reduction,
             clientName,
