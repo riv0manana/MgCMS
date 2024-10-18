@@ -34,8 +34,8 @@ export default function Header() {
                         <span className="sr-only">{t('sr-btn.cart')}</span>
                     </BasketButton>
                     <Link href="/tracking" aria-label='Track my order'>
-                        <Button aria-label={t('sr-btn.tracking')} variant="ghost" size="icon">
-                            <ClockArrowUpIcon className="h-6 w-6 text-main-600" />
+                        <Button aria-label={t('sr-btn.tracking')} variant="ghost">
+                            <ClockArrowUpIcon className="h-8 w-8 text-main-600" />
                             <span className="sr-only">{t('sr-btn.tracking')}</span>
                         </Button>
                     </Link>
