@@ -17,13 +17,14 @@
         ],
         "parser": "jsonc-eslint-parser",
         "rules": {
+
           "jsonc/sort-keys": [
             "error",
-            "asc",
             {
               "caseSensitive": true,
               "natural": false,
-              "minKeys": 3
+              "minKeys": 3,
+              "asc": true
             }
           ]
         }

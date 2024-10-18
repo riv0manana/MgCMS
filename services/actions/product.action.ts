@@ -65,6 +65,7 @@ export async function deleteProduct (product_id: string) {
         revalidateTag("products")
         return parseStringify({status: 'ok'})
     } catch (error) {
+        console.log(error)
         return handleAppError(error);
     }
 }

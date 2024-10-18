@@ -23,6 +23,8 @@ export type DialogProps = {
     title: string;
     children: ReactNode;
     open?: boolean,
+    show?: () => void;
+    close?: () => void;
     change?: (value: boolean) => void;
     trigger?: ReactNode;
     className?: string;
@@ -45,7 +47,7 @@ const Dialog = ({
             }
             <DialogContent title={title} aria-describedby={title} onInteractOutside={e => e.preventDefault()} className={cn("sm:max-w-[425px] sm:max-h-[95svh] overflow-y-auto bg-white", className)}>
                 <DialogHeader>
-                    {title && <DialogTitle>title</DialogTitle>}
+                    {title && <DialogTitle>{title}</DialogTitle>}
                 </DialogHeader>
                 {children}
             </DialogContent>

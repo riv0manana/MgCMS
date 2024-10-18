@@ -111,6 +111,22 @@
                     "title": "Edition - {name}"
                 }
             },
+            "ProductDeleteBtn": {
+                "dialog": {
+                    "title": "Suppression: {name}",
+                    "confirm": "Supprimer",
+                    "cancel": "Annuler"
+                },
+                "toast": {
+                    "error": {
+                        "title": "Impossible de supprimer",
+                        "description": "Réessayer plus tard"
+                    },
+                    "success": {
+                        "title": "Produit supprimé"
+                    }
+                }
+            },
             "ProductTable": {
                 "title": "Tableau de produits",
                 "search": {
@@ -208,6 +224,10 @@
                         "label": "Je commande"
                     }
                 }
+            },
+            "ActionModal": {
+                "defaultLabel": "Confirm",
+                "cancel": "Annuler"
             },
             "ProductForm": {
                 "toast": {
@@ -372,7 +392,7 @@
                 "sr-btn": "Mon panier"
             },
             "Footer": {
-                "address":"St Fiction 43Rd",
+                "address": "St Fiction 43Rd",
                 "email": "contact@riv0manana.dev",
                 "phone": "03X XX XXX XX",
                 "copy": "MgCMS © 2024 <link>riv0manana.dev</link>",

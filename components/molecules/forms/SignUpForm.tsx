@@ -110,7 +110,7 @@ export default function SignUpForm({
                             />
                             <Button
                                 type="submit"
-                                className="w-full bg-main-500 hover:bg-main-600 text-white"
+                                className="w-full"
                                 disabled={isLoading}
                             >
                                 {isLoading ? `${t('form.submit.label')}...` : t('form.submit.label')}
