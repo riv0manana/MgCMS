@@ -31,7 +31,6 @@ export async function addProduct(data: Omit<Product, 'slug'>) {
 
         const product = await addQuery({...data, slug }, generateId.unique());
 
-        revalidatePath('/');
         revalidateTag("products");
         return parseStringify(product);
     } catch (error) {
@@ -49,8 +48,6 @@ export async function editProduct({$id, ...data}: Product) {
         const product = await updateQuery($id!, data);
 
         revalidateTag("products");
-        revalidateTag($id!);
-        revalidatePath('/');
         return parseStringify(product);
     } catch (error) {
         return handleAppError(error);
@@ -65,7 +62,6 @@ export async function deleteProduct (product_id: string) {
         await deleteQuery(product_id);
 
         revalidateTag("products")
-        revalidatePath('/');
         return parseStringify({status: 'ok'})
     } catch (error) {
         console.log(error)
