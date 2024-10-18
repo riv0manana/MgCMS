@@ -61,12 +61,12 @@ const ShortOrderDetails = ({
             </div>}
             <div className={cn("flex justify-center space-x-4 pt-4", { "hidden" : hideBtn} )}>
                 <Link href={`/tracking/${order.$id}`} aria-label="Tracking Link">
-                    <Button className="bg-main-500 hover:bg-main-600 text-white">
+                    <Button>
                         {t('links.track')}
                     </Button>
                 </Link>
                 <Link href="/" aria-label="Go to Home">
-                    <Button variant="outline" className="border-main-500 text-main-500 hover:bg-main-100">
+                    <Button variant="outline">
                         {t('links.home')}
                     </Button>
                 </Link>

@@ -14,6 +14,7 @@
  */
 
 import TProductAddButton from "@/components/templates/TProductAddButton";
+import TProductDeleteBtn from "@/components/templates/TProductDeleteBtn";
 import TProductEditButton from "@/components/templates/TProductEditButton";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -90,13 +91,7 @@ const ProductTable = ({
                                         <TableCell>
                                             <div className="flex space-x-2">
                                                 <TProductEditButton product={product} />
-                                                <Button
-                                                    variant="outline"
-                                                    size="sm"
-                                                    //onClick={() => handleDeleteProduct(product.id)}
-                                                >
-                                                    <Trash2 className="h-4 w-4" />
-                                                </Button>
+                                                <TProductDeleteBtn product={product} />
                                             </div>
                                         </TableCell>
                                     </TableRow>

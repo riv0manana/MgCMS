@@ -47,7 +47,7 @@ const AddToCartBtn = ({
     }
 
     return (
-        <Button onClick={handleAdd} className={cn("w-full bg-main-500 hover:bg-main-600 text-white", className)}>
+        <Button onClick={handleAdd} className={cn("w-full", className)}>
             {label} {icon}
         </Button>
     )

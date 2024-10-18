@@ -83,7 +83,7 @@ export default function PayRefForm({
                 />
                 <Button
                     type="submit"
-                    className="w-full bg-main-500 hover:bg-main-600 text-white"
+                    className="w-full"
                     disabled={loading}
                 >
                     {loading ? `${t('form.submit.label')}...` : t('form.submit.label')}
