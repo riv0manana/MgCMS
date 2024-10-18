@@ -19,7 +19,8 @@
 import { ShoppingCart } from "lucide-react"
 import { Button, ButtonProps } from "@/components/ui/button"
 import { useBasketStore } from "@/hooks/basket"
-import { ReactNode, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import useDialog from "@/components/atoms/Dialog/useDialog"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { cn } from "@/lib/utils"
@@ -54,7 +55,7 @@ const BasketButton = ({
         <Sheet open={open} onOpenChange={change}>
             <SheetTrigger asChild>
                 <Button {...props} variant="ghost" className={cn("flex", { "gap-2": !!length }, className)}>
-                    <ShoppingCart className="h-6 w-6 text-main-600" />
+                    <ShoppingCart className="h-8 w-8 text-main-600" />
                     <span className="font-bold text-main-600">{!!length ? `(${length})` : ''}</span>
                     <span className="sr-only">
                         {t('sr-btn')} {!!length ? `(${length})` : ''}
@@ -62,6 +63,9 @@ const BasketButton = ({
                 </Button>
             </SheetTrigger>
             <SheetContent side="left" className="pt-12 pb-6 w-full sm:max-w-full md:max-w-[550px]">
+                <VisuallyHidden.Root>
+                    {t('sr-btn')}
+                </VisuallyHidden.Root>
                 <div className="w-full h-full overflow-y-auto">
                     {children}
                 </div>

@@ -45,7 +45,7 @@ const Dialog = ({
                     {trigger}
                 </DialogTrigger>)
             }
-            <DialogContent title={title} aria-describedby={title} onInteractOutside={e => e.preventDefault()} className={cn("sm:max-w-[425px] sm:max-h-[95svh] overflow-y-auto bg-white", className)}>
+            <DialogContent title={title} aria-description={title} onInteractOutside={e => e.preventDefault()} className={cn("sm:max-w-[425px] sm:max-h-[95svh] overflow-y-auto bg-white", className)}>
                 <DialogHeader>
                     {title && <DialogTitle>{title}</DialogTitle>}
                 </DialogHeader>
