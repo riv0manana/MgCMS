@@ -22,7 +22,7 @@ import { useBasketStore } from "@/hooks/basket"
 import { useEffect, useState } from "react"
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import useDialog from "@/components/atoms/Dialog/useDialog"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { cn } from "@/lib/utils"
 import { useTranslations } from "next-intl"
 
@@ -63,9 +63,18 @@ const BasketButton = ({
                 </Button>
             </SheetTrigger>
             <SheetContent side="left" className="pt-12 pb-6 w-full sm:max-w-full md:max-w-[550px]">
-                <VisuallyHidden.Root>
-                    {t('sr-btn')}
-                </VisuallyHidden.Root>
+                <SheetHeader>
+                    <SheetTitle>
+                        <VisuallyHidden.Root>
+                            {t('sr-title')}
+                        </VisuallyHidden.Root>
+                    </SheetTitle>
+                    <SheetDescription>
+                        <VisuallyHidden.Root>
+                            {t('sr-description')}
+                        </VisuallyHidden.Root>
+                    </SheetDescription>
+                </SheetHeader>
                 <div className="w-full h-full overflow-y-auto">
                     {children}
                 </div>

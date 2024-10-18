@@ -15,8 +15,9 @@
 
 
 
-import { DialogContent, DialogHeader, DialogTitle, DialogTrigger, Dialog as UiDialog } from "@/components/ui/dialog";
+import { DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, Dialog as UiDialog } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
+import { Root } from "@radix-ui/react-visually-hidden";
 import { ReactNode } from "react";
 
 export type DialogProps = {
@@ -47,7 +48,10 @@ const Dialog = ({
             }
             <DialogContent title={title} aria-description={title} onInteractOutside={e => e.preventDefault()} className={cn("sm:max-w-[425px] sm:max-h-[95svh] overflow-y-auto bg-white", className)}>
                 <DialogHeader>
-                    {title && <DialogTitle>{title}</DialogTitle>}
+                    <DialogTitle>{title}</DialogTitle>
+                    <DialogDescription>
+                        <Root>{title}</Root>
+                    </DialogDescription>
                 </DialogHeader>
                 {children}
             </DialogContent>
