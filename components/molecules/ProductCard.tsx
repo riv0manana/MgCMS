@@ -42,6 +42,12 @@ const ProductCard = ({
         price,
         imgUrl
     } = product;
+
+    
+    let img = imgUrl.includes('cloudinary') && imgUrl.includes('/upload')
+        ?  imgUrl.replace('/upload', '/upload/c_fill,g_auto,h_169,w_300')
+        : imgUrl
+
     return (
         <Card key={$id} className={cn(
             "overflow-hidden inline-block transition-transform duration-300 w-full sm:max-w-[312px]",
@@ -53,10 +59,10 @@ const ProductCard = ({
                 <Image
                     src={imgUrl} alt={name}
                     className="w-full h-48 object-cover"
-                    width={400}
-                    height={400}
+                    width={312}
+                    height={200}
                     priority={isLCP}
-                    loading={isLCP ? "lazy" : undefined}
+                    loading={!isLCP ? "lazy" : undefined}
                 />
                 <div className="absolute top-0 right-0 bg-main-700 text-white px-2 py-1 rounded-bl-lg">
                     {formatAmount(price)}
