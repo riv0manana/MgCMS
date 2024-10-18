@@ -14,7 +14,7 @@
  */
 
 import {  ActionError, handleAppError, isParamMissing, parseStringify } from "@/lib/utils"
-import { revalidateTag, unstable_cache } from "next/cache"
+import { revalidatePath, revalidateTag, unstable_cache } from "next/cache"
 import { createAdminClient, createSessionClient, dbQuery } from "@/services/appwrite"
 import { getSessionKey } from "@/services/cookie"
 
@@ -31,6 +31,7 @@ export async function addProduct(data: Omit<Product, 'slug'>) {
 
         const product = await addQuery({...data, slug }, generateId.unique());
 
+        revalidatePath('/');
         revalidateTag("products");
         return parseStringify(product);
     } catch (error) {
@@ -49,6 +50,7 @@ export async function editProduct({$id, ...data}: Product) {
 
         revalidateTag("products");
         revalidateTag($id!);
+        revalidatePath('/');
         return parseStringify(product);
     } catch (error) {
         return handleAppError(error);
@@ -63,6 +65,7 @@ export async function deleteProduct (product_id: string) {
         await deleteQuery(product_id);
 
         revalidateTag("products")
+        revalidatePath('/');
         return parseStringify({status: 'ok'})
     } catch (error) {
         console.log(error)
@@ -88,7 +91,7 @@ export const searchProducts = unstable_cache(async ({
     } catch (error) {
         return handleAppError(error);
     }
-}, undefined, { tags: ["products"] });
+}, ['products'], { tags: ["products"] });
 
 export const getPromotedProducts = unstable_cache(async ({
     limit = 30,
@@ -107,7 +110,7 @@ export const getPromotedProducts = unstable_cache(async ({
     } catch (error) {
         return handleAppError(error);
     }
-}, undefined, { tags: ["products"] });
+}, ['products'], { tags: ["products"] });
 
 export const getNewestProduct = unstable_cache(async ({
     limit = 30,
@@ -126,7 +129,7 @@ export const getNewestProduct = unstable_cache(async ({
     } catch (error) {
         return handleAppError(error);
     }
-}, undefined, { tags: ["products"] });
+}, ['products'], { tags: ["products"] });
 
 
 export const getProducts = unstable_cache(async ({
@@ -146,7 +149,7 @@ export const getProducts = unstable_cache(async ({
     } catch (error) {
         return handleAppError(error);
     }
-}, undefined, { tags: ["products"] });
+}, ['products'], { tags: ["products"] });
 
 export const getProduct = unstable_cache(async (product_id: string) => {
     try {
@@ -158,4 +161,4 @@ export const getProduct = unstable_cache(async (product_id: string) => {
     } catch (error) {
         return handleAppError(error);
     }
-}, undefined, { tags: ["products"] })
+}, ['products'], { tags: ["products"] })

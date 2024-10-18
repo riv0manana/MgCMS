@@ -149,7 +149,7 @@ export const searchOrder = unstable_cache(async ({
     } catch (error) {
         return handleAppError(error);
     }
-}, undefined, { tags: ["orders"]})
+}, ['orders'], { tags: ["orders"]})
 
 
 export const getOrders = unstable_cache(async ({
@@ -171,7 +171,7 @@ export const getOrders = unstable_cache(async ({
     } catch (error) {
         return handleAppError(error);
     }
-}, undefined, { tags: ["orders"]})
+}, ['orders'], { tags: ["orders"]})
 
 export const getOrder = unstable_cache(async (order_id: string) => {
     try {
@@ -183,4 +183,4 @@ export const getOrder = unstable_cache(async (order_id: string) => {
     } catch (error) {
         return handleAppError(error);
     }
-}, undefined, { tags: ["orders"]})
+}, ['orders'], { tags: ["orders"]})
