@@ -29,7 +29,7 @@ const TRecommendedProduct = async () => {
     return (
         <ScrollableSection title={t('title')}>
             {products.map((product, i) => (
-                <ProductCard disableHover key={`rcmd_product_${i}`} product={product}>
+                <ProductCard isLCP={i === 0} disableHover key={`rcmd_product_${i}`} product={product}>
                     <ProductCard.AddToBasketBtn
                         product={product}
                         icon={<ShoppingCart className="ml-2 h-4 w-4" />}

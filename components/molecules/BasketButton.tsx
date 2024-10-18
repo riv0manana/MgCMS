@@ -17,7 +17,7 @@
 
 
 import { ShoppingCart } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Button, ButtonProps } from "@/components/ui/button"
 import { useBasketStore } from "@/hooks/basket"
 import { ReactNode, useEffect, useState } from "react"
 import useDialog from "@/components/atoms/Dialog/useDialog"
@@ -25,14 +25,12 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { cn } from "@/lib/utils"
 import { useTranslations } from "next-intl"
 
-export type BasketButtonProps = {
-    className?: string;
-    children: ReactNode;
-}
+export type BasketButtonProps = ButtonProps;
 
 const BasketButton = ({
     className,
-    children
+    children,
+    ...props
 }: BasketButtonProps) => {
     const [length, setLength] = useState(0);
     const { open, change, close } = useDialog();
@@ -55,7 +53,7 @@ const BasketButton = ({
     return (
         <Sheet open={open} onOpenChange={change}>
             <SheetTrigger asChild>
-                <Button variant="ghost" className={cn("flex", { "gap-2": !!length }, className)}>
+                <Button {...props} variant="ghost" className={cn("flex", { "gap-2": !!length }, className)}>
                     <ShoppingCart className="h-6 w-6 text-main-600" />
                     <span className="font-bold text-main-600">{!!length ? `(${length})` : ''}</span>
                     <span className="sr-only">

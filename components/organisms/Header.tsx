@@ -25,16 +25,16 @@ export default function Header() {
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="container flex h-16 items-center justify-between">
-                <Link aria-labelledby='Logo' href="/" className="mr-6 flex items-center space-x-2">
+                <Link aria-label='Go to home page' href="/" className="mr-6 flex items-center space-x-2">
                 <span className="font-extrabold gest text-2xl text-main-700">DEMO</span>
                 </Link>
                 <div className="flex items-center justify-between space-x-2 md:justify-end">
-                    <BasketButton>
+                    <BasketButton aria-label={t('sr-btn.cart')}>
                         <OrderBasket/>
                         <span className="sr-only">{t('sr-btn.cart')}</span>
                     </BasketButton>
                     <Link href="/tracking" aria-label='Track my order'>
-                        <Button variant="ghost" size="icon">
+                        <Button aria-label={t('sr-btn.tracking')} variant="ghost" size="icon">
                             <ClockArrowUpIcon className="h-6 w-6 text-main-600" />
                             <span className="sr-only">{t('sr-btn.tracking')}</span>
                         </Button>

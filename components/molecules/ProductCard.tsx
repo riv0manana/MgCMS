@@ -24,6 +24,7 @@ export type ProductCardProps = {
     children: ReactNode;
     className?: string;
     disableHover?: boolean;
+    isLCP?: boolean;
 }
 
 
@@ -31,7 +32,8 @@ const ProductCard = ({
     product,
     className,
     children,
-    disableHover
+    disableHover,
+    isLCP
 }: ProductCardProps) => {
     const {
         $id,
@@ -53,7 +55,8 @@ const ProductCard = ({
                     className="w-full h-48 object-cover"
                     width={400}
                     height={400}
-                    loading="lazy"
+                    priority={isLCP}
+                    loading={isLCP ? "lazy" : undefined}
                 />
                 <div className="absolute top-0 right-0 bg-main-700 text-white px-2 py-1 rounded-bl-lg">
                     {formatAmount(price)}
