@@ -389,7 +389,9 @@
                 }
             },
             "BasketButton": {
-                "sr-btn": "Mon panier"
+                "sr-btn": "Mon panier",
+                "sr-title": "Mon panier",
+                "sr-description": "Détail de votre panier"
             },
             "Footer": {
                 "address": "St Fiction 43Rd",
