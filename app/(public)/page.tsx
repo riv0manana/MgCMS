@@ -11,6 +11,8 @@
  * For commercial use, please contact: contact@riv0manana.dev
  */
 
+export const revalidate = 86400;
+
 
 
 import TNewestProduct from "@/components/templates/TNewestProduct";

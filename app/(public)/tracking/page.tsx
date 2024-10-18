@@ -20,6 +20,8 @@ import { Metadata } from "next";
 import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
 
+export const revalidate = 86400;
+
 export async function generateMetadata() {
   const t = await getTranslations('Public.Tracking');
   const [, appConfig] = await getAppConfig();
@@ -66,7 +68,6 @@ export default function TrackingCheckPage() {
       <div className="container mx-auto px-4 py-8">
         <TRecommendedProduct />
       </div>
-
     </div>
   );
 }
