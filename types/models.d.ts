@@ -180,7 +180,7 @@ declare type ChangePasswordParams = {
 }
 
 declare type ValidateResetParams = {
-    id: string;
+    userId: string;
     secret: string;
     password: string;
 }

@@ -33,14 +33,14 @@ import { useRouter } from 'next/navigation'
 import useActionToast from '@/hooks/ActionToast'
 
 export type ResetPasswordFormProps = {
-    id?: string;
+    userId?: string;
     secret?: string;
     submit: (email: ValidateResetParams) => Promise<ActionResponse<any>>;
 }
 
 export default function ResetPasswordForm({
     submit,
-    id = '',
+    userId = '',
     secret = '',
 }: ResetPasswordFormProps) {
     const [show, setShow] = useState(false);
@@ -55,7 +55,7 @@ export default function ResetPasswordForm({
     const form = useForm<z.infer<typeof resetSchema>>({
         resolver: zodResolver(resetSchema),
         defaultValues: {
-            id,
+            userId,
             secret,
         }
     })
@@ -66,8 +66,8 @@ export default function ResetPasswordForm({
             toast<typeof res>(
                 [err, res],
                 {
-                    title: t('toast.error.title'),
-                    description: t('toast.success.title'),
+                    title: t('toast.success.title'),
+                    description: t('toast.success.description'),
                     errorTitle: t('toast.error.title'),
                     errorDescription: t('toast.error.description')
                 },
@@ -105,7 +105,7 @@ export default function ResetPasswordForm({
                         />
                         <Input
                             control={form.control}
-                            name='id'
+                            name='userId'
                             hidden
                         />
                         <Input

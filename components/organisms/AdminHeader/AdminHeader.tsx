@@ -15,7 +15,7 @@
 import Header from "@/components/atoms/Header/Header"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ClockArrowUpIcon } from "lucide-react"
+import { CalendarRange, Layers } from "lucide-react"
 import { useTranslations } from "next-intl"
 import TLogoutButton from "@/components/templates/TLogoutButton/TLogoutButton"
 
@@ -25,12 +25,12 @@ const AdminHeader = () => {
         <Header>
             <Link href="/dashboard/orders" aria-label={t('sr-btn.orders')}>
                 <Button aria-label={t('sr-btn.orders')} variant="ghost">
-                    <ClockArrowUpIcon className="h-8 w-8 text-main-600" />
+                    <CalendarRange className="h-8 w-8 text-main-600" />
                 </Button>
             </Link>
             <Link href="/dashboard/products" aria-label={t('sr-btn.products')}>
                 <Button aria-label={t('sr-btn.products')} variant="ghost">
-                    <ClockArrowUpIcon className="h-8 w-8 text-main-600" />
+                    <Layers className="h-8 w-8 text-main-600" />
                 </Button>
             </Link>
             <TLogoutButton />

@@ -58,7 +58,7 @@ const Uploader = ({
       toast<typeof res>(
         [error, res],
         {
-          title: t('toast.error.title'),
+          title: t('toast.success.title'),
           errorTitle: t('toast.error.title'),
           errorDescription: t('toast.error.description')
         },

@@ -43,7 +43,7 @@ export async function generateMetadata() {
   } as Metadata
 }
 
-const AdminInitResetPassword = async () => {
+const AdminInitResetPassword = () => {
   return (
     <TInitPasswordResetForm />
   )

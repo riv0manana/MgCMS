@@ -75,7 +75,7 @@ export const initResetForm = (t?: any) => z.object({
 
 export const resetPasswordForm = (t?: any) => z.object({
     password: zodPassword(t),
-    id: safeString(zodString(t)),
+    userId: safeString(zodString(t)),
     secret: safeString(zodString(t)),
 });
 

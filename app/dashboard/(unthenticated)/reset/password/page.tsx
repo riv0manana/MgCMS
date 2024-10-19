@@ -11,17 +11,13 @@
  * For commercial use, please contact: contact@riv0manana.dev
  */
 
-import CardContainer from '@/components/atoms/CardContainer/CardContainer';
+import TResetPasswordForm from '@/components/templates/TResetPasswordForm/TResetPasswordForm';
 import { getAppConfig } from '@/services/actions/config.action';
-import { CheckCircle } from 'lucide-react';
 import { Metadata } from 'next';
-import { useTranslations } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 
-export const dynamic = 'force-static'
-
 export async function generateMetadata() {
-  const t = await getTranslations('Authenticated.LinkSent');
+  const t = await getTranslations('Authenticated.Reset');
   const [, appConfig] = await getAppConfig();
 
   return {
@@ -44,18 +40,11 @@ export async function generateMetadata() {
   } as Metadata
 }
 
-const AdminResetPassword = () => {
-  const t = useTranslations('Authenticated.LinkSent.content')
+const AdminResetPassword = async ({
+    searchParams
+  }: RouteQueryProps) => {
   return (
-    <CardContainer
-      title={t('title')}
-      className='w-full max-w-md'
-    >
-      <CardContainer.Content className='flex justify-center items-center flex-col gap-4'>
-        <CheckCircle className='h-11 w-40 text-green-600' />
-        <p>{t('phrase')}</p>
-      </CardContainer.Content>
-    </CardContainer>
+    <TResetPasswordForm {...searchParams} />
   )
 }
 

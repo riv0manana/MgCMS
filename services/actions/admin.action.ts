@@ -83,6 +83,7 @@ export async function initPasswordReset(email: string) {
         if (!res.$id) throw new ActionError('user_init_reset_error', 401);
         return parseStringify({ status: 'ok' });
     } catch (error) {
+        console.log(error)
         return handleAppError(error);
     }
 }
@@ -91,10 +92,10 @@ export async function validateResetPassword(data: ValidateResetParams) {
     try {
         const form = resetPasswordForm();
         if (!isFormSafe(data, form)) throw new ActionError('user_check_reset_error', 400);
-        const { id, password, secret } = data;
+        const { userId, password, secret } = data;
 
         const { account } = createAdminClient();
-        const res = await account.updateRecovery(id, secret, password);
+        const res = await account.updateRecovery(userId, secret, password);
 
         if (!res.$id) throw new ActionError('user_check_reset_error', 401);
         return parseStringify({ status: 'ok' });

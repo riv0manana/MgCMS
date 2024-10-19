@@ -18,7 +18,7 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
     return (
         <>
             <AdminHeader />
-            <main className="min-h-screen bg-gradient-to-b from-second-50 to-main-50 container mx-auto px-4 max-w-2xl space-y-4">
+            <main className="min-h-screen bg-gradient-to-b from-second-50 to-main-50 container pt-8 mx-auto space-y-4">
                 {children}
             </main>
         </>

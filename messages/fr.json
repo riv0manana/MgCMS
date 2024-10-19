@@ -91,6 +91,14 @@
         "Reset": {
             "pageTitle": "Réinitialisation | {storeName}",
             "pageDescription": "Réinitialiser votre mot de passe"
+        },
+        "LinkSent": {
+            "pageTitle": "Email envoyé | {storeName}",
+            "pageDescription": "Email de réinitialisation envoyé",
+            "content": {
+                "title": "Email envoyé",
+                "phrase":"Si votre email est dans notre système, Vous allez recevoir un email contenant le lien de réinitialisation de mot passe."
+            }
         }
     },
     "components": {

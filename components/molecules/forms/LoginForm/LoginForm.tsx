@@ -61,7 +61,7 @@ export default function LoginForm({
             toast<typeof res>(
                 [error, res],
                 {
-                    title: t('toast.error.title'),
+                    title: t('toast.success.title'),
                     description: t('toast.success.description'),
                     errorTitle: t('toast.error.title'),
                     errorDescription: t('toast.error.description')
