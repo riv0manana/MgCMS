@@ -14,8 +14,8 @@
 
 
 import ColoredCardContainer from "@/components/atoms/ColoredCardContainer";
+import TNewestProduct from "@/components/templates/TNewestProduct";
 import TOrderTracker from "@/components/templates/TOrderTracker";
-import TRecommendedProduct from "@/components/templates/TRecommandedProduct";
 import { getAppConfig } from "@/services/actions/config.action";
 import { getOrder } from "@/services/actions/order.action";
 import { Metadata } from "next";
@@ -70,7 +70,7 @@ export default function TrackingCheckPage({
           <TOrderTracker id={id} />
         </ColoredCardContainer.Content>
       </ColoredCardContainer>
-      <TRecommendedProduct />
+      <TNewestProduct />
     </>
 
   );

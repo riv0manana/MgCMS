@@ -13,8 +13,8 @@
 
 
 import ColoredCardContainer from "@/components/atoms/ColoredCardContainer";
+import TNewestProduct from "@/components/templates/TNewestProduct";
 import TPayRefForm from "@/components/templates/TPayRefForm";
-import TRecommendedProduct from "@/components/templates/TRecommandedProduct";
 import { getAppConfig } from "@/services/actions/config.action";
 import { Metadata } from "next";
 import { useTranslations } from "next-intl";
@@ -63,7 +63,7 @@ export default function TrackingCheckPage() {
           <TPayRefForm />
         </ColoredCardContainer.Content>
       </ColoredCardContainer>
-      <TRecommendedProduct />
+      <TNewestProduct />
     </>
   );
 }

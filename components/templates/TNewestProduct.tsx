@@ -20,7 +20,7 @@ import ScrollableSection from '@/components/atoms/ScrollableSection'
 import { getTranslations } from 'next-intl/server'
 
 const TNewestProduct = async () => {
-    const [, data] = await getNewestProduct({limit: 20});
+    const [, data] = await getNewestProduct({limit: 10});
     const products = data?.documents || [];
     if (!products.length) return null;
     
