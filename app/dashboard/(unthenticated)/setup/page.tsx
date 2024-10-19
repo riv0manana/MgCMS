@@ -11,9 +11,9 @@
  * For commercial use, please contact: contact@riv0manana.dev
  */
 
-import CardContainer from '@/components/atoms/CardContainer';
-import TBootstrapConfigButton from '@/components/templates/TBootstrapConfigButton';
-import TCreateAdminForm from '@/components/templates/TCreateAdminForm';
+import CardContainer from '@/components/atoms/CardContainer/CardContainer';
+import TBootstrapConfigButton from '@/components/templates/TBootstrapConfigButton/TBootstrapConfigButton';
+import TCreateAdminForm from '@/components/templates/TCreateAdminForm/TCreateAdminForm';
 import { checkDBSettings, checkUserSettings, getAppConfig } from '@/services/actions/config.action';
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';

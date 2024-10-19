@@ -15,9 +15,9 @@ export const revalidate = 86400;
 
 
 
-import TNewestProduct from "@/components/templates/TNewestProduct";
-import TProductListing from "@/components/templates/TProductListing";
-import TRecommendedProduct from "@/components/templates/TRecommandedProduct";
+import TNewestProduct from "@/components/templates/TNewestProduct/TNewestProduct";
+import TProductListing from "@/components/templates/TProductListing/TProductListing";
+import TRecommendedProduct from "@/components/templates/TRecommandedProduct/TRecommandedProduct";
 import { getAppConfig } from "@/services/actions/config.action";
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";

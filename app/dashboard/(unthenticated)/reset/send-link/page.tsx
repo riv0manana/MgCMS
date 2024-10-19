@@ -11,7 +11,7 @@
  * For commercial use, please contact: contact@riv0manana.dev
  */
 
-import TResetPasswordForm from '@/components/templates/TResetPasswordForm';
+import TResetPasswordForm from '@/components/templates/TResetPasswordForm/TResetPasswordForm';
 import { getAppConfig } from '@/services/actions/config.action';
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';

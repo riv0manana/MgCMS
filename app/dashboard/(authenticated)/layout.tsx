@@ -11,7 +11,7 @@
  * For commercial use, please contact: contact@riv0manana.dev
  */
 
-import AdminHeader from "@/components/organisms/AdminHeader"
+import AdminHeader from "@/components/organisms/AdminHeader/AdminHeader"
 import { ReactNode } from "react"
 
 const AdminLayout = ({ children }: { children: ReactNode }) => {

@@ -13,9 +13,9 @@
 
 
 
-import ColoredCardContainer from "@/components/atoms/ColoredCardContainer";
-import TNewestProduct from "@/components/templates/TNewestProduct";
-import TOrderTracker from "@/components/templates/TOrderTracker";
+import ColoredCardContainer from "@/components/atoms/ColoredCardContainer/ColoredCardContainer";
+import TNewestProduct from "@/components/templates/TNewestProduct/TNewestProduct";
+import TOrderTracker from "@/components/templates/TOrderTracker/TOrderTracker";
 import { getAppConfig } from "@/services/actions/config.action";
 import { getOrder } from "@/services/actions/order.action";
 import { Metadata } from "next";

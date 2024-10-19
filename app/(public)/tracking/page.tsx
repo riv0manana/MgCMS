@@ -12,9 +12,9 @@
  */
 
 
-import ColoredCardContainer from "@/components/atoms/ColoredCardContainer";
-import TNewestProduct from "@/components/templates/TNewestProduct";
-import TPayRefForm from "@/components/templates/TPayRefForm";
+import ColoredCardContainer from "@/components/atoms/ColoredCardContainer/ColoredCardContainer";
+import TNewestProduct from "@/components/templates/TNewestProduct/TNewestProduct";
+import TPayRefForm from "@/components/templates/TPayRefForm/TPayRefForm";
 import { getAppConfig } from "@/services/actions/config.action";
 import { Metadata } from "next";
 import { useTranslations } from "next-intl";

@@ -12,9 +12,9 @@
  */
 
 
-import Footer from '@/components/molecules/Footer'
+import Footer from '@/components/molecules/Footer/Footer'
 import { ReactNode } from 'react'
-import PublicHeader from '@/components/organisms/PublicHeader'
+import PublicHeader from '@/components/organisms/PublicHeader/PublicHeader'
 
 const PublicLayout = ({ children }: { children: ReactNode }) => {
   return (

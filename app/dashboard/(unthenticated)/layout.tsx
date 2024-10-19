@@ -12,7 +12,7 @@
  */
 
 
-import PublicHeader from "@/components/organisms/PublicHeader"
+import PublicHeader from "@/components/organisms/PublicHeader/PublicHeader"
 import { ReactNode } from "react"
 
 const DashboardLayout = ({ children }: { children: ReactNode }) => {

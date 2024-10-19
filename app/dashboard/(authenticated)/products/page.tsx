@@ -12,7 +12,7 @@
  */
 
 
-import TProductTable from "@/components/templates/TProductTable";
+import TProductTable from "@/components/templates/TProductTable/TProductTable";
 import { getLoggedInUser } from "@/services/actions/admin.action";
 import { redirect } from "next/navigation";
 

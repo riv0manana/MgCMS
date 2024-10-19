@@ -12,7 +12,7 @@
  */
 
 
-import TInitPasswordResetForm from '@/components/templates/TInitPasswordResetForm';
+import TInitPasswordResetForm from '@/components/templates/TInitPasswordResetForm/TInitPasswordResetForm';
 import { getAppConfig } from '@/services/actions/config.action';
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';

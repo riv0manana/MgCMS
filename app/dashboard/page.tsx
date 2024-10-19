@@ -11,7 +11,7 @@
  * For commercial use, please contact: contact@riv0manana.dev
  */
 
-import TLoginForm from '@/components/templates/TLoginForm';
+import TLoginForm from '@/components/templates/TLoginForm/TLoginForm';
 import { getLoggedInUser } from '@/services/actions/admin.action'
 import { checkUserSettings } from '@/services/actions/config.action';
 import { redirect } from 'next/navigation';

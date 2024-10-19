@@ -13,10 +13,10 @@
 
 
 
-import BasicPaymentWrapper from "@/components/atoms/BasicPaymentWrapper";
-import ShortOrderDetails from "@/components/atoms/ShortOrderDetails";
-import ThankYouCard from "@/components/atoms/ThankYouCard";
-import TBasicPayForm from "@/components/templates/TBasicPayForm";
+import BasicPaymentWrapper from "@/components/atoms/BasicPaymentWrapper/BasicPaymentWrapper";
+import ShortOrderDetails from "@/components/atoms/ShortOrderDetails/ShortOrderDetails";
+import ThankYouCard from "@/components/atoms/ThankYouCard/ThankYouCard";
+import TBasicPayForm from "@/components/templates/TBasicPayForm/TBasicPayForm";
 import { getAppConfig } from "@/services/actions/config.action";
 import { getOrder } from "@/services/actions/order.action"
 import { Clock } from "lucide-react";

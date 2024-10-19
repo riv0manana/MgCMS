@@ -12,7 +12,7 @@
  */
 
 
-import TOrderTable from "@/components/templates/TOrderTable";
+import TOrderTable from "@/components/templates/TOrderTable/TOrderTable";
 import { getLoggedInUser } from "@/services/actions/admin.action";
 import { redirect } from "next/navigation";
 
