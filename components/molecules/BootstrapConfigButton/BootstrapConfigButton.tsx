@@ -37,7 +37,7 @@ const BootstrapConfigButton = ({
             toast<typeof check>(
                 [error, check],
                 {
-                    title: t('toast.error.title'),
+                    title: t('toast.success.title'),
                     description: t('toast.success.description'),
                     errorTitle: t('toast.error.title'),
                     errorDescription: t('toast.error.description')
