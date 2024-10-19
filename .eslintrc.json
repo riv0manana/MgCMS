@@ -9,26 +9,6 @@
   "rules": {
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-empty-object-type": "off",
-    "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
-    "override": [
-      {
-        "files": [
-          "./messages/**/*.json"
-        ],
-        "parser": "jsonc-eslint-parser",
-        "rules": {
-
-          "jsonc/sort-keys": [
-            "error",
-            {
-              "caseSensitive": true,
-              "natural": false,
-              "minKeys": 3,
-              "asc": true
-            }
-          ]
-        }
-      }
-    ]
+    "@typescript-eslint/no-non-null-asserted-optional-chain": "off"
   }
 }

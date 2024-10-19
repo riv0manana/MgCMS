@@ -12,16 +12,12 @@
  */
 
 
-import TProductTable from "@/components/templates/TProductTable";
+import TProductTable from "@/components/templates/TProductTable/TProductTable";
 import { getLoggedInUser } from "@/services/actions/admin.action";
 import { redirect } from "next/navigation";
 
 export default async function AdminProducts() {
   const [error] = await getLoggedInUser();
   if (error) redirect('/dashboard');
-  return (
-    <>
-      <TProductTable />
-    </>
-  );
+  return <TProductTable />;
 }

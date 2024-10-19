@@ -12,9 +12,9 @@
  */
 
 
-import ColoredCardContainer from "@/components/atoms/ColoredCardContainer";
-import TPayRefForm from "@/components/templates/TPayRefForm";
-import TRecommendedProduct from "@/components/templates/TRecommandedProduct";
+import ColoredCardContainer from "@/components/atoms/ColoredCardContainer/ColoredCardContainer";
+import TNewestProduct from "@/components/templates/TNewestProduct/TNewestProduct";
+import TPayRefForm from "@/components/templates/TPayRefForm/TPayRefForm";
 import { getAppConfig } from "@/services/actions/config.action";
 import { Metadata } from "next";
 import { useTranslations } from "next-intl";
@@ -31,8 +31,8 @@ export async function generateMetadata() {
     description: t('pageDescription'),
     openGraph: {
       type: "website",
-      url:  `https://${appConfig?.webDomain}/tracking`,
-      title: t('ogTitle', { storeName: appConfig?.storeName}),
+      url: `https://${appConfig?.webDomain}/tracking`,
+      title: t('ogTitle', { storeName: appConfig?.storeName }),
       description: t('pageDescription'),
       siteName: appConfig?.storeName,
       images: [{
@@ -50,24 +50,20 @@ export async function generateMetadata() {
 export default function TrackingCheckPage() {
   const t = useTranslations('Public.Tracking.content')
   return (
-    <div className="min-h-screen bg-gradient-to-b from-second-50 to-main-50 py-8">
-      <div className="container mx-auto px-4 max-w-2xl">
-        <ColoredCardContainer
-          title={t('title')}
-          footer={(
-            <p className="text-center text-sm w-full text-gray-600">
-              {t('phrase')}
-            </p>
-          )}
-        >
-          <ColoredCardContainer.Content>
-            <TPayRefForm />
-          </ColoredCardContainer.Content>
-        </ColoredCardContainer>
-      </div>
-      <div className="container mx-auto px-4 py-8">
-        <TRecommendedProduct />
-      </div>
-    </div>
+    <>
+      <ColoredCardContainer
+        title={t('title')}
+        footer={(
+          <p className="text-center text-sm w-full text-gray-600">
+            {t('phrase')}
+          </p>
+        )}
+      >
+        <ColoredCardContainer.Content>
+          <TPayRefForm />
+        </ColoredCardContainer.Content>
+      </ColoredCardContainer>
+      <TNewestProduct />
+    </>
   );
 }

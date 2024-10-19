@@ -14,12 +14,15 @@
  */
 
 import { cookies } from "next/headers"
-import { ActionError, handleAppError, parseError, parseStringify } from "@/lib/utils"
+import { ActionError, handleAppError, isFormSafe, parseStringify } from "@/lib/utils"
 import { revalidatePath } from "next/cache"
 import { createAdminClient, createSessionClient, dbQuery } from "@/services/appwrite"
 import { redirect } from "next/navigation"
 import { cache } from "react"
-import { getSessionKey } from "../cookie"
+import { getSessionKey } from "@/services/cookie"
+import { initResetForm, resetPasswordForm } from "@/lib/forms"
+
+const domain = process.env.WEBDOMAIN || '';
 
 export const signIn = async ({email, password}: SignInParams) => {
     try {
@@ -68,6 +71,39 @@ export async function changeUserPassword({ oldPassword, password}: ChangePasswor
     }
 }
 
+export async function initPasswordReset(email: string) {
+    try {
+        const form = initResetForm();
+        if (!isFormSafe({ email}, form)) throw new ActionError('user_init_reset_error', 400);
+
+        const url = `https://${domain}/dashboard/reset/password`;
+        const { account } = createAdminClient();
+        const res = await account.createRecovery(email, url)
+
+        if (!res.$id) throw new ActionError('user_init_reset_error', 401);
+        return parseStringify({ status: 'ok' });
+    } catch (error) {
+        console.log(error)
+        return handleAppError(error);
+    }
+}
+
+export async function validateResetPassword(data: ValidateResetParams) {
+    try {
+        const form = resetPasswordForm();
+        if (!isFormSafe(data, form)) throw new ActionError('user_check_reset_error', 400);
+        const { userId, password, secret } = data;
+
+        const { account } = createAdminClient();
+        const res = await account.updateRecovery(userId, secret, password);
+
+        if (!res.$id) throw new ActionError('user_check_reset_error', 401);
+        return parseStringify({ status: 'ok' });
+    } catch (error) {
+        return handleAppError(error);
+    }
+}
+
 export async function signUpAdminUser({ name, password, email}: SignUpParams) {
     try {
         const sessionKey = getSessionKey()
@@ -85,7 +121,6 @@ export async function signUpAdminUser({ name, password, email}: SignUpParams) {
         team.createMembership('administrator', [], new_user.email, new_user.$id);
 
         revalidatePath('/dashboard');
-
         return parseStringify(new_user);
     } catch (error) {
         return handleAppError(error);

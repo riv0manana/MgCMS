@@ -15,9 +15,9 @@ export const revalidate = 86400;
 
 
 
-import TNewestProduct from "@/components/templates/TNewestProduct";
-import TProductListing from "@/components/templates/TProductListing";
-import TRecommendedProduct from "@/components/templates/TRecommandedProduct";
+import TNewestProduct from "@/components/templates/TNewestProduct/TNewestProduct";
+import TProductListing from "@/components/templates/TProductListing/TProductListing";
+import TRecommendedProduct from "@/components/templates/TRecommandedProduct/TRecommandedProduct";
 import { getAppConfig } from "@/services/actions/config.action";
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
@@ -27,12 +27,12 @@ export async function generateMetadata() {
   const [, appConfig] = await getAppConfig();
 
   return {
-    title: t('pageTitle', { storeName: appConfig?.storeName}),
+    title: t('pageTitle', { storeName: appConfig?.storeName }),
     description: t('pageDescription'),
     openGraph: {
       type: "website",
-      url:  `https://${appConfig?.webDomain}`,
-      title: t('pageTitle', { storeName: appConfig?.storeName}),
+      url: `https://${appConfig?.webDomain}`,
+      title: t('pageTitle', { storeName: appConfig?.storeName }),
       description: t('pageDescription'),
       siteName: appConfig?.storeName,
       images: [{
@@ -49,10 +49,11 @@ export async function generateMetadata() {
 
 export default function Home() {
   return (
-    <main className="container mx-auto px-4 py-8">
+    <>
       <TRecommendedProduct />
       <TNewestProduct />
       <TProductListing />
-    </main>
+    </>
+
   );
 }

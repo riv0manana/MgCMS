@@ -34,6 +34,8 @@ const zodString = (t?: any) => z.string({
     required_error: t?.('required')
 })
 
+const zodOptionalString = () => z.string().optional();
+
 const zodPassword = (t?: any) => safeString(zodString(t)
         .regex(/^.{8,}$/, { message: t?.('password.minus', { min: 8 }) })
         .regex(/.*[a-z].*/, { message: t?.('password.minus') })
@@ -49,7 +51,7 @@ const zodPhone = (t?: any) => safeString(zodString(t)
 
 export const userSignInForm = (t?: any) => z.object({
     email: safeString(zodString(t)
-        .email(), t),
+        .email(t?.('email')), t),
     password: zodPassword(t),
 })
 
@@ -65,6 +67,17 @@ export const userChangePassForm = (t?: any) => z.object({
     (pass) => pass.new_password === pass.new_password_check, 
     t('password.not-match')
 );
+
+export const initResetForm = (t?: any) => z.object({
+    email: safeString(zodString(t)
+        .email(t?.('email')), t),
+})
+
+export const resetPasswordForm = (t?: any) => z.object({
+    password: zodPassword(t),
+    userId: safeString(zodString(t)),
+    secret: safeString(zodString(t)),
+});
 
 
 export const productForm = (t?: any) => z.object({
@@ -93,9 +106,7 @@ export const orderForm = (t?: any) => z.object({
     clientNumber: zodPhone(t),
     clientName: safeString(zodString(t), t),
     clientAddress: safeString(zodString(t), t),
-    details: safeOptionalString(z
-        .string()
-        .optional(), t),
+    details: safeOptionalString(zodOptionalString(), t),
 })
 
 export const payRefForm = (t?: any) => z.object({

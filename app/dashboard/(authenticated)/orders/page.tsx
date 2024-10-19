@@ -12,7 +12,7 @@
  */
 
 
-import TOrderTable from "@/components/templates/TOrderTable";
+import TOrderTable from "@/components/templates/TOrderTable/TOrderTable";
 import { getLoggedInUser } from "@/services/actions/admin.action";
 import { redirect } from "next/navigation";
 
@@ -20,7 +20,5 @@ export default async function OrderPage() {
     const [error] = await getLoggedInUser();
     if (error) redirect('/dashboard');
     
-    return (
-        <TOrderTable />
-    );
+    return <TOrderTable />;
 }

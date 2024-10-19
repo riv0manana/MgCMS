@@ -23,6 +23,7 @@
                 "not-match": "Les deux mot de passe ne correspondent pas"
             },
             "phone": "Le N° de téléphone est invalide",
+            "email": "Email invalide",
             "required": "Veuillez remplir ce champ",
             "xss": "Fraude XSS detectée",
             "url": "Image url invalide",
@@ -81,6 +82,22 @@
             "content": {
                 "title": "Configuration",
                 "description": "Base de donneés non configurée. Appuyer sur Démarrer pour la configuration automatique."
+            }
+        },
+        "InitReset": {
+            "pageTitle": "Mot de passe oublié | {storeName}",
+            "pageDescription": "Demander la réinitialisation de votre mot de passe"
+        },
+        "Reset": {
+            "pageTitle": "Réinitialisation | {storeName}",
+            "pageDescription": "Réinitialiser votre mot de passe"
+        },
+        "LinkSent": {
+            "pageTitle": "Email envoyé | {storeName}",
+            "pageDescription": "Email de réinitialisation envoyé",
+            "content": {
+                "title": "Email envoyé",
+                "phrase":"Si votre email est dans notre système, Vous allez recevoir un email contenant le lien de réinitialisation de mot passe."
             }
         }
     },
@@ -164,10 +181,16 @@
                     "action": "Actions"
                 }
             },
-            "Header": {
+            "PublicHeader": {
                 "sr-btn": {
                     "cart": "Mon Panier",
                     "tracking": "Suive ma commande"
+                }
+            },
+            "AdminHeader": {
+                "sr-btn": {
+                    "products": "Gestion des produits",
+                    "orders": "Gestion des commandes"
                 }
             }
         },
@@ -320,6 +343,52 @@
             "OrderTracker": {
                 "label": "Commande n° {id}"
             },
+            "ResetPasswordForm": {
+                "title": "Espace Administration",
+                "description": "Créer un nouveau mot de passe pour continuer",
+                "toast": {
+                    "error": {
+                        "title": "Imposible de créer le mot de passe",
+                        "description": "Le token est invalide ou éxpiré"
+                    },
+                    "success": {
+                        "title": "Nouveau mot de passe créé",
+                        "description": "Vous allez être redirigé"
+                    }
+                },
+                "form": {
+                    "password": {
+                        "label": "Mot de passe *",
+                        "placeholder": "Votre mot de passe"
+                    },
+                    "submit": {
+                        "label": "Valider"
+                    }
+                }
+            },
+            "InitPasswordResetForm": {
+                "title": "Espace Administration",
+                "description": "Entrez votre email pour recevoir un lien de réinitialisation",
+                "toast": {
+                    "error": {
+                        "title": "Impossible d'envoyer le lien",
+                        "description": "Vérifier votre email"
+                    },
+                    "success": {
+                        "title": "Lien de réinitialisation envoyé",
+                        "description": "Vous allez recevoir le lien de réinitialisation"
+                    }
+                },
+                "form": {
+                    "email": {
+                        "label": "Email *",
+                        "placeholder": "email@example.com"
+                    },
+                    "submit": {
+                        "label": "Réinitialiser"
+                    }
+                }
+            },
             "LoginForm": {
                 "title": "Espace Administration",
                 "description": "Identifiez-vous avec votre email et mot de passe",
@@ -437,6 +506,9 @@
             "BasketSummary": {
                 "title": "Montant",
                 "total": "Total"
+            },
+            "LogoutButton": {
+                "logout": "Déconnection"
             }
         }
     }

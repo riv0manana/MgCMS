@@ -13,9 +13,9 @@
 
 
 
-import ColoredCardContainer from "@/components/atoms/ColoredCardContainer";
-import TOrderTracker from "@/components/templates/TOrderTracker";
-import TRecommendedProduct from "@/components/templates/TRecommandedProduct";
+import ColoredCardContainer from "@/components/atoms/ColoredCardContainer/ColoredCardContainer";
+import TNewestProduct from "@/components/templates/TNewestProduct/TNewestProduct";
+import TOrderTracker from "@/components/templates/TOrderTracker/TOrderTracker";
 import { getAppConfig } from "@/services/actions/config.action";
 import { getOrder } from "@/services/actions/order.action";
 import { Metadata } from "next";
@@ -31,12 +31,12 @@ export async function generateMetadata({
   const [, appConfig] = await getAppConfig();
 
   return {
-    title: t('pageTitle', { storeName: appConfig?.storeName, id: order?.$id}),
+    title: t('pageTitle', { storeName: appConfig?.storeName, id: order?.$id }),
     description: t('pageDescription'),
     openGraph: {
       type: "website",
-      url:  `https://${appConfig?.webDomain}/tracking`,
-      title: t('ogTitle', { storeName: appConfig?.storeName}),
+      url: `https://${appConfig?.webDomain}/tracking`,
+      title: t('ogTitle', { storeName: appConfig?.storeName }),
       description: t('pageDescription'),
       siteName: appConfig?.storeName,
       images: [{
@@ -57,24 +57,21 @@ export default function TrackingCheckPage({
   if (!id) redirect('/tracking');
   const t = useTranslations('Public.Tracking.content')
   return (
-    <div className="min-h-screen bg-gradient-to-b from-second-50 to-main-50 py-8">
-      <div className="container mx-auto px-4 max-w-2xl">
-        <ColoredCardContainer
-          title={t('title')}
-          footer={(
-            <p className="text-center text-sm w-full text-gray-600">
-              {t('phrase')}
-            </p>
-          )}
-        >
-          <ColoredCardContainer.Content>
-            <TOrderTracker id={id} />
-          </ColoredCardContainer.Content>
-        </ColoredCardContainer>
-      </div>
-      <div className="container mx-auto px-4 py-8">
-        <TRecommendedProduct />
-      </div>
-    </div>
+    <>
+      <ColoredCardContainer
+        title={t('title')}
+        footer={(
+          <p className="text-center text-sm w-full text-gray-600">
+            {t('phrase')}
+          </p>
+        )}
+      >
+        <ColoredCardContainer.Content>
+          <TOrderTracker id={id} />
+        </ColoredCardContainer.Content>
+      </ColoredCardContainer>
+      <TNewestProduct />
+    </>
+
   );
 }

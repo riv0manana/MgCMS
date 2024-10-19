@@ -11,7 +11,7 @@
  * For commercial use, please contact: contact@riv0manana.dev
  */
 
-import { Client, Account, Databases, Users, Query, Models, ID, Teams, Permission, Role, RelationshipType } from "node-appwrite";
+import { Client, Account, Databases, Users, Query, Models, ID, Teams, Permission, Role } from "node-appwrite";
 
 /**
  * createSessionClient
@@ -21,7 +21,7 @@ import { Client, Account, Databases, Users, Query, Models, ID, Teams, Permission
  */
 export function createSessionClient(session_key?: string) {
   if (!session_key?.length) throw new Error("No session");
-  
+
   const client = new Client()
     .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)
     .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT!);
@@ -61,10 +61,10 @@ export function createAdminClient() {
       return new Account(client);
     },
     get database() {
-        return new Databases(client)
+      return new Databases(client)
     },
     get user() {
-        return new Users(client)
+      return new Users(client)
     },
     get team() {
       return new Teams(client);
@@ -87,10 +87,10 @@ export const collectionQuery = (db: Databases) => {
       ])
     },
 
-    get setAttributes () {
+    get setAttributes() {
       return (collectionId: string, schema?: SCHEMA[]) => {
-        const fields = schema?.map(({key, type, min, max, xdefault, required, isArray, ...field}) => {
-          switch(type) {
+        const fields = schema?.map(({ key, type, min, max, xdefault, required, isArray, ...field }) => {
+          switch (type) {
             case 'integer':
               return db.createIntegerAttribute(DBID, collectionId, key, !!required, min, max, xdefault as number, isArray);
             case 'float':
@@ -120,25 +120,50 @@ export const collectionQuery = (db: Databases) => {
 export const dbQuery = <T>(collectionId: string, db: Databases) => {
   const DBID = process.env.APPWRITE_DATABASE_ID!;
   return {
-      get db() {return db },
-      get generateId() { return ID },
-      get permission() {return Permission},
-      get role() { return Role},
-      get queryBuilder() {return Query},
-      get queryAll() {return (queries?: any[]) => db.listDocuments<T & Models.Document>(DBID, collectionId, queries )},
-      get query() {return (id: string, queries?: any[]) => db.getDocument<T & Models.Document>(DBID, collectionId, id, queries)},
-      get addQuery() {return (
-          data: T,
-          id?: string,
-          permissions?: string[]
-      ) => db.createDocument<T & Models.Document>(DBID, collectionId, id || ID.unique(), data as any, permissions)},
-      get updateQuery() { return (
-          id: string,
-          data: Partial<T>,
-          permissions?: string[]
-      ) => db.updateDocument<T & Models.Document>(DBID, collectionId, id, data as any, permissions)},
-      get deleteQuery() { return (
-          id: string,
-      ) => db.deleteDocument(DBID, collectionId, id)},
+    get generateId() { return ID },
+    get permission() { return Permission },
+    get role() { return Role },
+    get queryBuilder() { return Query },
+    get queryAll() { return (queries?: string[]) => db.listDocuments<T & Models.Document>(DBID, collectionId, queries) },
+    get query() { return (id: string, queries?: string[]) => db.getDocument<T & Models.Document>(DBID, collectionId, id, queries) },
+    get addQuery() {
+      return (
+        data: T,
+        id?: string,
+        permissions?: string[]
+      ) => db.createDocument<T & Models.Document>(DBID, collectionId, id || ID.unique(), data as any, permissions)
+    },
+    get addBatchQuery() {
+      return (
+        data: T[],
+        permissions?: string[],
+        onBatchItemError?: (id: T, msg?: string) => Promise<void>,
+      ) => Promise.all(
+        data.map(
+          (item) => db.createDocument<T & Models.Document>(DBID, collectionId, ID.unique(), item as any, permissions)
+            .catch(err => onBatchItemError?.(item, err?.message))
+        )
+      )
+    },
+    get updateQuery() {
+      return (
+        id: string,
+        data: Partial<T>,
+        permissions?: string[]
+      ) => db.updateDocument<T & Models.Document>(DBID, collectionId, id, data as any, permissions)
+    },
+    get deleteQuery() {
+      return (
+        id: string,
+      ) => db.deleteDocument(DBID, collectionId, id)
+    },
+    get batchDeleteQuery() {
+      return (
+        ids: string[],
+        onBatchItemError?: (id: string, msg?: string) => Promise<void>
+      ) => Promise.all(
+        ids.map(id => db.deleteDocument(DBID, collectionId, id).catch(err => onBatchItemError?.(id, err?.message)))
+      )
+    }
   }
 }
