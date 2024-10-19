@@ -15,67 +15,75 @@
  */
 
 
-import { useTransition } from 'react'
+import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { ChevronLeft, Mail, Lock } from "lucide-react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { ChevronLeft, EyeIcon, EyeOff, Mail } from "lucide-react"
 import Link from 'next/link'
 import {
     Form,
 } from "@/components/ui/form"
 import Input from '@/components/atoms/Input'
-import { userSignInForm } from '@/lib/forms'
+import { resetPasswordForm } from '@/lib/forms'
 import { useTranslations } from 'next-intl'
-import useActionToast from '@/hooks/ActionToast'
 import { useRouter } from 'next/navigation'
+import useActionToast from '@/hooks/ActionToast'
 
-export type LoginFormProps = {
-    submit: (data: SignInParams) => Promise<ActionResponse<UserSession>>;
+export type ResetPasswordFormProps = {
+    id?: string;
+    secret?: string;
+    submit: (email: ValidateResetParams) => Promise<ActionResponse<any>>;
 }
 
-export default function LoginForm({
+export default function ResetPasswordForm({
     submit,
-}: LoginFormProps) {
+    id = '',
+    secret = '',
+}: ResetPasswordFormProps) {
+    const [show, setShow] = useState(false);
     const [isLoading, action] = useTransition();
     const toast = useActionToast();
+    const t = useTranslations('components.molecules.ResetPasswordForm')
+    const z = useTranslations('Common.zod');
     const router = useRouter();
-    const t = useTranslations('components.molecules.LoginForm')
-    const z = useTranslations('Common.zod')
 
-    const loginSchema = userSignInForm(z);
+    const resetSchema = resetPasswordForm(z);
 
-    const form = useForm<z.infer<typeof loginSchema>>({
-        resolver: zodResolver(loginSchema),
+    const form = useForm<z.infer<typeof resetSchema>>({
+        resolver: zodResolver(resetSchema),
         defaultValues: {
-            email: "",
-            password: "",
-        },
+            id,
+            secret,
+        }
     })
 
-    const onSubmit = (data: z.infer<typeof loginSchema>) => {
+    const onSubmit = (data: z.infer<typeof resetSchema>) => {
         action(async () => {
-            const [error, res] = await submit(data);
+            const [err, res] = await submit(data);
             toast<typeof res>(
-                [error, res],
+                [err, res],
                 {
                     title: t('toast.error.title'),
-                    description: t('toast.success.description'),
+                    description: t('toast.success.title'),
                     errorTitle: t('toast.error.title'),
                     errorDescription: t('toast.error.description')
                 },
-                () => router.push('/dashboard/orders')
+                () => router.push('/dashboard')
             )
         })
     }
+
+    const tooglePassword = () => setShow(prev => !prev);
+    const Eye = show ? EyeOff : EyeIcon;
 
     return (
         <Card className="w-full max-w-md">
             <CardHeader className="space-y-1">
                 <div className="flex items-center justify-between">
-                    <Link href="/" className="text-main-500 hover:text-main-600 transition-colors">
+                    <Link aria-label='Home' href="/" className="text-main-500 hover:text-main-600 transition-colors">
                         <ChevronLeft className="h-6 w-6" />
                     </Link>
                     <CardTitle className="text-2xl font-bold text-center flex-grow">{t('title')}</CardTitle>
@@ -89,17 +97,21 @@ export default function LoginForm({
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                         <Input
                             control={form.control}
-                            type='email'
-                            name='email'
-                            placeholder={t('form.email.placeholder')}
+                            type={show ? 'text' : 'password'}
+                            name='password'
+                            placeholder={t('form.password.placeholder')}
                             start={<Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />}
+                            end={<Eye onClick={tooglePassword} role='button' aria-label='toggle password' className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer" />}
                         />
                         <Input
                             control={form.control}
-                            type='password'
-                            name='password'
-                            placeholder={t('form.password.placeholder')}
-                            start={<Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />}
+                            name='id'
+                            hidden
+                        />
+                        <Input
+                            control={form.control}
+                            name='secret'
+                            hidden
                         />
                         <Button
                             type="submit"
@@ -111,15 +123,6 @@ export default function LoginForm({
                     </form>
                 </Form>
             </CardContent>
-            <CardFooter className="flex flex-col space-y-4">
-                <Link
-                    href="/dashboard/reset"
-                    aria-label={t('link.forgot.label')}
-                    className="text-sm text-main-600 hover:text-main-700 transition-colors"
-                >
-                    {t('link.forgot.label')}
-                </Link>
-            </CardFooter>
         </Card>
     )
 }

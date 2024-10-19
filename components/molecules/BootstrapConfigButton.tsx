@@ -18,7 +18,7 @@
 import { useTranslations } from "next-intl";
 import { useTransition } from "react";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
+import useActionToast from "@/hooks/ActionToast";
 
 export type BootstrapConfigButtonProps = {
     submit: () => Promise<ActionResponse<any>>;
@@ -28,25 +28,21 @@ const BootstrapConfigButton = ({
     submit
 }: BootstrapConfigButtonProps) => {
     const [loading, action] = useTransition();
-    const { toast } = useToast();
+    const toast = useActionToast()
     const t = useTranslations('components.molecules.BootstrapConfigButton');
 
     const runSetup = () => {
         action(async () => {
             const [error, check] = await submit();
-            if (error) {
-                toast({
+            toast<typeof check>(
+                [error, check],
+                {
                     title: t('toast.error.title'),
-                    description: t('toast.error.description'),
-                    variant: 'destructive'
-                });
-            }
-            if (check) {
-                toast({
-                    title: t('toast.success.title'),
-                    description: t('toast.success.description')
-                })
-            }
+                    description: t('toast.success.description'),
+                    errorTitle: t('toast.error.title'),
+                    errorDescription: t('toast.error.description')
+                }
+            )
         }) 
     }
 

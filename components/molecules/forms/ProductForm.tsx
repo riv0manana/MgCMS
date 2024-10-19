@@ -20,7 +20,7 @@ import Input, { CheckBox, InputArea } from "@/components/atoms/Input";
 import TUploaderBtn from "@/components/templates/TUploaderBtn";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { useToast } from "@/hooks/use-toast";
+import useActionToast from "@/hooks/ActionToast";
 import { productForm } from "@/lib/forms";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
@@ -41,7 +41,7 @@ function ProductForm({ submit, product, callback }: ProductFormProps) {
     const productSchema = productForm(z);
 
     const [loading, action] = useTransition()
-    const { toast } = useToast();
+    const toast = useActionToast()
 
     const form = useForm<z.infer<typeof productSchema>>({
         resolver: zodResolver(productSchema),
@@ -62,19 +62,15 @@ function ProductForm({ submit, product, callback }: ProductFormProps) {
     const onSubmit = (data: z.infer<typeof productSchema>) => {
         action(async () => {
             const [error, res] = await submit({...data, price: Number(data.price), $id: product?.$id!});
-            if (error) {
-                toast({
-                    title: product ? t('toast.edit.error.title') : t('toast.add.error.title'),
-                    description: t('toast.add.error.description'),
-                    variant: 'destructive'
-                });
-            }
-            if (res) {
-                toast({
+            toast<typeof res>(
+                [error, res],
+                {
                     title: product ? t('toast.edit.success.title') : t('toast.add.success.title'),
-                })
-                callback?.();
-            }
+                    errorTitle: product ? t('toast.edit.error.title') : t('toast.add.error.title'),
+                    errorDescription: t('toast.add.error.description')
+                },
+                callback
+            )
         })
     }
 

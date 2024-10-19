@@ -28,7 +28,6 @@ const {
 } = process.env;
 
 export const getAppConfig = unstable_cache(async () => {
-    'use server'
     try {
         return parseStringify({
             webDomain: WEBDOMAIN,
@@ -39,7 +38,7 @@ export const getAppConfig = unstable_cache(async () => {
     } catch (error) {
         return handleAppError(error);
     };
-});
+}, ['config'], { revalidate: 84600 });
 
 export const checkUserSettings = async () => {
     try {

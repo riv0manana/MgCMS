@@ -11,19 +11,16 @@
  * For commercial use, please contact: contact@riv0manana.dev
  */
 
-export const revalidate = 86400;
 
+import TInitPasswordResetForm from '@/components/templates/TInitPasswordResetForm';
+import { getAppConfig } from '@/services/actions/config.action';
+import { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
 
-
-import TNewestProduct from "@/components/templates/TNewestProduct";
-import TProductListing from "@/components/templates/TProductListing";
-import TRecommendedProduct from "@/components/templates/TRecommandedProduct";
-import { getAppConfig } from "@/services/actions/config.action";
-import { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+export const dynamic = 'force-cache'
 
 export async function generateMetadata() {
-  const t = await getTranslations('Public.Home');
+  const t = await getTranslations('Authenticated.InitReset');
   const [, appConfig] = await getAppConfig();
 
   return {
@@ -43,17 +40,13 @@ export async function generateMetadata() {
       name: "riv0manana | Rivomanana MANDANIAINA",
       url: "https://riv0manana.dev",
     },
-    keywords: t('keywords').split(', '),
   } as Metadata
 }
 
-export default function Home() {
+const AdminInitResetPassword = async () => {
   return (
-    <>
-      <TRecommendedProduct />
-      <TNewestProduct />
-      <TProductListing />
-    </>
-
-  );
+    <TInitPasswordResetForm />
+  )
 }
+
+export default AdminInitResetPassword

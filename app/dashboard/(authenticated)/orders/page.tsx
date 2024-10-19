@@ -20,7 +20,5 @@ export default async function OrderPage() {
     const [error] = await getLoggedInUser();
     if (error) redirect('/dashboard');
     
-    return (
-        <TOrderTable />
-    );
+    return <TOrderTable />;
 }

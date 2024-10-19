@@ -14,15 +14,13 @@
  */
 
 
-
-
-import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { ChangeEventHandler, ReactNode, useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { Upload } from "lucide-react";
 import { useTranslations } from "next-intl";
+import useActionToast from "@/hooks/ActionToast";
 
 export type UploaderProps = {
   type?: 'image' | 'video' | 'document';
@@ -42,8 +40,8 @@ const Uploader = ({
 
   const [loading, action] = useTransition();
   const [img, setImg] = useState<string>();
-  const { toast } = useToast();
-  
+  const toast = useActionToast()
+
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     e.preventDefault();
@@ -56,21 +54,16 @@ const Uploader = ({
     action(async () => {
       const uri = URL.createObjectURL(file);
       setImg(uri);
-      const [error, res]= await submit(formData);
-
-      if (error) {
-        toast({
+      const [error, res] = await submit(formData);
+      toast<typeof res>(
+        [error, res],
+        {
           title: t('toast.error.title'),
-          description: t('toast.error.description'),
-          variant: 'destructive'
-        });
-      }
-      if (res?.url) {
-        toast({
-          title: t('toast.success.title'),
-        });
-        callback?.(res.url)
-      }
+          errorTitle: t('toast.error.title'),
+          errorDescription: t('toast.error.description')
+        },
+        () => callback?.(res?.url!)
+      )
     });
   }
 
@@ -78,8 +71,8 @@ const Uploader = ({
     <div className={cn('w-full space-y-3', className)}>
       <label htmlFor="cld-uploader">
         <Button disabled={loading} type='button' className='w-full flex gap-3 items-center pointer-events-none'>
-            <Upload />
-            {loading ? t('loading'): t('label')}
+          <Upload />
+          {loading ? t('loading') : t('label')}
         </Button>
       </label>
       <input onChange={handleChange} id="cld-uploader" type="file" className="hidden" />

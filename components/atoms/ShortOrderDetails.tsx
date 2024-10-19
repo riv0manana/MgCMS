@@ -15,7 +15,7 @@
 
 
 import { cn, formatAmount, parsiThing } from "@/lib/utils";
-import { Clock, Utensils } from "lucide-react";
+import { Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useTranslations } from "next-intl";

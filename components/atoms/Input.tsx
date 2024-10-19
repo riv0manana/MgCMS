@@ -12,8 +12,6 @@
  */
 
 
-
-
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input as Inp, InputProps as InpProps } from '@/components/ui/input'
 import { cn } from '@/lib/utils';
@@ -22,22 +20,17 @@ import { Control, FieldPath, FieldValues, } from 'react-hook-form';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 
-type InpType = 'email' | 'text' | 'password' | 'phone' | 'number' | 'search' | 'date'
-
 export type InputProps<T extends FieldValues> = {
     name: FieldPath<T>;
-    type?: InpType;
-    placeholder?: string;
     control: Control<T>;
     label?: string;
-    className?: string;
     itemClassName?: string;
     labelClassName?: string;
     formItemClassName?: string;
     formMsgClassName?: string;
     children?: ReactNode;
     start?: ReactNode;
-    disabled?: boolean;
+    end?: ReactNode;
 } & InpProps;
 
 
@@ -53,6 +46,8 @@ const Input = <T extends FieldValues>({
     formMsgClassName,
     children,
     start,
+    end,
+    hidden,
     ...props
 }: InputProps<T>) => {
     return (
@@ -60,7 +55,7 @@ const Input = <T extends FieldValues>({
             control={control}
             name={name}
             render={({ field }) => (
-                <FormItem className={cn(itemClassName)}>
+                <FormItem className={cn({"hidden": hidden }, itemClassName)}>
                     {label && <FormLabel className={cn(labelClassName)}>{label}</FormLabel>}
                     {children}
                     <FormControl>
@@ -71,8 +66,9 @@ const Input = <T extends FieldValues>({
                                 {...field}
                                 className={cn({"pl-10": !!start}, className)}
                                 placeholder={placeholder}
-                                type={type}
+                                type={hidden ? 'hidden' : type}
                             />
+                            {end}
                         </div>
                         
                     </FormControl>

@@ -15,8 +15,6 @@
  */
 
 
-
-
 import { useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -27,8 +25,9 @@ import {
 } from "@/components/ui/form"
 import Input from '@/components/atoms/Input'
 import { payRefForm } from '@/lib/forms'
-import { useToast } from '@/hooks/use-toast'
 import { useTranslations } from 'next-intl'
+import useActionToast from '@/hooks/ActionToast'
+import { useRouter } from 'next/navigation'
 
 export type BasicPayFormProps = {
     submit: (id: string, payRef: string) => Promise<ActionResponse<Order>>;
@@ -40,9 +39,10 @@ export default function BasicPayForm({
     order
 }: BasicPayFormProps) {
     const [isLoading, action] = useTransition();
-    const { toast } = useToast()
+    const toast = useActionToast();
     const t = useTranslations('components.molecules.BasicPayForm')
     const z = useTranslations('Common.zod')
+    const router = useRouter();
 
     const basicPaySchema = payRefForm(z);
 
@@ -53,18 +53,15 @@ export default function BasicPayForm({
     const onSubmit = (data: z.infer<typeof basicPaySchema>) => {
         action(async () => {
             const [error, res] = await submit(order.$id!, data.payRef);
-            if (error) {
-                toast({
+            toast<typeof res>(
+                [error, res],
+                {
                     title: t('toast.error.title'),
-                    description: t('toast.error.description'),
-                    variant: 'destructive'
-                });
-            }
-            if (res?.$id) {
-                toast({
-                    title: t('toast.success.title')
-                })
-            }
+                    errorTitle: t('toast.error.title'),
+                    errorDescription: t('toast.error.description')
+                },
+                () => router.push(`/orders/${res?.$id}`)
+            )
         })
     }
 

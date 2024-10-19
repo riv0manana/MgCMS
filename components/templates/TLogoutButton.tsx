@@ -11,13 +11,13 @@
  * For commercial use, please contact: contact@riv0manana.dev
  */
 
+import LogoutButton from "@/components/atoms/LogoutButton"
+import { accountLogout } from "@/services/actions/admin.action"
 
-import TProductTable from "@/components/templates/TProductTable";
-import { getLoggedInUser } from "@/services/actions/admin.action";
-import { redirect } from "next/navigation";
-
-export default async function AdminProducts() {
-  const [error] = await getLoggedInUser();
-  if (error) redirect('/dashboard');
-  return <TProductTable />;
+const TLogoutButton = () => {
+  return (
+    <LogoutButton onLogout={accountLogout} />
+  )
 }
+
+export default TLogoutButton

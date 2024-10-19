@@ -20,6 +20,8 @@ declare type ActionStatusMsg =
     | 'user_info_error'
     | 'user_loggin_error'
     | 'user_add_error'
+    | 'user_init_reset_error'
+    | 'user_check_reset_error'
     | 'fraud_attempt'
     | 'product_add_error'
     | 'product_edit_error'
@@ -177,6 +179,12 @@ declare type ChangePasswordParams = {
     oldPassword: string;
 }
 
+declare type ValidateResetParams = {
+    id: string;
+    secret: string;
+    password: string;
+}
+
 declare type BaseQuery = {
     query?: string[],
     offset?: number;
@@ -195,7 +203,7 @@ declare type RouteQueryProps = {
         [x: string]: string;
     },
     searchParams: {
-
+        [x: string]: string;
     }
 }
 

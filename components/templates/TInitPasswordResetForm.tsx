@@ -12,12 +12,13 @@
  */
 
 
-import TProductTable from "@/components/templates/TProductTable";
-import { getLoggedInUser } from "@/services/actions/admin.action";
-import { redirect } from "next/navigation";
+import InitPasswordResetForm from '@/components/molecules/forms/InitPasswordResetForm'
+import { initPasswordReset } from '@/services/actions/admin.action'
 
-export default async function AdminProducts() {
-  const [error] = await getLoggedInUser();
-  if (error) redirect('/dashboard');
-  return <TProductTable />;
+const TInitPasswordResetForm = () => {
+  return (
+    <InitPasswordResetForm submit={initPasswordReset} />
+  )
 }
+
+export default TInitPasswordResetForm

@@ -11,19 +11,16 @@
  * For commercial use, please contact: contact@riv0manana.dev
  */
 
-export const revalidate = 86400;
-
-
-
-import TNewestProduct from "@/components/templates/TNewestProduct";
-import TProductListing from "@/components/templates/TProductListing";
-import TRecommendedProduct from "@/components/templates/TRecommandedProduct";
-import { getAppConfig } from "@/services/actions/config.action";
-import { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import CardContainer from '@/components/atoms/CardContainer';
+import TBootstrapConfigButton from '@/components/templates/TBootstrapConfigButton';
+import TCreateAdminForm from '@/components/templates/TCreateAdminForm';
+import { checkDBSettings, checkUserSettings, getAppConfig } from '@/services/actions/config.action';
+import { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
+import { redirect } from 'next/navigation';
 
 export async function generateMetadata() {
-  const t = await getTranslations('Public.Home');
+  const t = await getTranslations('Authenticated.Setup');
   const [, appConfig] = await getAppConfig();
 
   return {
@@ -43,17 +40,27 @@ export async function generateMetadata() {
       name: "riv0manana | Rivomanana MANDANIAINA",
       url: "https://riv0manana.dev",
     },
-    keywords: t('keywords').split(', '),
   } as Metadata
 }
 
-export default function Home() {
-  return (
-    <>
-      <TRecommendedProduct />
-      <TNewestProduct />
-      <TProductListing />
-    </>
+const AdminSetupPage = async () => {
+  const [userError, userCheck] = await checkUserSettings();
+  const [, dbCheck] = await checkDBSettings();
 
-  );
+  if (userCheck && dbCheck) redirect('/dashboard');
+
+  if (userError) return <TCreateAdminForm />
+
+  const t = await getTranslations('Authenticated.Setup');
+
+  return (
+    <CardContainer
+      title={t('content.title')}
+      subtitle={t('content.description')}
+    >
+      <TBootstrapConfigButton />
+    </CardContainer>
+  )
 }
+
+export default AdminSetupPage

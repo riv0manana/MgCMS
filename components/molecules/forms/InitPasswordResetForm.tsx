@@ -20,53 +20,49 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChevronLeft, Mail, Lock } from "lucide-react"
 import Link from 'next/link'
 import {
     Form,
 } from "@/components/ui/form"
 import Input from '@/components/atoms/Input'
-import { userSignInForm } from '@/lib/forms'
+import { initResetForm } from '@/lib/forms'
 import { useTranslations } from 'next-intl'
-import useActionToast from '@/hooks/ActionToast'
 import { useRouter } from 'next/navigation'
+import useActionToast from '@/hooks/ActionToast'
 
-export type LoginFormProps = {
-    submit: (data: SignInParams) => Promise<ActionResponse<UserSession>>;
+export type InitPasswordResetFormProps = {
+    submit: (email: string) => Promise<ActionResponse<any>>;
 }
 
-export default function LoginForm({
+export default function InitPasswordResetForm({
     submit,
-}: LoginFormProps) {
+}: InitPasswordResetFormProps) {
     const [isLoading, action] = useTransition();
-    const toast = useActionToast();
+    const toast = useActionToast()
+    const t = useTranslations('components.molecules.InitPasswordResetForm')
+    const z = useTranslations('Common.zod');
     const router = useRouter();
-    const t = useTranslations('components.molecules.LoginForm')
-    const z = useTranslations('Common.zod')
 
-    const loginSchema = userSignInForm(z);
+    const resetSchema = initResetForm(z);
 
-    const form = useForm<z.infer<typeof loginSchema>>({
-        resolver: zodResolver(loginSchema),
-        defaultValues: {
-            email: "",
-            password: "",
-        },
+    const form = useForm<z.infer<typeof resetSchema>>({
+        resolver: zodResolver(resetSchema),
     })
 
-    const onSubmit = (data: z.infer<typeof loginSchema>) => {
+    const onSubmit = ({ email }: z.infer<typeof resetSchema>) => {
         action(async () => {
-            const [error, res] = await submit(data);
+            const [error, res] = await submit(email);
             toast<typeof res>(
                 [error, res],
                 {
                     title: t('toast.error.title'),
-                    description: t('toast.success.description'),
+                    description: t('toast.success.title'),
                     errorTitle: t('toast.error.title'),
                     errorDescription: t('toast.error.description')
                 },
-                () => router.push('/dashboard/orders')
+                () => router.push('/dashboard/reset/send-link')
             )
         })
     }
@@ -94,13 +90,6 @@ export default function LoginForm({
                             placeholder={t('form.email.placeholder')}
                             start={<Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />}
                         />
-                        <Input
-                            control={form.control}
-                            type='password'
-                            name='password'
-                            placeholder={t('form.password.placeholder')}
-                            start={<Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />}
-                        />
                         <Button
                             type="submit"
                             className="w-full"
@@ -111,15 +100,6 @@ export default function LoginForm({
                     </form>
                 </Form>
             </CardContent>
-            <CardFooter className="flex flex-col space-y-4">
-                <Link
-                    href="/dashboard/reset"
-                    aria-label={t('link.forgot.label')}
-                    className="text-sm text-main-600 hover:text-main-700 transition-colors"
-                >
-                    {t('link.forgot.label')}
-                </Link>
-            </CardFooter>
         </Card>
     )
 }

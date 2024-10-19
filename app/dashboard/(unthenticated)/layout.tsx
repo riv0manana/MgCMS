@@ -12,12 +12,19 @@
  */
 
 
-import TProductTable from "@/components/templates/TProductTable";
-import { getLoggedInUser } from "@/services/actions/admin.action";
-import { redirect } from "next/navigation";
+import PublicHeader from "@/components/organisms/PublicHeader"
+import { ReactNode } from "react"
 
-export default async function AdminProducts() {
-  const [error] = await getLoggedInUser();
-  if (error) redirect('/dashboard');
-  return <TProductTable />;
+const DashboardLayout = ({ children }: { children: ReactNode }) => {
+  return (
+    <>
+      <PublicHeader />
+      <main className="min-h-screen bg-gradient-to-b from-second-50 to-main-50 flex items-center justify-center p-4">
+        {children}
+      </main>
+    </>
+
+  )
 }
+
+export default DashboardLayout

@@ -12,21 +12,22 @@
  */
 
 import TLoginForm from '@/components/templates/TLoginForm';
-import TOrderTable from '@/components/templates/TOrderTable';
 import { getLoggedInUser } from '@/services/actions/admin.action'
 import { checkUserSettings } from '@/services/actions/config.action';
 import { redirect } from 'next/navigation';
-import React from 'react'
 
-const AdminPage = async () => {
+const LoginPage = async () => {
     const [hasError] = await checkUserSettings();
     if (hasError?.message) redirect('/dashboard/setup');
-    
-    const [error, data] = await getLoggedInUser();
 
-    return data && !error
-        ? <TOrderTable />
-        : <TLoginForm />
+    const [, data] = await getLoggedInUser();
+    if (data?.$id) redirect('/dashboard/orders');
+
+    return (
+        <main className="min-h-screen bg-gradient-to-b from-second-50 to-main-50 flex items-center justify-center p-4">
+            <TLoginForm />
+        </main>
+    )
 }
 
-export default AdminPage
+export default LoginPage

@@ -14,8 +14,6 @@
  */
 
 
-
-
 import { useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -26,10 +24,9 @@ import {
 } from "@/components/ui/form"
 import Input from '@/components/atoms/Input'
 import { payRefForm } from '@/lib/forms'
-import { useToast } from '@/hooks/use-toast'
 import { useRouter } from 'next/navigation'
-import { cp } from 'fs'
 import { useTranslations } from 'next-intl'
+import useActionToast from '@/hooks/ActionToast'
 
 export type PayRefFormProps = {
     submit: (payRef: string) => Promise<ActionResponse<{ $id: string }>>;
@@ -39,7 +36,7 @@ export default function PayRefForm({
     submit,
 }: PayRefFormProps) {
     const [loading, action] = useTransition();
-    const { toast } = useToast()
+    const toast = useActionToast();
     const t = useTranslations('components.molecules.PayRefForm')
     const z = useTranslations('Common.zod')
 
@@ -54,20 +51,16 @@ export default function PayRefForm({
     const onSubmit = (data: z.infer<typeof payRefSchema>) => {
         action(async () => {
             const [error, res] = await submit(data.payRef);
-            if (error) {
-                toast({
+            toast<typeof res>(
+                [error, res],
+                {
                     title: t('toast.error.title'),
-                    description: t('toast.error.description'),
-                    variant: 'destructive'
-                });
-            }
-            if (res?.$id) {
-                toast({
-                    title: t('toast.success.title'),
                     description: t('toast.success.description'),
-                })
-                router.push(`/tracking/${res.$id}`)
-            }
+                    errorTitle: t('toast.error.title'),
+                    errorDescription: t('toast.error.description')
+                },
+                () => router.push(`/tracking/${res?.$id}`)
+            )
         })
     }
 

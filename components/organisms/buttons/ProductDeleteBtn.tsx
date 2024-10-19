@@ -16,7 +16,7 @@
 import useDialog from "@/components/atoms/Dialog/useDialog"
 import ActionModal from "@/components/molecules/ActionModal"
 import { Button } from "@/components/ui/button"
-import { useToast } from "@/hooks/use-toast"
+import useActionToast from "@/hooks/ActionToast"
 import { Trash2 } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { useTransition } from "react"
@@ -32,26 +32,22 @@ const ProductDeleteBtn = ({
 }: ProductDeleteBtnProps) => {
     const t = useTranslations('components.organisms.ProductDeleteBtn')
     const [loading, action] = useTransition();
-    const { toast } = useToast();
+    const toast = useActionToast()
 
     const dialog = useDialog();
 
     const runDelete = () => {
         action(async () => {
             const [error, res] = await submit(product.$id!);
-            if (error) {
-                toast({
+            toast<typeof res>(
+                [error, res],
+                {
                     title: t('toast.error.title'),
-                    description: t('toast.error.description'),
-                    variant: 'destructive'
-                });
-            }
-            if (res) {
-                toast({
-                    title: t('toast.success.title'),
-                })
-                close();
-            }
+                    errorTitle: t('toast.error.title'),
+                    errorDescription: t('toast.error.description')
+                },
+                close
+            )
         })
     }
     return (

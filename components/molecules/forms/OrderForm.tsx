@@ -27,9 +27,9 @@ import {
 } from "@/components/ui/form"
 import Input, { InputArea } from '@/components/atoms/Input'
 import { orderForm } from '@/lib/forms'
-import { useToast } from '@/hooks/use-toast'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
+import useActionToast from '@/hooks/ActionToast'
 
 export type OrderFormProps = {
     submit: (data: OrderParams) => Promise<ActionResponse<Order>>;
@@ -46,7 +46,7 @@ export default function OrderForm({
 }: OrderFormProps) {
     const [isLoading, action] = useTransition();
     const router = useRouter()
-    const { toast } = useToast()
+    const toast = useActionToast()
     const t = useTranslations('components.molecules.OrderForm');
     const z = useTranslations('Common.zod')
 
@@ -63,21 +63,19 @@ export default function OrderForm({
                 items,
                 amount: total,
             });
-            if (error) {
-                toast({
+            toast<typeof res>(
+                [error, res],
+                {
                     title: t('toast.error.title'),
-                    description: t('toast.error.description'),
-                    variant: 'destructive'
-                });
-            }
-            if (res?.$id) {
-                callback?.(res.$id);
-                toast({
-                    title: t('toast.success.title'),
-                    description: t('toast.success.description')
-                })
-                router.push(`/orders/${res.$id}`);
-            }
+                    description: t('toast.success.description'),
+                    errorTitle: t('toast.error.title'),
+                    errorDescription: t('toast.error.description')
+                },
+                () => {
+                    callback?.(res?.$id);
+                    router.push(`/orders/${res?.$id}`);
+                }
+            )
         })
     }
 

@@ -13,15 +13,17 @@
 
 
 import Footer from '@/components/molecules/Footer'
-import Header from '@/components/organisms/Header'
 import { ReactNode } from 'react'
+import PublicHeader from '@/components/organisms/PublicHeader'
 
-const PublicLayout = ({children}: {children: ReactNode}) => {
+const PublicLayout = ({ children }: { children: ReactNode }) => {
   return (
     <>
-        <Header />
+      <PublicHeader />
+      <main className="min-h-screen bg-gradient-to-b from-second-50 to-main-50 container mx-auto px-4 max-w-2xl space-y-4">
         {children}
-        <Footer />
+      </main>
+      <Footer />
     </>
   )
 }
