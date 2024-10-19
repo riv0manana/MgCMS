@@ -17,7 +17,7 @@ import { getAppConfig } from '@/services/actions/config.action';
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 
-export const dynamic = 'force-cache'
+export const dynamic = 'force-static'
 
 export async function generateMetadata() {
   const t = await getTranslations('Authenticated.InitReset');

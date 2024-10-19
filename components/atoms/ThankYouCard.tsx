@@ -34,7 +34,7 @@ const ThankYouCard = ({
     children
 }: ThankYouCardProps) => {
     return (
-        <Card className={cn("text-center", className)}>
+        <Card className={cn("text-center mx-auto md:max-w-2xl", className)}>
             <CardHeader>
                 <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-main-100">
                     {icon}

@@ -32,7 +32,7 @@ const ColoredCardContainer = ({
     footer,
 }: ColoredCardContainerProps) => {
     return (
-        <Card className={cn("bg-white shadow-lg rounded-lg overflow-hidden", className)}>
+        <Card className={cn("bg-white shadow-lg rounded-lg overflow-hidden md:max-w-2xl mx-auto", className)}>
             <CardHeader className="bg-main-500 text-white p-6">
                 <CardTitle className="text-2xl font-bold text-center">
                     {title}

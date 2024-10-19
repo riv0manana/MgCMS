@@ -44,7 +44,7 @@ const ProductCard = ({
     } = product;
 
     
-    let img = imgUrl.includes('cloudinary') && imgUrl.includes('/upload')
+    const img = imgUrl.includes('cloudinary') && imgUrl.includes('/upload')
         ?  imgUrl.replace('/upload', '/upload/c_fill,g_auto,h_169,w_300')
         : imgUrl
 
@@ -57,7 +57,7 @@ const ProductCard = ({
         )}>
             <div className="relative">
                 <Image
-                    src={imgUrl} alt={name}
+                    src={img} alt={name}
                     className="w-full h-48 object-cover"
                     width={312}
                     height={200}

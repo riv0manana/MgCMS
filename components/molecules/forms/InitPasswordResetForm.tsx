@@ -21,7 +21,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ChevronLeft, Mail, Lock } from "lucide-react"
+import { ChevronLeft, Mail } from "lucide-react"
 import Link from 'next/link'
 import {
     Form,
