@@ -12,28 +12,19 @@
  */
 
 
-import ListingSection from '@/components/atoms/ListingSection/ListingSection'
-import ProductCard from '@/components/molecules/ProductCard/ProductCard'
-import { ShoppingCart } from 'lucide-react'
 import { getProducts } from '@/services/actions/product.action'
-import { getTranslations } from 'next-intl/server'
+import ProductListing from '@/components/organisms/ProductListing/ProductListing'
 
 const TProductListing = async () => {
-    const [, data] = await getProducts();
-    const products = data?.documents || [];
-    const t = await getTranslations('components.templates.TProductListing')
+    const [, data] = await getProducts({ limit: 20});
     return (
-        <ListingSection title={t('title')}>
-            {products.map((product, i) => (
-                <ProductCard isLCP={i === 0} key={`rcmd_product_${i}`} product={product}>
-                    <ProductCard.AddToBasketBtn
-                        product={product}
-                        icon={<ShoppingCart className="ml-2 h-4 w-4" />}
-                        label={t('basketBtn')}
-                    />
-                </ProductCard>
-            ))}
-        </ListingSection>
+        <ProductListing
+            getElements={getProducts}
+            initialElements={data?.documents}
+            total={data?.total}
+            limit={10}
+            infinite
+        />
     )
 }
 

@@ -107,16 +107,16 @@
                 "title": "Fraîchement ajoutés",
                 "basketBtn": "J'en profite"
             },
-            "TProductListing": {
-                "title": "Tous nos produits",
-                "basketBtn": "Ajouter au panier"
-            },
             "TRecommendedProduct": {
                 "title": "Nos recommandations",
                 "basketBtn": "J'en profite"
             }
         },
         "organisms": {
+            "ProductListing": {
+                "title": "Tous nos produits",
+                "basketBtn": "Ajouter au panier"
+            },
             "ProductAddBtn": {
                 "dialog": {
                     "title": "Nouveau produit"
@@ -509,6 +509,11 @@
             },
             "LogoutButton": {
                 "logout": "Déconnection"
+            },
+            "PaginatedListing": {
+                "button": {
+                    "label": "Voir plus"
+                }
             }
         }
     }
