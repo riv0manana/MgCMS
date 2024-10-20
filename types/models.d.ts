@@ -11,7 +11,7 @@
  * For commercial use, please contact: contact@riv0manana.dev
  */
 
-declare type ActionStatusMsg =
+declare type ActionStatusMsg = 
     | 'setting_check_failed'
     | 'seeting_bootstrap_failed'
     | 'success'
@@ -32,6 +32,10 @@ declare type ActionStatusMsg =
     | 'order_fetch_error'
     | 'order_payment_error'
     | 'order_check_ref_error'
+    | 'agent_add_error'
+    | 'agent_edit_error'
+    | 'agent_fetch_error'
+    | 'agent_delete_error'
 
 declare type StatusCode =
     | 200
@@ -82,7 +86,24 @@ declare type SCHEMA = {
     cascade?: 'restrict' | 'cascade' | 'setNull';
 }
 
-declare type ORDER_STATUS =
+declare type AGENT_STATUS = 
+    | 'BUSY'
+    | 'OFF'
+    | 'ON'
+
+declare type TRANSPORT_TYPE = 
+    | 'BICYCLE'
+    | 'MOTO'
+    | 'CAR'
+    | 'HEAVY'
+
+declare type DELIVERY_STATUS = 
+    | 'ASSIGNED'
+    | 'IN_PROGRESS'
+    | 'CANCELED'
+    | 'DONE'
+
+declare type  ORDER_STATUS =
     | 'PENDING'
     | 'PREPARING'
     | 'READY'
@@ -116,6 +137,26 @@ declare type Order = {
     orderInfo: OrderInfo[];
     payRef?: string;
     datetime?: number;
+}
+
+declare type Agent = {
+    $id?: string;
+    name: string;
+    address: string;
+    phone: string;
+    gps_id?: string;
+    position?: number[];
+    transport: TRANSPORT_TYPE;
+    status?: AGENT_STATUS;
+}
+
+declare type Delivery = {
+    $id?: string;
+    status?: DELIVERY_STATUS;
+    order: Order;
+    agent: Agent;
+    created_at: number;
+    updated_at: number;
 }
 
 declare type OrderInfo = {
@@ -175,6 +216,8 @@ declare type OrderParams = {
     details?: string;
     amount: number;
 }
+
+declare type AgentFormParams = Omit<Agent, 'gps_id' | 'position' | 'status'>;
 
 declare type ChangePasswordParams = {
     password: string;

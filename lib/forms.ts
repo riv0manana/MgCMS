@@ -99,6 +99,8 @@ export const productForm = (t?: any) => z.object({
             { message: t?.('min', { min: 1})}
         ),
     promoted: z.boolean().optional(),
+    estimation: z.number().optional(),
+    preparation: z.number().optional(),
 })
 
 
@@ -111,4 +113,12 @@ export const orderForm = (t?: any) => z.object({
 
 export const payRefForm = (t?: any) => z.object({
     payRef: safeString(zodString(t), t),
+})
+
+export const agentForm = (t?: any) => z.object({
+    name: safeString(zodString(t), t),
+    address: safeString(zodString(t), t),
+    phone: zodPhone(t),
+    transport: safeString(zodString(t)),
+    gps_id: safeOptionalString(zodOptionalString(), t),
 })

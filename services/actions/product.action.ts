@@ -13,15 +13,17 @@
  * For commercial use, please contact: contact@riv0manana.dev
  */
 
-import {  ActionError, handleAppError, isParamMissing, parseStringify } from "@/lib/utils"
-import { revalidatePath, revalidateTag, unstable_cache } from "next/cache"
+import {  ActionError, handleAppError, isFormSafe, parseStringify } from "@/lib/utils"
+import { revalidateTag, unstable_cache } from "next/cache"
 import { createAdminClient, createSessionClient, dbQuery } from "@/services/appwrite"
 import { getSessionKey } from "@/services/cookie"
+import { productForm } from "@/lib/forms"
 
 export async function addProduct(data: Omit<Product, 'slug'>) {
     try {
+        const form = productForm();
+        if (!isFormSafe(data, form)) throw new ActionError('product_add_error', 400);
         const { name, price, imgUrl } = data;
-        if (isParamMissing([name, price, imgUrl])) throw new ActionError('product_add_error', 400);
 
         const slug = name.replaceAll(' ', '-').toLowerCase();
 
@@ -40,7 +42,8 @@ export async function addProduct(data: Omit<Product, 'slug'>) {
 
 export async function editProduct({$id, ...data}: Product) {
     try {
-        if (isParamMissing([$id])) throw new ActionError('product_edit_error', 400);
+        const form = productForm();
+        if (!$id || !isFormSafe(data, form)) throw new ActionError('product_add_error', 400);
 
         const sessionKey = getSessionKey();
         const { database } = createSessionClient(sessionKey);
@@ -64,7 +67,6 @@ export async function deleteProduct (product_id: string) {
         revalidateTag("products")
         return parseStringify({status: 'ok'})
     } catch (error) {
-        console.log(error)
         return handleAppError(error);
     }
 }
