@@ -129,7 +129,7 @@ export const getNewestProduct = unstable_cache(async ({
 
 
 export const getProducts = unstable_cache(async ({
-    limit = 50,
+    limit = 30,
     offset = 0,
     query = [],
 }: BaseQuery = {}) =>  {

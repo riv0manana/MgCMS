@@ -11,7 +11,7 @@
  * For commercial use, please contact: contact@riv0manana.dev
  */
 
-declare type ActionStatusMsg = 
+declare type ActionStatusMsg =
     | 'setting_check_failed'
     | 'seeting_bootstrap_failed'
     | 'success'
@@ -33,12 +33,17 @@ declare type ActionStatusMsg =
     | 'order_payment_error'
     | 'order_check_ref_error'
 
-declare type StatusCode = 
+declare type StatusCode =
     | 200
     | 400
     | 404
     | 401
     | 500;
+
+declare type ListResponseType<T> = {
+    documents: T[];
+    total: number;
+}
 
 declare type ActionStatus = {
     message: ActionStatusMsg;
@@ -46,21 +51,18 @@ declare type ActionStatus = {
     status: StatusCode;
 }
 
-/**
- * Kinda redundant, but the goal is provide native Web Api status when an action gets called while keeping easy to read responses
- */
 declare type ActionResponse<T> = [error?: ActionStatus, data?: T];
 
 /* DB MODEL */
 declare type SCHEMA = {
     key: string;
-    type: 
-        | 'string'
-        | 'integer'
-        | 'float'
-        | 'boolean'
-        | 'ref'
-        | 'enum';
+    type:
+    | 'string'
+    | 'integer'
+    | 'float'
+    | 'boolean'
+    | 'ref'
+    | 'enum';
     size?: number;
     required?: boolean;
     xdefault?: string | number | boolean;
@@ -69,18 +71,18 @@ declare type SCHEMA = {
     isArray?: boolean;
     possibleValues?: string[];
     collectionRef?: string;
-    typeRef?: 
-        | 'oneToOne'
-        | 'manyToOne'
-        | 'manyToMany'
-        | 'oneToMany';
+    typeRef?:
+    | 'oneToOne'
+    | 'manyToOne'
+    | 'manyToMany'
+    | 'oneToMany';
     collectionRef?: string;
     twoWay?: boolean;
     twoWayKey?: string;
     cascade?: 'restrict' | 'cascade' | 'setNull';
 }
 
-declare type  ORDER_STATUS =
+declare type ORDER_STATUS =
     | 'PENDING'
     | 'PREPARING'
     | 'READY'
@@ -122,7 +124,7 @@ declare type OrderInfo = {
     variant?: Variant;
 }
 
-declare type Size = 
+declare type Size =
     "XXS"
     | "XS"
     | "S"
@@ -132,7 +134,7 @@ declare type Size =
     | "XXL"
     | string;
 
-declare type Color = 
+declare type Color =
     "#FFF"
     | "000"
     | string;
@@ -209,7 +211,7 @@ declare type RouteQueryProps = {
 
 /* UIs */
 
-declare type BgVariant = 
+declare type BgVariant =
     | 'bg-slate-800'
     | 'bg-yellow-500'
     | 'bg-red-500'
