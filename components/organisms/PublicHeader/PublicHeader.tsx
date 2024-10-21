@@ -27,8 +27,8 @@ const PublicHeader = () => {
                 <OrderBasket />
             </BasketButton>
             <Link href="/tracking" aria-label={t('sr-btn.tracking')}>
-                <Button aria-label={t('sr-btn.tracking')} variant="ghost">
-                    <ClockArrowUpIcon className="h-8 w-8 text-main-600" />
+                <Button aria-label={t('sr-btn.tracking')} variant="ghost" className="h-10">
+                    <ClockArrowUpIcon className="h-6 w-6 text-main-600" />
                 </Button>
             </Link>
         </Header>

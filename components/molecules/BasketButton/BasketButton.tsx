@@ -54,8 +54,8 @@ const BasketButton = ({
     return (
         <Sheet open={open} onOpenChange={change}>
             <SheetTrigger asChild>
-                <Button {...props} variant="ghost" className={cn("flex", { "gap-2": !!length }, className)}>
-                    <ShoppingCart className="h-8 w-8 text-main-600" />
+                <Button {...props} variant="ghost" className={cn("flex h-10", { "gap-2": !!length }, className)}>
+                    <ShoppingCart className="h-6 w-6 text-main-600" />
                     <span className="font-bold text-main-600">{!!length ? `(${length})` : ''}</span>
                     <span className="sr-only">
                         {t('sr-btn')} {!!length ? `(${length})` : ''}
