@@ -112,7 +112,7 @@ function ProductForm({ submit, product, callback }: ProductFormProps) {
                     boxed
                 />
                 <Button disabled={loading || !!Object.keys(form.formState.errors).length} type="submit" className="w-full">
-                    { loading ? `${t('form.submit.label')}...` : t('form.submit.label') }
+                    { loading || !!Object.keys(form.formState.errors).length ? `${t('form.submit.label')}...` : t('form.submit.label') }
                 </Button>
             </form>
         </Form>

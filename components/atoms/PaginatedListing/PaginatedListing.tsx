@@ -1,5 +1,18 @@
 'use client'
 
+/*
+ * Project Name: MgCMS
+ * Author: Sarindramalala Rivomanana MANDANIAINA | riv0manana.dev
+ * License: Creative Commons Attribution-NonCommercial (CC BY-NC)
+ *          Commercial use requires a license. See LICENSE-COMMERCIAL.md for more details.
+ * 
+ * Description: Code first CMS for locale store
+ * 
+ * Copyright 2024 riv0manana.dev
+ * 
+ * For commercial use, please contact: contact@riv0manana.dev
+ */
+
 import { Fragment, ReactNode, useEffect, useMemo, useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
@@ -27,7 +40,7 @@ const PaginatedListing = <T,>({
     initialElements = [],
     total = 0,
     limit = 30,
-    infinite,
+    infinite = true,
     getElements,
     className,
     render,
@@ -58,7 +71,7 @@ const PaginatedListing = <T,>({
     }, [isInView, hasMore, infinite])
 
     return (
-        <div className="w-full space-y-4">
+        <>
             <div className={className}>
                 {elements.map((element, idx) => (
                     <Fragment key={`paginated_${idx}_${(element as any)?.$id || Math.random() * 1000}`}>
@@ -73,7 +86,7 @@ const PaginatedListing = <T,>({
                     </Button>
                 )}
             </div>
-        </div>
+        </>
     )
 }
 

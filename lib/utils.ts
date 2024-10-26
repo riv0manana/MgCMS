@@ -50,6 +50,10 @@ export function formatAmount(amount: number, currency = 'Ar'): string {
   })} ${currency}`
 }
 
+export function formatTransport(type: TRANSPORT_TYPE, t?: any) {
+  return t?.(type) || '-';
+}
+
 export const removeSpecialCharacters = (value: string) => {
   return value.replace(/[^\w\s]/gi, ""); 
 };

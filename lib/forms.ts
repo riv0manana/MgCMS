@@ -119,6 +119,6 @@ export const agentForm = (t?: any) => z.object({
     name: safeString(zodString(t), t),
     address: safeString(zodString(t), t),
     phone: zodPhone(t),
-    transport: safeString(zodString(t)),
+    transport: safeString(zodString(t)).transform(v => v as TRANSPORT_TYPE),
     gps_id: safeOptionalString(zodOptionalString(), t),
 })

@@ -115,14 +115,16 @@ export const bootstrapDB = async () => {
         const { database} = createAdminClient();
 
         /* Create collections*/
-        const { newCollection, setAttributes } = collectionQuery(database);
+        const { newCollection, setAttributes, queryAll } = collectionQuery(database);
+        const known_collections = ((await queryAll()).collections || []).map((d) => d.$id);
 
         /* create collection */
         const Collections = (collections
+            .filter(({key}) => !known_collections.includes(key))
             .map(({key, name}) => newCollection(key, name))
         );
-        const res_collections = await Promise.all(Collections);
-        if (!res_collections.length) throw new ActionError('seeting_bootstrap_failed', 500);
+
+        await Promise.all(Collections);
 
         for (let i = 0; i < collections.length; i++) {
             const { key, schema} = collections[i];

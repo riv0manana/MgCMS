@@ -118,7 +118,7 @@ export default function ResetPasswordForm({
                             className="w-full"
                             disabled={isLoading}
                         >
-                            {isLoading ? `${t('form.submit.label')}...` : t('form.submit.label')}
+                            {isLoading || !!Object.keys(form.formState.errors).length ? `${t('form.submit.label')}...` : t('form.submit.label')}
                         </Button>
                     </form>
                 </Form>

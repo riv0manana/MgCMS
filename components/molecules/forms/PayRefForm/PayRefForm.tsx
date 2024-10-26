@@ -79,7 +79,7 @@ export default function PayRefForm({
                     className="w-full"
                     disabled={loading}
                 >
-                    {loading ? `${t('form.submit.label')}...` : t('form.submit.label')}
+                    {loading || !!Object.keys(form.formState.errors).length ? `${t('form.submit.label')}...` : t('form.submit.label')}
                 </Button>
             </form>
         </Form>

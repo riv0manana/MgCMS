@@ -16,11 +16,12 @@ import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessa
 import { Input as Inp, InputProps as InpProps } from '@/components/ui/input'
 import { cn } from '@/lib/utils';
 import { ReactNode } from 'react';
-import { Control, FieldPath, FieldValues, } from 'react-hook-form';
+import { Control, FieldPath, FieldValues } from 'react-hook-form';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Select, SelectContent, SelectTrigger, SelectValue } from '@/components/ui/select';
 
-export type InputProps<T extends FieldValues> = {
+export type InputProps<T extends FieldValues> = InpProps & {
     name: FieldPath<T>;
     control: Control<T>;
     label?: string;
@@ -31,7 +32,7 @@ export type InputProps<T extends FieldValues> = {
     children?: ReactNode;
     start?: ReactNode;
     end?: ReactNode;
-} & InpProps;
+};
 
 
 const Input = <T extends FieldValues>({
@@ -55,7 +56,7 @@ const Input = <T extends FieldValues>({
             control={control}
             name={name}
             render={({ field }) => (
-                <FormItem className={cn({"hidden": hidden }, itemClassName)}>
+                <FormItem className={cn({ "hidden": hidden }, itemClassName)}>
                     {label && <FormLabel className={cn(labelClassName)}>{label}</FormLabel>}
                     {children}
                     <FormControl>
@@ -64,13 +65,13 @@ const Input = <T extends FieldValues>({
                             <Inp
                                 {...props}
                                 {...field}
-                                className={cn({"pl-10": !!start}, className)}
+                                className={cn({ "pl-10": !!start }, className)}
                                 placeholder={placeholder}
                                 type={hidden ? 'hidden' : type}
                             />
                             {end}
                         </div>
-                        
+
                     </FormControl>
                     <FormMessage className={cn(formMsgClassName)} />
                 </FormItem>
@@ -104,7 +105,7 @@ export const InputArea = <T extends FieldValues>({
                             {start}
                             <Textarea
                                 {...field}
-                                className={cn({"pl-10": !!start}, className)}
+                                className={cn({ "pl-10": !!start }, className)}
                                 placeholder={placeholder}
                             />
                         </div>
@@ -126,13 +127,13 @@ export const CheckBox = <T extends FieldValues>({
     formMsgClassName,
     description,
     boxed
-}: Omit<InputProps<T>, 'type' | 'placeholder' | 'start'> & { label: string, description?: ReactNode, boxed?: boolean}) => {
+}: Omit<InputProps<T>, 'type' | 'placeholder' | 'start'> & { label: string, description?: ReactNode, boxed?: boolean }) => {
     return (
         <FormField
             control={control}
             name={name}
             render={({ field }) => (
-                <FormItem className={cn("flex items-center gap-2", {"border border-slate-300 p-3 rounded-lg": boxed}, itemClassName)}>
+                <FormItem className={cn("flex items-center gap-2", { "border border-slate-300 p-3 rounded-lg": boxed }, itemClassName)}>
                     <FormControl>
                         <Checkbox
                             {...field}
@@ -145,6 +146,47 @@ export const CheckBox = <T extends FieldValues>({
                         {label && <FormLabel className={cn(labelClassName)}>{label}</FormLabel>}
                         {description && <FormDescription>{description}</FormDescription>}
                     </div>
+                    <FormMessage className={cn(formMsgClassName)} />
+                </FormItem>
+            )}
+        />
+    )
+}
+
+export const InputSelect = <T extends FieldValues>({
+    placeholder = '',
+    control,
+    label,
+    name,
+    className,
+    itemClassName,
+    labelClassName,
+    formMsgClassName,
+    children,
+    start,
+    options,
+}: InputProps<T> & { options: ReactNode }) => {
+    return (
+        <FormField
+            control={control}
+            name={name}
+            render={({ field }) => (
+                <FormItem className={cn(itemClassName)}>
+                    {label && <FormLabel className={cn(labelClassName)}>{label}</FormLabel>}
+                    {children}
+                    <FormControl>
+                        <div className="relative">
+                            {start}
+                            <Select {...field} onValueChange={field.onChange}>
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder={placeholder} />
+                                </SelectTrigger>
+                                <SelectContent className={cn(className)}>
+                                    {options}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                    </FormControl>
                     <FormMessage className={cn(formMsgClassName)} />
                 </FormItem>
             )}

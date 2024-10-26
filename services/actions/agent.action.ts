@@ -33,6 +33,7 @@ export async function addAgent(agent: AgentFormParams) {
         revalidateTag("agents");
         return parseStringify(newAgent);
     } catch (error) {
+        console.log(error)
         return handleAppError(error);
     }
 }
@@ -93,7 +94,7 @@ export const getAgents = unstable_cache(async ({
     limit = 100,
     offset = 0,
     query = [],
-}: BaseQuery) =>  {
+}: BaseQuery = {}) =>  {
     try {
         const { database } = createAdminClient();
         const { queryAll, queryBuilder: q } = dbQuery<Agent>('agent', database);

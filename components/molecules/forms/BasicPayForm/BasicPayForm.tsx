@@ -78,7 +78,7 @@ export default function BasicPayForm({
                 <Button
                     type="submit"
                     className="w-full"
-                    disabled={isLoading}
+                    disabled={isLoading || !!Object.keys(form.formState.errors).length}
                 >
                     {isLoading ? `${t('form.submit.label')}...` : t('form.submit.label')}
                 </Button>
