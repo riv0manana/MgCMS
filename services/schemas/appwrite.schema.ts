@@ -12,7 +12,6 @@
  */
 
 
-
 const ProductShema: SCHEMA[] = [
     {key: 'name', type: 'string', size: 100, required: true},
     {key: 'slug', type: 'string', required: false, size: 200},
@@ -42,6 +41,20 @@ const OrderSchema: SCHEMA[] = [
     {key: 'datetime', type: 'integer', min: 0},
 ]
 
+const AgentSchema: SCHEMA[] = [
+    {key: 'name', type: "string", size: 100, required: true },
+    {key: 'address', type: "string", size: 100, required: true },
+    {key: 'phone', type: "string", size: 10, required: true },
+    {key: 'gps_id', type: 'string', size: 100},
+    {key: "position", type: 'float', isArray: true},
+    {key: 'transport', type: 'enum', possibleValues: [
+        'BICYCLE', 'MOTO', 'CAR', 'HEAVY'
+    ], xdefault: 'MOTO'},
+    {key: 'status', type: 'enum', possibleValues: [
+        'BUSY', 'ON', 'OFF'
+    ], xdefault: 'ON'}
+]
+
 // Collection lists
 export const collections = [
     {
@@ -53,5 +66,10 @@ export const collections = [
         key: 'order',
         schema: OrderSchema,
         name: 'Orders',
+    },
+    {
+        key: 'agent',
+        schema: AgentSchema,
+        name: 'Agents'
     }
 ]

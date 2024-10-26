@@ -33,7 +33,7 @@ const LogoutButton = ({
 
     return (
         <Button onClick={logout} aria-label={t('logout')} variant="ghost">
-            <Icon className="h-8 w-8 text-main-600" />
+            <Icon className="size-5 md:size-8 text-main-600" />
         </Button>
     )
 }

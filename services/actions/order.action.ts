@@ -13,17 +13,21 @@
  * For commercial use, please contact: contact@riv0manana.dev
  */
 
-import {  ActionError, handleAppError, isParamMissing, parseModelId, parseStringify, stringiThing } from "@/lib/utils"
+import {  ActionError, handleAppError, isFormSafe, isParamMissing, parseModelId, parseStringify, stringiThing } from "@/lib/utils"
 import { revalidatePath, revalidateTag, unstable_cache } from "next/cache"
 import { createAdminClient, createSessionClient, dbQuery } from "@/services/appwrite"
 import { getSessionKey } from "@/services/cookie"
+import { orderForm } from "@/lib/forms"
 
-export async function createOrder(data: OrderParams) {
+export async function createOrder({
+    items, amount, reduction, ...data
+}: OrderParams) {
     try {
-        const { items, amount, clientNumber, clientName, reduction, clientAddress } = data;
-        if (isParamMissing([
-            clientAddress, items.length, clientNumber, clientName, amount,
-        ])) throw new ActionError('order_add_error', 400);
+        const form = orderForm()
+        if (
+            !isFormSafe(data, form) || 
+            isParamMissing([items.length, amount ])
+        ) throw new ActionError('order_add_error', 400);
 
         const { database } = createAdminClient();
 
@@ -38,7 +42,6 @@ export async function createOrder(data: OrderParams) {
         })
 
         let total = products.map(({qte, product: { price }}) => price * qte).reduce((a, b) => a + b, 0);
-        
         if (!!reduction) {
             total -= reduction;
         }
@@ -50,13 +53,10 @@ export async function createOrder(data: OrderParams) {
             products: product_items.map(i => parseModelId(i)),
             amount: total,
             reduction,
-            clientName,
-            clientAddress,
-            clientNumber,
             orderInfo: stringiThing<OrderInfo[]>(products),
             status: 'PENDING',
             datetime: Date.now(),
-            details: data.details,
+            ...data
         } as any, generateId.unique());
 
         revalidateTag('orders');

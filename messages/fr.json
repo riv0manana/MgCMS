@@ -10,6 +10,14 @@
                 "PREPARING": "En préparation"
             }
         },
+        "transport": {
+            "type": {
+                "BICYCLE": "Bicyclette",
+                "MOTO": "Moto",
+                "CAR": "Voiture",
+                "HEAVY": "Poids lourd"
+            }
+        },
         "zod": {
             "min": "Doit contenir au moins {min} charactères",
             "max": "Doit contenir {max} charactères au maximum",
@@ -113,6 +121,47 @@
             }
         },
         "organisms": {
+            "AgentAddBtn": {
+                "dialog": {
+                    "title": "Ajouter un agent de livraison"
+                },
+                "label": "Nouveau"
+            },
+            "AgentEditBtn": {
+                "dialog": {
+                    "title": "Edition - {name}"
+                }
+            },
+            "AgentDeleteBtn": {
+                "dialog": {
+                    "title": "Agent: {name}",
+                    "confirm": "Supprimer",
+                    "cancel": "Annuler"
+                },
+                "toast": {
+                    "error": {
+                        "title": "Impossible de supprimer l'agent",
+                        "description": "Réessayer plus tard"
+                    },
+                    "success": {
+                        "title": "Agent supprimé"
+                    }
+                }
+            },
+            "AgentTable": {
+                "title": "Agent de livraison",
+                "search": {
+                    "placeholder": "Entrez pour rechercher"
+                },
+                "table": {
+                    "name": "Noms",
+                    "phone": "N° de Tel",
+                    "address": "Adresse",
+                    "transport": "Mode",
+                    "gps_id": "GPS",
+                    "action": "Actions"
+                }
+            },
             "ProductListing": {
                 "title": "Tous nos produits",
                 "basketBtn": "Ajouter au panier"
@@ -251,6 +300,53 @@
             "ActionModal": {
                 "defaultLabel": "Confirm",
                 "cancel": "Annuler"
+            },
+            "AgentForm": {
+                "toast": {
+                    "edit": {
+                        "error": {
+                            "title": "Edition non effectuée",
+                            "description": "Verifier les données"
+                        },
+                        "success": {
+                            "title": "Mise à jour effectuée"
+                        }
+                    },
+                    "add": {
+                        "error": {
+                            "title": "Impossible d'ajouter",
+                            "description": "Verifier les données"
+                        },
+                        "success": {
+                            "title": "Agent ajouté"
+                        }
+                    }
+                },
+                "form": {
+                    "name": {
+                        "label": "Nom *",
+                        "placeholder": "Noms complet de l'agent"
+                    },
+                    "phone": {
+                        "label": "N° Tel *",
+                        "placeholder": "Numéro Téléphone"
+                    },
+                    "address": {
+                        "label": "Adresse *",
+                        "placeholder": "Adresse exacte"
+                    },
+                    "gps_id": {
+                        "label": "ID/IMEI GPS",
+                        "placeholder": "(Optionnel, lier un gps)"
+                    },
+                    "transport": {
+                        "label": "Type de transport *",
+                        "placeholder": "Choisissez un transport"
+                    },
+                    "submit": {
+                        "label": "Sauvegarder"
+                    }
+                }
             },
             "ProductForm": {
                 "toast": {

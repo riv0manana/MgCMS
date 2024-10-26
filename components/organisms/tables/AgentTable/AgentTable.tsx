@@ -13,35 +13,34 @@
  * For commercial use, please contact: contact@riv0manana.dev
  */
 
-import TProductAddButton from "@/components/templates/TProductAddButton/TProductAddButton";
-import TProductDeleteBtn from "@/components/templates/TProductDeleteBtn/TProductDeleteBtn";
-import TProductEditButton from "@/components/templates/TProductEditButton/TProductEditButton";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { formatAmount } from "@/lib/utils";
+import { formatTransport } from "@/lib/utils";
 import { Search } from "lucide-react";
 import { useTranslations } from "next-intl";
-import Image from "next/image";
+import TAgentDeleteBtn from "@/components/templates/TAgentDeleteBtn";
+import TAgentEditButton from "@/components/templates/TEditAgentButton/TEditAgentButton";
 import { useState } from "react";
+import TAgentAddButton from "@/components/templates/TAddAgentButton/TAddAgentButton";
 
-export type ProductTableProps = {
-    products?: Product[];
+export type AgentTableProps = {
+    agents?: Agent[];
 }
 
-const ProductTable = ({
-    products = [],
-}: ProductTableProps) => {
+const AgentTable = ({
+    agents = [],
+}: AgentTableProps) => {
     const [searchTerm, setSearchTerm] = useState<string>("")
 
-    const filteredProducts = products.filter(product =>
-        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.description.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredAgents = agents.filter(agent =>
+        agent.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        agent.phone.toLowerCase().includes(searchTerm.toLowerCase())
     )
 
-    const t = useTranslations('components.organisms.ProductTable');
-
+    const t = useTranslations('components.organisms.AgentTable');
+    const tr = useTranslations('Common.transport.type');
 
     return (
         <Card>
@@ -61,37 +60,32 @@ const ProductTable = ({
                             <Search className="h-4 w-4" />
                         </Button>
                     </div>
-                    <TProductAddButton />
+                    <TAgentAddButton />
                 </div>
                 <div className="overflow-x-auto">
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead>{t('table.img')}</TableHead>
                                 <TableHead>{t('table.name')}</TableHead>
-                                <TableHead>{t('table.description')}</TableHead>
-                                <TableHead>{t('table.price')}</TableHead>
+                                <TableHead>{t('table.phone')}</TableHead>
+                                <TableHead>{t('table.address')}</TableHead>
+                                <TableHead>{t('table.transport')}</TableHead>
+                                <TableHead>{t('table.gps_id')}</TableHead>
                                 <TableHead>{t('table.action')}</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {filteredProducts.map((product) => (
-                                <TableRow key={product.$id}>
-                                    <TableCell>
-                                        <Image
-                                            width={100} height={100}
-                                            src={product.imgUrl} alt={product.name}
-                                            className="w-12 h-12 object-cover rounded"
-                                            loading="lazy"
-                                        />
-                                    </TableCell>
-                                    <TableCell className="font-medium">{product.name}</TableCell>
-                                    <TableCell>{product.description}</TableCell>
-                                    <TableCell>{formatAmount(product.price)}</TableCell>
+                            {filteredAgents.map((agent) => (
+                                <TableRow key={agent.$id}>
+                                    <TableCell className="font-medium">{agent.name}</TableCell>
+                                    <TableCell>{agent.phone}</TableCell>
+                                    <TableCell>{agent.address}</TableCell>
+                                    <TableCell>{formatTransport(agent.transport, tr)}</TableCell>
+                                    <TableHead>{agent.gps_id || '-'}</TableHead>
                                     <TableCell>
                                         <div className="flex space-x-2">
-                                            <TProductEditButton product={product} />
-                                            <TProductDeleteBtn product={product} />
+                                            <TAgentEditButton agent={agent} />
+                                            <TAgentDeleteBtn agent={agent} />
                                         </div>
                                     </TableCell>
                                 </TableRow>
@@ -104,4 +98,4 @@ const ProductTable = ({
     )
 }
 
-export default ProductTable
+export default AgentTable

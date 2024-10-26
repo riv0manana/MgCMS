@@ -86,7 +86,9 @@ export const collectionQuery = (db: Databases) => {
         Permission.write(Role.team('admins'))
       ])
     },
-
+    get getAttributes() {
+      return (collectionId: string) => db.listAttributes(DBID, collectionId);
+    },
     get setAttributes() {
       return (collectionId: string, schema?: SCHEMA[]) => {
         const fields = schema?.map(({ key, type, min, max, xdefault, required, isArray, ...field }) => {
@@ -105,7 +107,7 @@ export const collectionQuery = (db: Databases) => {
             default:
               return db.createStringAttribute(DBID, collectionId, key, field.size || 100, !!required, xdefault as string, isArray);
           }
-        })
+        }).map((promise) => promise.catch(err => console.log(err?.message)))
         return fields;
       }
     }
