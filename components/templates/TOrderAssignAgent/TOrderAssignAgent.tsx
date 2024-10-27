@@ -11,18 +11,15 @@
  * For commercial use, please contact: contact@riv0manana.dev
  */
 
-import AdminHeader from "@/components/organisms/AdminHeader/AdminHeader"
-import { ReactNode } from "react"
+import OrderAssignAgent, { OrderAssignAgentProps } from "@/components/molecules/OrderAssignAgent/OrderAssignAgent";
+import { assignAgent } from "@/services/actions/order.action";
 
-const AdminLayout = ({ children }: { children: ReactNode }) => {
+export type TOrderAssignAgentProps = Omit<OrderAssignAgentProps, 'submit'>
+
+const TOrderAssignAgent = (props: TOrderAssignAgentProps) => {
     return (
-        <>
-            <AdminHeader />
-            <main className="min-h-screen pt-8 px-5 mx-auto space-y-4">
-                {children}
-            </main>
-        </>
+        <OrderAssignAgent submit={assignAgent} {...props} />
     )
 }
 
-export default AdminLayout
+export default TOrderAssignAgent

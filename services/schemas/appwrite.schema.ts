@@ -39,6 +39,7 @@ const OrderSchema: SCHEMA[] = [
     {key: 'orderInfo', type: 'string', size: 5000, min: 2, required: true},
     {key: 'payRef', type: 'string', size: 100, min: 5},
     {key: 'datetime', type: 'integer', min: 0},
+    {key: 'agent', type: 'ref', collectionRef: 'agent', cascade: 'setNull', typeRef: 'manyToOne'},
 ]
 
 const AgentSchema: SCHEMA[] = [
@@ -46,7 +47,6 @@ const AgentSchema: SCHEMA[] = [
     {key: 'address', type: "string", size: 100, required: true },
     {key: 'phone', type: "string", size: 10, required: true },
     {key: 'gps_id', type: 'string', size: 100},
-    {key: "position", type: 'float', isArray: true},
     {key: 'transport', type: 'enum', possibleValues: [
         'BICYCLE', 'MOTO', 'CAR', 'HEAVY'
     ], xdefault: 'MOTO'},

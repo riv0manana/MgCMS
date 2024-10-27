@@ -25,19 +25,21 @@ export type OrderStatusFilterProps = {
     current?: VALUES;
     onSelect?: (value: VALUES) => void;
     hideAll?: boolean;
+    disabled?: boolean;
 }
 
 const OrderStatusFilter = ({
     current,
     onSelect,
     hideAll,
+    disabled,
 }: OrderStatusFilterProps) => {
     const common = useTranslations('Common.order.status');
     const t = useTranslations('components.atoms.OrderStatusFilter')
     return (
-        <Select value={current || ''} onValueChange={(e: VALUES) => onSelect?.(e)}>
+        <Select disabled={disabled} value={current || ''} onValueChange={(e: VALUES) => onSelect?.(e)}>
             <SelectTrigger className="w-full md:w-[180px]">
-                <SelectValue placeholder="Filter by status" />
+                <SelectValue placeholder={t('placeholder')} />
             </SelectTrigger>
             <SelectContent>
                 {!hideAll && <SelectItem value="All">{t('all')}</SelectItem>}

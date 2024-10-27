@@ -20,7 +20,7 @@ const PublicLayout = ({ children }: { children: ReactNode }) => {
   return (
     <>
       <PublicHeader />
-      <main className="min-h-screen bg-gradient-to-b from-second-50 to-main-50 container px-4 py-8 space-y-4">
+      <main className="min-h-screen container px-4 py-8 space-y-4">
         {children}
       </main>
       <Footer />

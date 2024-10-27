@@ -15,7 +15,7 @@
 
 import { ActionError, handleAppError, isFormSafe, parseStringify } from "@/lib/utils";
 import { revalidatePath, unstable_cache } from "next/cache";
-import { collectionQuery, createAdminClient } from "@/services/appwrite";
+import { collectionQuery, createAdminClient } from "@/services/appwrite.service";
 import { userSignInForm } from "@/lib/forms";
 import { cookies } from "next/headers";
 import { collections } from "@/services/schemas/appwrite.schema";

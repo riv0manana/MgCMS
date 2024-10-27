@@ -211,14 +211,6 @@
                 "search": {
                     "placeholder": "Entrez pour rechercher"
                 },
-                "toast": {
-                    "error": {
-                        "title": "Imposible de mettre à jour le status"
-                    },
-                    "success": {
-                        "title": "Status à jour"
-                    }
-                },
                 "table": {
                     "phone": "N° de Tel",
                     "payRef": "Référence",
@@ -227,6 +219,7 @@
                     "total": "Total",
                     "status": "Statut",
                     "date": "Commande du",
+                    "agent": "Livreur",
                     "action": "Actions"
                 }
             },
@@ -564,11 +557,36 @@
                 "phone": "03X XX XXX XX",
                 "copy": "MgCMS © 2024 <link>riv0manana.dev</link>",
                 "copy-link": "https://riv0manana.dev"
+            },
+            "OrderAssignAgent": {
+                "toast": {
+                    "error": {
+                        "title": "Impossible d'assigner un livreur",
+                        "description": "Livreur indisponible"
+                    },
+                    "success": {
+                        "title": "Livreur assigné"
+                    }
+                }
+            },
+            "OrderStatusUpdate": {
+                "toast": {
+                    "error": {
+                        "title": "Imposible de mettre à jour le status"
+                    },
+                    "success": {
+                        "title": "Status à jour"
+                    }
+                }
             }
         },
         "atoms": {
             "OrderStatusFilter": {
-                "all": "Toutes"
+                "all": "Toutes",
+                "placeholder": "Changer le status"
+            },
+            "AgentSelectFilter": {
+                "placeholder": "Choisir le livreur"
             },
             "ShortOrderDetails": {
                 "title": "Details de la commande:",
@@ -610,6 +628,9 @@
                 "button": {
                     "label": "Voir plus"
                 }
+            },
+            "AgentInfo": {
+                "title": "Agent de livraison"
             }
         }
     }

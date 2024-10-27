@@ -55,7 +55,7 @@ export function formatTransport(type: TRANSPORT_TYPE, t?: any) {
 }
 
 export const removeSpecialCharacters = (value: string) => {
-  return value.replace(/[^\w\s]/gi, ""); 
+  return value.replace(/[^\w\s]/gi, "");
 };
 
 export function getDateTimeStamp(value?: string) {
@@ -90,11 +90,11 @@ export const parseModelId = <T>(data: T & { $id?: string }) => data?.$id;
 
 export class ActionError extends Error {
   constructor(message: ActionStatusMsg, code: StatusCode) {
-      super(message);
-      this.name = 'ActionError';
-      this.cause = {
-        code,
-      }
+    super(message);
+    this.name = 'ActionError';
+    this.cause = {
+      code,
+    }
   }
 }
 
@@ -147,5 +147,19 @@ export const deepCompareObject = <T>(first?: T, second?: T) => {
     return JSON.stringify(first) === JSON.stringify(second);
   } catch {
     return false;
+  }
+}
+
+export const mapSlifeDeliveryStatus = (type: ORDER_STATUS) => {
+  switch (type) {
+    case 'READY':
+      return 'processing';
+    case 'DELIVERED':
+      return 'completed';
+    case 'CANCELED':
+    case 'REFUND':
+      return 'canceled';
+    default:
+      return null;
   }
 }

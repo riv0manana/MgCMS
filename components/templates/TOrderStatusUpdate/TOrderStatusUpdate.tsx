@@ -11,18 +11,15 @@
  * For commercial use, please contact: contact@riv0manana.dev
  */
 
-import AdminHeader from "@/components/organisms/AdminHeader/AdminHeader"
-import { ReactNode } from "react"
+import OrderStatusUpdate, { OrderStatusUpdateProps } from "@/components/molecules/OrderStatusUpdate/OrderStatusUpdate"
+import { updateOrder } from "@/services/actions/order.action"
 
-const AdminLayout = ({ children }: { children: ReactNode }) => {
+export type TOrderStatusUpdateProps = Omit<OrderStatusUpdateProps, 'submit'>
+
+const TOrderStatusUpdate = (props: TOrderStatusUpdateProps) => {
     return (
-        <>
-            <AdminHeader />
-            <main className="min-h-screen pt-8 px-5 mx-auto space-y-4">
-                {children}
-            </main>
-        </>
+        <OrderStatusUpdate {...props} submit={updateOrder} />
     )
 }
 
-export default AdminLayout
+export default TOrderStatusUpdate

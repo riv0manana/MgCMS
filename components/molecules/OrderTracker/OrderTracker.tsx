@@ -11,15 +11,14 @@
  * For commercial use, please contact: contact@riv0manana.dev
  */
 
-
-
-
 import { cn } from "@/lib/utils";
 import OrderStatusBadge from "@/components/molecules/OrderStatusBadge/OrderStatusBadge";
 import { CheckCircle, Clock, Truck, Utensils } from "lucide-react";
 import { CrossCircledIcon } from "@radix-ui/react-icons";
 import ShortOrderDetails from "@/components/atoms/ShortOrderDetails/ShortOrderDetails";
 import { useTranslations } from "next-intl";
+import AgentInfo from "@/components/atoms/AgentInfo/AgentInfo";
+import TAgentPositionMap from "@/components/templates/TAgentPositionMap/TAgentPositionMap";
 
 export type OrderTrackerProps = {
     order: Order,
@@ -48,7 +47,7 @@ const OrderTracker = ({
                 <h2 className="text-2xl font-semibold text-gray-800 mb-2">{t('label', { id: order.$id})}</h2>
                 <OrderStatusBadge order={order} />
             </div>
-            <div className="flex flex-col justify-center items-center space-x-4">
+            <div className="flex flex-col justify-center items-center space-x-4 space-y-4">
                 <div className="flex flex-col items-center">
                     <div className={`rounded-full p-2`}>
                         {getStatusIcon(order.status)}
@@ -56,6 +55,8 @@ const OrderTracker = ({
                     <div className={`h-1 w-16`} />
                 </div>
                 <ShortOrderDetails className="flex flex-col items-center" hideBtn order={order} />
+                <AgentInfo agent={order.agent} />
+                <TAgentPositionMap agent={order.agent} />
             </div>
         </div >
     )

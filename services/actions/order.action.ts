@@ -15,8 +15,8 @@
 
 import {  ActionError, handleAppError, isFormSafe, isParamMissing, parseModelId, parseStringify, stringiThing } from "@/lib/utils"
 import { revalidatePath, revalidateTag, unstable_cache } from "next/cache"
-import { createAdminClient, createSessionClient, dbQuery } from "@/services/appwrite"
-import { getSessionKey } from "@/services/cookie"
+import { createAdminClient, createSessionClient, dbQuery } from "@/services/appwrite.service"
+import { getSessionKey } from "@/services/cookie.service"
 import { orderForm } from "@/lib/forms"
 
 export async function createOrder({
@@ -66,6 +66,27 @@ export async function createOrder({
         return handleAppError(error);
     }
 }
+
+export async function assignAgent(order_id: string, agent_id: string) {
+    try {
+        if (isParamMissing([order_id, agent_id])) throw new ActionError('order_edit_error', 400);
+
+        const sessionKey = getSessionKey();
+        const { database } = createSessionClient(sessionKey);
+        const { updateQuery, query } = dbQuery<Order>('order', database);
+
+        const check_order = await query(order_id);
+        if (!check_order?.$id) {
+            throw new ActionError('fraud_attempt', 401);
+        }
+        const order = await updateQuery(check_order.$id, { agent: agent_id } as any);
+
+        revalidateTag('orders');
+        return parseStringify(order);
+    } catch (error) {
+        return handleAppError(error);
+    }
+} 
 
 export async function updateOrder(order_id: string, status: ORDER_STATUS) {
     try {

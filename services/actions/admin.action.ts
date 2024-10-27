@@ -16,10 +16,10 @@
 import { cookies } from "next/headers"
 import { ActionError, handleAppError, isFormSafe, parseStringify } from "@/lib/utils"
 import { revalidatePath } from "next/cache"
-import { createAdminClient, createSessionClient, dbQuery } from "@/services/appwrite"
+import { createAdminClient, createSessionClient, dbQuery } from "@/services/appwrite.service"
 import { redirect } from "next/navigation"
 import { cache } from "react"
-import { getSessionKey } from "@/services/cookie"
+import { getSessionKey } from "@/services/cookie.service"
 import { initResetForm, resetPasswordForm } from "@/lib/forms"
 
 const domain = process.env.WEBDOMAIN || '';
