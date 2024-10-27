@@ -19,7 +19,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
   return (
     <>
       <PublicHeader />
-      <main className="min-h-screen bg-gradient-to-b from-second-50 to-main-50 flex items-center justify-center p-4">
+      <main className="min-h-screen to-main-50 flex items-center justify-center p-4">
         {children}
       </main>
     </>

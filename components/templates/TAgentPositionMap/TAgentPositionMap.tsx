@@ -11,18 +11,16 @@
  * For commercial use, please contact: contact@riv0manana.dev
  */
 
-import AdminHeader from "@/components/organisms/AdminHeader/AdminHeader"
-import { ReactNode } from "react"
+import AgentPositionMap, { AgentPositionMapProps } from "@/components/molecules/AgentPositionMap/AgentPositionMap"
+import { getAgentPosition } from "@/services/actions/agent.action";
 
-const AdminLayout = ({ children }: { children: ReactNode }) => {
+export type TAgentPositionMapProps = Omit<AgentPositionMapProps, 'getData'>;
+
+const TAgentPositionMap = (props: TAgentPositionMapProps) => {
+    
     return (
-        <>
-            <AdminHeader />
-            <main className="min-h-screen pt-8 px-5 mx-auto space-y-4">
-                {children}
-            </main>
-        </>
+        <AgentPositionMap {...props} getData={getAgentPosition} />
     )
 }
 
-export default AdminLayout
+export default TAgentPositionMap

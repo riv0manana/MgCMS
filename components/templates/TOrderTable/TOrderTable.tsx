@@ -13,12 +13,14 @@
 
 
 import OrderTable from "@/components/organisms/tables/OrderTable/OrderTable"
-import { getOrders, updateOrder } from "@/services/actions/order.action"
+import { getAgents } from "@/services/actions/agent.action";
+import { getOrders } from "@/services/actions/order.action"
 
 const TOrderTable = async () => {
-    const [, data] = await getOrders();
+    const [, orders] = await getOrders();
+    const [, agents] = await getAgents();
     return (
-        <OrderTable updateStatus={updateOrder} items={data?.documents} />
+        <OrderTable items={orders?.documents} agents={agents?.documents} />
     )
 }
 

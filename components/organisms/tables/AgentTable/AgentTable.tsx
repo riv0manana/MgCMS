@@ -20,7 +20,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { formatTransport } from "@/lib/utils";
 import { Search } from "lucide-react";
 import { useTranslations } from "next-intl";
-import TAgentDeleteBtn from "@/components/templates/TAgentDeleteBtn";
+import TAgentDeleteBtn from "@/components/templates/TAgentDeleteBtn/TAgentDeleteBtn";
 import TAgentEditButton from "@/components/templates/TEditAgentButton/TEditAgentButton";
 import { useState } from "react";
 import TAgentAddButton from "@/components/templates/TAddAgentButton/TAddAgentButton";

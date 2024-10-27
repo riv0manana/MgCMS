@@ -15,9 +15,10 @@
 
 import {  ActionError, handleAppError, isFormSafe, parseStringify } from "@/lib/utils"
 import { revalidateTag, unstable_cache } from "next/cache"
-import { createAdminClient, createSessionClient, dbQuery } from "@/services/appwrite"
-import { getSessionKey } from "@/services/cookie"
+import { createAdminClient, createSessionClient, dbQuery } from "@/services/appwrite.service"
+import { getSessionKey } from "@/services/cookie.service"
 import { agentForm } from "@/lib/forms"
+import TrackingMG from "@/services/tracking-mg.service"
 
 export async function addAgent(agent: AgentFormParams) {
     try {
@@ -120,3 +121,22 @@ export const getAgent = unstable_cache(async (agent_id: string) => {
         return handleAppError(error);
     }
 }, ['agents'], { tags: ["agents"] })
+
+export const getAgentPosition = async (agent_id: string) => {
+    try {
+        if (!agent_id) throw new ActionError('agent_fetch_error', 400);
+        const { database } = createAdminClient();
+
+        const { query } = dbQuery<Agent>('agent', database);
+        const agent = await query(agent_id);
+
+        if (!agent?.$id) throw new ActionError('agent_fetch_error', 404);
+
+        const res = await TrackingMG.GetPosition(agent.gps_id!);
+        if ('status' in res && res.status === 'erreur') throw new ActionError('agent_fetch_error', 404);
+
+        return parseStringify(res as PositionResponse);
+    } catch (error) {
+        return handleAppError(error);
+    }
+};

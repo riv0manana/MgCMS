@@ -98,10 +98,11 @@ declare type TRANSPORT_TYPE =
     | 'HEAVY'
 
 declare type DELIVERY_STATUS = 
-    | 'ASSIGNED'
-    | 'IN_PROGRESS'
-    | 'CANCELED'
-    | 'DONE'
+    | 'assigned'
+    | 'processing'
+    | 'canceled'
+    | 'completed'
+    | 'deleted'
 
 declare type  ORDER_STATUS =
     | 'PENDING'
@@ -132,11 +133,12 @@ declare type Order = {
     reduction?: number;
     clientName: string;
     clientNumber: string;
-    clientAddress: strings;
+    clientAddress: string;
     amount: number;
     orderInfo: OrderInfo[];
     payRef?: string;
     datetime?: number;
+    agent?: Agent;
 }
 
 declare type Agent = {
@@ -148,15 +150,6 @@ declare type Agent = {
     position?: number[];
     transport: TRANSPORT_TYPE;
     status?: AGENT_STATUS;
-}
-
-declare type Delivery = {
-    $id?: string;
-    status?: DELIVERY_STATUS;
-    order: Order;
-    agent: Agent;
-    created_at: number;
-    updated_at: number;
 }
 
 declare type OrderInfo = {
@@ -183,6 +176,15 @@ declare type Color =
 declare type Variant = {
     size: SizeIcon;
     color: Color;
+}
+
+declare type PositionResponse = {
+    name: string;
+    lastUpdate: string;
+    latitude: number;
+    longitude: number;
+    speed: number;
+    address: string
 }
 
 

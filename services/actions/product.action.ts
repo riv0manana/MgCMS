@@ -15,8 +15,8 @@
 
 import {  ActionError, handleAppError, isFormSafe, parseStringify } from "@/lib/utils"
 import { revalidateTag, unstable_cache } from "next/cache"
-import { createAdminClient, createSessionClient, dbQuery } from "@/services/appwrite"
-import { getSessionKey } from "@/services/cookie"
+import { createAdminClient, createSessionClient, dbQuery } from "@/services/appwrite.service"
+import { getSessionKey } from "@/services/cookie.service"
 import { productForm } from "@/lib/forms"
 
 export async function addProduct(data: Omit<Product, 'slug'>) {

@@ -1,4 +1,3 @@
-'use client';
 
 /*
  * Project Name: MgCMS
@@ -13,50 +12,37 @@
  * For commercial use, please contact: contact@riv0manana.dev
  */
 
+'use client'
+
 import CardContainer from "@/components/atoms/CardContainer/CardContainer"
 import OrderStatusFilter from "@/components/atoms/OrderStatusFilter/OrderStatusFilter"
 import OrderStatusBadge from "@/components/molecules/OrderStatusBadge/OrderStatusBadge";
+import TOrderAssignAgent from "@/components/templates/TOrderAssignAgent/TOrderAssignAgent";
+import TOrderStatusUpdate from "@/components/templates/TOrderStatusUpdate/TOrderStatusUpdate";
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import useActionToast from "@/hooks/ActionToast";
 import { formatAmount, getReadableDate } from "@/lib/utils"
-import { Loader2, Search } from "lucide-react"
+import { Search } from "lucide-react"
 import { useTranslations } from "next-intl";
-import { useState, useTransition } from "react"
+import { useState } from "react";
 
 export type OrderTableProps = {
     items?: Order[];
-    updateStatus: (order_id: string, status: ORDER_STATUS) => Promise<ActionResponse<Order>>
+    agents?: Agent[];
 }
 
 const OrderTable = ({
     items = [],
-    updateStatus,
+    agents = [],
 }: OrderTableProps) => {
     const t = useTranslations('components.organisms.OrderTable');
-    const [loading, action] = useTransition();
     const [filterStatus, setFilterStatus] = useState<ORDER_STATUS | 'All'>("All")
     const [searchTerm, setSearchTerm] = useState<string>("")
-    const toast = useActionToast()
-
-    const updateOrderStatus = (orderId: string, newStatus: ORDER_STATUS) => {
-        action(async () => {
-            const [error, res] = await updateStatus(orderId, newStatus);
-            toast<typeof res>(
-                [error, res],
-                {
-                    title: t('toast.success.title'),
-                    errorTitle: t('toast.error.title'),
-                }
-            )
-        })
-    }
 
     return (
         <CardContainer
             title={t('title')}
-            subtitle={loading ? <Loader2 /> : undefined}
         >
             <CardContainer.Content>
                 <div className="flex flex-col md:flex-row justify-between items-center mb-6 space-y-4 md:space-y-0 md:space-x-4">
@@ -86,6 +72,7 @@ const OrderTable = ({
                                 <TableHead>{t('table.total')}</TableHead>
                                 <TableHead>{t('table.status')}</TableHead>
                                 <TableHead>{t('table.date')}</TableHead>
+                                <TableHead>{t('table.agent')}</TableHead>
                                 <TableHead>{t('table.action')}</TableHead>
                             </TableRow>
                         </TableHeader>
@@ -102,7 +89,10 @@ const OrderTable = ({
                                     </TableCell>
                                     <TableCell>{getReadableDate(order.datetime!)}</TableCell>
                                     <TableCell>
-                                        <OrderStatusFilter hideAll current={order.status} onSelect={(val) => updateOrderStatus(order.$id!, val as any)} />
+                                        <TOrderAssignAgent agents={agents} order={order} />
+                                    </TableCell>
+                                    <TableCell>
+                                        <TOrderStatusUpdate order={order} />
                                     </TableCell>
                                 </TableRow>
                             ))}
