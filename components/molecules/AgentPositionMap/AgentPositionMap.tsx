@@ -55,6 +55,7 @@ const AgentPositionMap = ({
 
     return (
         <Lmap defaultCenter={position} className={className}>
+            <Lmap.Marker center={position} />
             <Lmap.Handler center={position} />
         </Lmap>
     )

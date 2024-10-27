@@ -14,7 +14,7 @@
 
 'use client'
 
-import { LatLngExpression } from 'leaflet';
+import { icon, LatLngExpression } from 'leaflet';
 import { ReactNode, useEffect } from 'react';
 
 import 'leaflet/dist/leaflet.css';
@@ -36,6 +36,10 @@ const TileLayer = dynamic(() => import('react-leaflet').then(({ TileLayer }) => 
     ssr: false,
 })
 
+const Marker = dynamic(() => import('react-leaflet').then(({ Marker }) => Marker), {
+    ssr: false,
+})
+
 type LMapHandlerProps = {
     center?: LatLngExpression,
     zoom?: number;
@@ -51,6 +55,18 @@ const LMapHandler = ({
     }, [center, map])
 
     return <></>
+}
+
+const LMapMarker = ({
+    center
+}: LMapHandlerProps) => {
+    const IconMarker = icon({
+        iconUrl: '/assets/img/marker.svg',
+        iconRetinaUrl: '/assets/img/marker.svg',
+        iconSize: [38, 95]
+    })
+
+    return center ? <Marker icon={IconMarker} position={center} /> : null
 }
 
 function Lmap({
@@ -74,5 +90,6 @@ function Lmap({
 }
 
 Lmap.Handler = LMapHandler;
+Lmap.Marker = LMapMarker;
 
 export default Lmap
