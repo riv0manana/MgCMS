@@ -17,8 +17,9 @@ import BasicPaymentWrapper from "@/components/atoms/BasicPaymentWrapper/BasicPay
 import ShortOrderDetails from "@/components/atoms/ShortOrderDetails/ShortOrderDetails";
 import ThankYouCard from "@/components/atoms/ThankYouCard/ThankYouCard";
 import TBasicPayForm from "@/components/templates/TBasicPayForm/TBasicPayForm";
+import TVanillaPayBtn from "@/components/templates/TVanillaPayBtn/TVanillaPayBtn";
 import { getAppConfig } from "@/services/actions/config.action";
-import { getOrder } from "@/services/actions/order.action"
+import { getOrder, isVanillaPayEnabled } from "@/services/actions/order.action"
 import { Clock } from "lucide-react";
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
@@ -62,6 +63,8 @@ const OrderResumePage = async ({
     const [, data] = await getAppConfig();
     if (!order?.$id || !data?.paymentNumber) redirect('/');
 
+    const vanillaPay = await isVanillaPayEnabled();
+
     const t = await getTranslations('Public.Order.content')
 
     return (
@@ -78,9 +81,22 @@ const OrderResumePage = async ({
         >
             {order.payRef
                 ? <ShortOrderDetails order={order} />
-                : (<BasicPaymentWrapper order={order} name={data.paymentName} phone={data.paymentNumber} >
-                    <TBasicPayForm order={order} />
-                </BasicPaymentWrapper>)
+                : (
+                    <>
+                        <ShortOrderDetails order={order} hideBtn />
+                        {vanillaPay
+                            ? (
+                                <TVanillaPayBtn order={order} />
+                            )
+                            : (
+                                <BasicPaymentWrapper order={order} name={data.paymentName} phone={data.paymentNumber} >
+                                    <TBasicPayForm order={order} />
+                                </BasicPaymentWrapper>
+                            )
+                        }
+
+                    </>
+                )
             }
         </ThankYouCard>
     )

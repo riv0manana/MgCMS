@@ -18,6 +18,8 @@ import { revalidatePath, revalidateTag, unstable_cache } from "next/cache"
 import { createAdminClient, createSessionClient, dbQuery } from "@/services/appwrite.service"
 import { getSessionKey } from "@/services/cookie.service"
 import { orderForm } from "@/lib/forms"
+import VanillaPay from "../vanilla-pay.service"
+import { headers } from "next/headers"
 
 export async function createOrder({
     items, amount, reduction, ...data
@@ -204,3 +206,26 @@ export const getOrder = unstable_cache(async (order_id: string) => {
         return handleAppError(error);
     }
 }, ['orders'], { tags: ["orders"]})
+
+export const isVanillaPayEnabled = async () => {
+    return VanillaPay.CanIUse();
+}
+
+export const generateVanillaPayLink = async (order: Order) => {
+    try {
+        const payment = await VanillaPay.initPayment({
+            adresseip: headers().get('x-real-ip') || 'unknown',
+            email: order.clientNumber,
+            idpanier: order.$id!,
+            montant: order.amount,
+            reference: order.$id!!,
+            nom: order.clientName
+        })
+
+        if (!payment) throw new ActionError('order_payment_error', 400);
+
+        return parseStringify(payment)
+    } catch (error) {
+        return handleAppError(error);
+    }
+}
