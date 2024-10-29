@@ -631,6 +631,9 @@
             },
             "AgentInfo": {
                 "title": "Agent de livraison"
+            },
+            "VanillaPayBtn": {
+                "label": "Payer"
             }
         }
     }
