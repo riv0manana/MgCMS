@@ -42,14 +42,29 @@ To get started with MgCMS, you need:
   - Create a new Appwrite project and configure your environment variables in a .env file:
 
     ```bash
+    NEXT_PUBLIC_APPWRITE_ENDPOINT=
     NEXT_PUBLIC_APPWRITE_PROJECT=
     APPWRITE_DATABASE_ID=
     NEXT_APPWRITE_KEY=
+
+    #APP KEYS
     NEXT_PUBLIC_CLOUDINARY_PRESET=
     NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=
+
+    #Enable Vanilla pay
+    VANILLA_PAY_ID=
+    VANILLA_PAY_SECRET=
+    VANILLA_PAY_PB_KEY=
+    VANILLA_PAY_PRV_KEY=
+    
+    #Enable realtime order gps tracking from Tracking.mg
+    TRACKING_MG_KEY=
+
+    #APP_CONFIG
     PAY_NAME=
     PAY_NUMBER=
     WEBDOMAIN=
+    STORENAME=
     
 4. Start the development server::
 
@@ -88,8 +103,7 @@ MgCMS is in its starting stage. Well I Hope locale community gets familiar with 
 What is planned:
 
    - **Themes repository**: Allow install custom styles from community
-   - **Local Payment integration**: Add different local payment accepted in Madagascar.
-   - **In-App i18n manager**: Ease i18n editions without build
+   - **Booking**: Allow to create bookable item + dashboard, allowing to create a booking store from the CMS
 
 ## Licensing
 
