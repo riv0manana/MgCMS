@@ -46,7 +46,7 @@ function ProductForm({ submit, product, callback }: ProductFormProps) {
     const form = useForm<z.infer<typeof productSchema>>({
         resolver: zodResolver(productSchema),
         defaultValues: product ? {
-            price: product.price.toString(),
+            price: product.price,
             name: product.name,
             sku: product.sku,
             imgUrl: product.imgUrl,

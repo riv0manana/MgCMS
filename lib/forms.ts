@@ -37,13 +37,13 @@ const zodString = (t?: any) => z.string({
 const zodOptionalString = () => z.string().optional();
 
 const zodPassword = (t?: any) => safeString(zodString(t)
-        .regex(/^.{8,}$/, { message: t?.('password.minus', { min: 8 }) })
-        .regex(/.*[a-z].*/, { message: t?.('password.minus') })
-        .regex(/.*[A-Z].*/, { message: t?.('password.capital') })
-        .regex(/.*\d.*/, { message: t?.('password.number') })
-        .regex(/.*[@$!%*?&].*/, {
-            message: t?.('password.special')
-        }),
+    .regex(/^.{8,}$/, { message: t?.('password.minus', { min: 8 }) })
+    .regex(/.*[a-z].*/, { message: t?.('password.minus') })
+    .regex(/.*[A-Z].*/, { message: t?.('password.capital') })
+    .regex(/.*\d.*/, { message: t?.('password.number') })
+    .regex(/.*[@$!%*?&].*/, {
+        message: t?.('password.special')
+    }),
     t);
 
 const zodPhone = (t?: any) => safeString(zodString(t)
@@ -64,7 +64,7 @@ export const userChangePassForm = (t?: any) => z.object({
     new_password: zodPassword(t),
     new_password_check: zodPassword(t),
 }).refine(
-    (pass) => pass.new_password === pass.new_password_check, 
+    (pass) => pass.new_password === pass.new_password_check,
     t('password.not-match')
 );
 
@@ -86,21 +86,15 @@ export const productForm = (t?: any) => z.object({
     description: safeString(zodString(t), t),
     imgUrl: safeString(zodString(t), t)
         .refine(
-            (input) => input.includes('https://'), 
+            (input) => input.includes('https://'),
             { message: t?.('url') }
         ),
-    price: safeString(zodString(t), t)
-        .refine(
-            (v) => !Number.isNaN(v), 
-            { message: t?.('NaN') }
-        )
-        .refine(
-            (v) => Number(v) > 0,
-            { message: t?.('min', { min: 1})}
-        ),
-    promoted: z.boolean().optional(),
-    estimation: z.number().optional(),
-    preparation: z.number().optional(),
+    price: z.coerce
+        .number({ message: t?.('NaN') })
+        .min(t?.('min', { min: 1 })),
+    promoted: z.coerce.boolean().optional(),
+    estimation: z.coerce.number().optional().transform(v => v === 0 ? undefined : v),
+    preparation: z.coerce.number().optional().transform(v => v === 0 ? undefined : v),
 })
 
 
