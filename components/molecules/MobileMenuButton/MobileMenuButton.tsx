@@ -19,24 +19,35 @@ import Link from "next/link"
 import useDialog from "@/components/atoms/Dialog/useDialog"
 import { Menu } from "lucide-react"
 import { usePathname } from "next/navigation"
-import { useCallback, useEffect } from "react"
+import { ReactNode, useCallback, useEffect } from "react"
+
+type RenderProps = ReturnType<typeof useDialog> & {
+    pathname?: string;
+};
 
 export type MobileMenuButtonProps = {
     links: MenuLink[];
+    render?: Render<Omit<MobileMenuButtonProps, 'render'> & RenderProps, ReactNode>
 }
 
-const MobileMenuButton = ({
-    links
-}: MobileMenuButtonProps) => {
-    const { open, close, change } = useDialog();
+const MobileMenuButton = ({render, ...props}: MobileMenuButtonProps) => {
+    const dialog = useDialog();
     const pathname = usePathname();
 
-    const closeDialog = useCallback(close, [close, pathname]);
+    const closeDialog = useCallback(dialog.close, [dialog.close, pathname]);
 
-    useEffect(closeDialog, [closeDialog]);
+    useEffect(() => {
+        closeDialog();
+    }, [closeDialog]);
+
+    if (render) return render({
+        ...props,
+        ...dialog,
+        pathname
+    });
 
     return (
-        <Sheet open={open} onOpenChange={change}>
+        <Sheet open={dialog.open} onOpenChange={dialog.change}>
             <SheetTrigger asChild>
                 <Button variant="ghost" className="md:hidden">
                     <Menu className="h-6 w-6" />
@@ -45,7 +56,7 @@ const MobileMenuButton = ({
             </SheetTrigger>
             <SheetContent side="left" className="w-[300px] sm:w-[400px]">
                 <nav className="flex flex-col space-y-4">
-                    {links.map((item) => (
+                    {props.links.map((item) => (
                         <Link
                             key={`mob_menu_${item.href}`}
                             href={item.href}

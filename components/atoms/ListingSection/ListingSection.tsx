@@ -21,13 +21,20 @@ export type ListingSectionProps = {
     className?: string;
     title?: string;
     children: ReactNode;
+    render?: Render<Omit<ListingSectionProps, 'render'>, ReactNode>
 }
 
 const ListingSection = ({
     className,
     title,
     children,
+    render
 }: ListingSectionProps) => {
+    if (render) return render({
+        className,
+        title,
+        children,
+    })
     return (
         <section className={cn("mb-12 space-y-8", className)}>
             {title && (

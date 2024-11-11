@@ -23,16 +23,16 @@ import { useTranslations } from "next-intl";
 export type FooterProps = {
     className?: string;
     children?: ReactNode;
+    render?: Render<Omit<FooterProps, 'render'>, ReactNode>
 }
 
-const Footer = ({
-    className,
-    children
-}: FooterProps) => {
+const Footer = ({render, ...props}: FooterProps) => {
     const t = useTranslations('components.molecules.Footer');
 
+    if (render) return render(props);
+
     return (
-        <footer className={cn("bg-main-600 text-white py-8 px-4", className)}>
+        <footer className={cn("bg-main-600 text-white py-8 px-4", props.className)}>
             <div className="flex flex-col gap-3 items-center justify-center">
                 <span className="font-extrabold gest text-2xl">DEMO</span>
                 <address className="not-italic mb-4">
@@ -57,7 +57,7 @@ const Footer = ({
                     })}
                 </p>
             </div>
-            {children}
+            {props.children}
         </footer>
     )
 }

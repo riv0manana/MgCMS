@@ -93,7 +93,7 @@ To get started with MgCMS, you need:
 
 MgCMS allows full customization of both the backend and frontend:
 
-   - **Frontend Customization**: The front end is built using components based on Atomic Design. You can easily extend or override any components to suit your project needs.
+   - **Frontend Customization**: The front end is built using components based on Atomic Design. You can easily extend or override any components to suit your project needs. On user faced UI, we added render props to support rendering your own customized components with all props needed.
    - **Backend Customization**: The backend is isolated and uses server actions that make it easy to connect to your own APIs or extend existing functionality without altering the frontend.
 
 ## Next steps

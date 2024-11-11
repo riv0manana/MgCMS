@@ -14,16 +14,24 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { ReactNode } from "react";
 
 export type BasketEmptyCardProps = {
     phrase?: string;
     className?: string;
+    render?: Render<Omit<BasketEmptyCardProps, 'render'>, ReactNode>;
 }
 
 const BasketEmptyCard = ({
     phrase,
     className,
+    render
 }: BasketEmptyCardProps) => {
+    if (render) return render({
+        phrase,
+        className,
+    })
+    
     return (
         <Card className={cn("text-center py-8", className)}>
             <CardContent>

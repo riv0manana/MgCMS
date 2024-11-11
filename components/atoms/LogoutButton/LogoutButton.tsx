@@ -16,20 +16,22 @@
 import { Button } from "@/components/ui/button"
 import { Loader2, LogOut } from "lucide-react"
 import { useTranslations } from "next-intl"
-import { useTransition } from "react"
+import { ReactNode, useTransition } from "react"
 
 export type LogoutButtonProps = {
     onLogout: () => Promise<ActionResponse<any>>;
+    render?: Render<{ onLogout: () => void }, ReactNode>
 }
 
-const LogoutButton = ({
-    onLogout
-}: LogoutButtonProps) => {
+const LogoutButton = ({ render, ...props }: LogoutButtonProps) => {
+
     const [loading, action] = useTransition();
-    const logout = () => action(() => { onLogout() });
+    const logout = () => action(() => { props.onLogout() });
     const t = useTranslations('components.atoms.LogoutButton')
 
     const Icon = loading ? Loader2 : LogOut;
+
+    if (render) return render({ onLogout: logout })
 
     return (
         <Button onClick={logout} aria-label={t('logout')} variant="ghost">

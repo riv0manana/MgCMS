@@ -13,10 +13,15 @@
  * For commercial use, please contact: contact@riv0manana.dev
  */
 
-import { Fragment, ReactNode, useEffect, useMemo, useState, useTransition } from "react";
+import { Fragment, LegacyRef, ReactNode, useEffect, useMemo, useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
 import { useInView } from 'react-intersection-observer'
+
+type RenderProps = { 
+    trigger?: LegacyRef<HTMLDivElement>;
+    loadMore?: () => void;
+}
 
 export type PaginatedListingProps<T> = {
     total?: number;
@@ -25,8 +30,10 @@ export type PaginatedListingProps<T> = {
     infinite?: boolean;
     getElements: (query: BaseQuery) => Promise<ActionResponse<ListResponseType<T>>>;
     className?: string;
-    render: (element: T, index?: number) => ReactNode;
-}
+    renderItem: (element: T, index?: number) => ReactNode;
+    render?: Render<Omit<PaginatedListingProps<T> & RenderProps, 'render' | 'getElements'>, ReactNode>;
+
+} 
 
 /**
  * 
@@ -37,14 +44,19 @@ export type PaginatedListingProps<T> = {
  * @returns 
  */
 const PaginatedListing = <T,>({
-    initialElements = [],
-    total = 0,
-    limit = 30,
-    infinite = true,
-    getElements,
-    className,
     render,
+    ...props
 }: PaginatedListingProps<T>) => {
+    const {
+        initialElements = [],
+        total = 0,
+        limit = 30,
+        infinite = true,
+        getElements,
+        className,
+        renderItem,
+    } = props;
+
     const [elements, setElements] = useState<T[]>(initialElements);
     const [loading, action] = useTransition();
     const [scrollTrigger, isInView] = useInView();
@@ -70,12 +82,18 @@ const PaginatedListing = <T,>({
         }
     }, [isInView, hasMore, infinite])
 
+    if (render) return render({
+        ...props,
+        loadMore,
+        trigger: scrollTrigger,
+    });
+
     return (
         <>
             <div className={className}>
                 {elements.map((element, idx) => (
                     <Fragment key={`paginated_${idx}_${(element as any)?.$id || Math.random() * 1000}`}>
-                        {render(element, idx)}
+                        {renderItem(element, idx)}
                     </Fragment>
                 ))}
             </div>

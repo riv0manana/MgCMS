@@ -18,12 +18,14 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { formatAmount } from "@/lib/utils";
+import { ReactNode } from "react";
 
 export type BasketCardProps = {
-    onIncrement?: (id: string) => void;
-    onDecrement?: (id: string) => void;
+    onIncrement?: (item: OrderInfo) => void;
+    onDecrement?: (item: OrderInfo) => void;
     onRemove?: (item: OrderInfo) => void;
     item: OrderInfo;
+    render?: Render<Omit<BasketCardProps, 'render'>, ReactNode>
 }
 
 const BasketCard = ({
@@ -31,7 +33,18 @@ const BasketCard = ({
     onIncrement,
     onRemove,
     item,
+    render,
 }: BasketCardProps) => {
+
+    if (render) {
+        return render({
+            onDecrement,
+            onIncrement,
+            onRemove,
+            item,
+        })
+    }
+
     return (
         <Card key={`basket_${item.product.$id}_idx`} className="mb-4">
             <CardContent className="flex flex-col gap-2 p-4">
@@ -46,7 +59,7 @@ const BasketCard = ({
                     <Button
                         variant="outline"
                         size="icon"
-                        onClick={() => onDecrement?.(item.product.$id!)}
+                        onClick={() => onDecrement?.(item)}
                         className="h-8 w-8 rounded-full"
                     >
                         <Minus className="h-4 w-4" />
@@ -57,7 +70,7 @@ const BasketCard = ({
                     <Button
                         variant="outline"
                         size="icon"
-                        onClick={() => onIncrement?.(item.product.$id!)}
+                        onClick={() => onIncrement?.(item)}
                         className="h-8 w-8 rounded-full"
                     >
                         <Plus className="h-4 w-4" />

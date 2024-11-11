@@ -22,14 +22,24 @@ export type CardContainerProps = {
   title: string;
   subtitle?: ReactNode;
   children?: ReactNode;
+  render?: Render<Omit<CardContainerProps, 'render'>, ReactNode>
 }
 
 const CardContainer = ({
   className,
   title,
   subtitle,
-  children
+  children,
+  render
 }: CardContainerProps) => {
+
+  if (render) return render({
+    className,
+    title,
+    subtitle,
+    children,
+  });
+
   return (
     <Card className={cn("mb-6", className)}>
       <CardHeader>

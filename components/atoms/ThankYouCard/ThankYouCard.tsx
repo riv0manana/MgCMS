@@ -24,6 +24,7 @@ export type ThankYouCardProps = {
     subtitle?: string;
     children?: ReactNode;
     icon?: ReactNode;
+    render?: Render<Omit<ThankYouCardProps, 'render'>, ReactNode>
 }
 
 const ThankYouCard = ({
@@ -31,8 +32,17 @@ const ThankYouCard = ({
     className,
     title,
     subtitle,
-    children
+    children,
+    render
 }: ThankYouCardProps) => {
+    if (render) return render({
+        icon,
+        className,
+        title,
+        subtitle,
+        children,
+    })
+
     return (
         <Card className={cn("text-center mx-auto md:max-w-2xl", className)}>
             <CardHeader>

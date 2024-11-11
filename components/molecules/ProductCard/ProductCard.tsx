@@ -25,6 +25,7 @@ export type ProductCardProps = {
     className?: string;
     disableHover?: boolean;
     isLCP?: boolean;
+    render?: Render<Omit<ProductCardProps, 'render'>, ReactNode>;
 }
 
 
@@ -33,7 +34,8 @@ const ProductCard = ({
     className,
     children,
     disableHover,
-    isLCP
+    isLCP,
+    render,
 }: ProductCardProps) => {
     const {
         $id,
@@ -43,10 +45,20 @@ const ProductCard = ({
         imgUrl
     } = product;
 
-    
+
     const img = imgUrl.includes('cloudinary') && imgUrl.includes('/upload')
-        ?  imgUrl.replace('/upload', '/upload/c_fill,g_auto,h_169,w_300')
+        ? imgUrl.replace('/upload', '/upload/c_fill,g_auto,h_169,w_300')
         : imgUrl
+
+    if (render) {
+        return render({
+            product,
+            className,
+            children,
+            disableHover,
+            isLCP
+        })
+    }
 
     return (
         <Card key={$id} className={cn(

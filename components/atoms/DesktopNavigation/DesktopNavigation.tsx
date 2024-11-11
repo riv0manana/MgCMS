@@ -16,16 +16,24 @@
 
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { ReactNode } from "react";
 
 export type DesktopNavigationProps = {
     items: MenuLink[];
     className?: string;
+    render?: Render<Omit<DesktopNavigationProps, 'render'>, ReactNode>;
 }
 
 const DesktopNavigation = ({
     items,
-    className
+    className,
+    render,
 }: DesktopNavigationProps) => {
+    if (render) return render({
+        items,
+        className,
+    })
+    
     return (
         <nav className={cn("flex items-center space-x-6 text-sm font-medium", className)}>
             {items.map((item) => (

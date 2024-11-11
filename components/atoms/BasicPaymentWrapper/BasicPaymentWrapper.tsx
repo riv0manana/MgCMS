@@ -24,6 +24,7 @@ export type BasicPaymentWrapperProps = {
     name: string;
     phone: string;
     phrase?: string;
+    render?: Render<Omit<BasicPaymentWrapperProps, 'render'>, ReactNode>
 }
 
 const BasicPaymentWrapper = ({
@@ -32,10 +33,23 @@ const BasicPaymentWrapper = ({
     className,
     name,
     phone,
-    phrase
+    phrase,
+    render
 }: BasicPaymentWrapperProps) => {
     const t = useTranslations('components.atoms.BasicPaymentWrapper')
     const defaultPhrase = phrase || t('phrase', { amount: formatAmount(order.amount) });
+
+    if (render) {
+        return render({
+            children,
+            order,
+            className,
+            name,
+            phone,
+            phrase: defaultPhrase,
+        })
+    }
+
     return (
         <div className={cn("space-y-4", className)}>
             <p className="font-semibold text-black text-center">{defaultPhrase}</p>

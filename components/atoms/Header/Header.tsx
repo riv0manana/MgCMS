@@ -15,7 +15,14 @@
 import Link from 'next/link'
 import { ReactNode } from 'react'
 
-export default function Header({ children }: { children?: ReactNode }) {
+export type HeaderProps = {
+    children?: ReactNode;
+    render?: Render<Omit<HeaderProps, 'render'>, ReactNode>;
+}
+
+export default function Header({render, ...props}: HeaderProps) {
+    if (render) return render(props);
+
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="container gap-2 flex h-16 items-center justify-between">
@@ -23,7 +30,7 @@ export default function Header({ children }: { children?: ReactNode }) {
                     <span className="font-extrabold gest text-2xl text-main-700">DEMO</span>
                 </Link>
                 <div className="flex items-center justify-end gap-2">
-                    {children}
+                    {props.children}
                 </div>
             </div>
         </header>

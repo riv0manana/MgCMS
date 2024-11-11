@@ -19,16 +19,26 @@ export type AgentInfoProps = {
     agent?: Agent;
     className?: string;
     children?: ReactNode;
+    render?: Render<Omit<AgentInfoProps, 'render'>, ReactNode>
 }
 
 const AgentInfo = ({
     agent,
     className,
-    children
+    children,
+    render,
 }: AgentInfoProps) => {
     const t = useTranslations('components.atoms.AgentInfo')
     if (!agent) return null;
-    
+
+    if (render) {
+        return render({
+            agent,
+            className,
+            children
+        })
+    }
+
     return (
         <div className={cn('w-full max-w-[300px] space-y-4', className)}>
             <h3 className="text-lg text-center font-bold">{t('title')}</h3>

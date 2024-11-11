@@ -23,6 +23,7 @@ export type ColoredCardContainerProps = {
     title: string;
     children?: ReactNode;
     footer?: ReactNode;
+    render?: Render<Omit<ColoredCardContainerProps, 'render'>, ReactNode>
 }
 
 const ColoredCardContainer = ({
@@ -30,7 +31,15 @@ const ColoredCardContainer = ({
     title,
     children,
     footer,
+    render,
 }: ColoredCardContainerProps) => {
+    if (render) return render({
+        className,
+        title,
+        children,
+        footer,
+    })
+    
     return (
         <Card className={cn("bg-white shadow-lg rounded-lg overflow-hidden md:max-w-2xl mx-auto", className)}>
             <CardHeader className="bg-main-500 text-white p-6">
@@ -47,7 +56,7 @@ const ColoredCardContainer = ({
 }
 
 const Content = (...args: Parameters<typeof CardContent>) => {
-    const [{ className, ...props}] = args;
+    const [{ className, ...props }] = args;
     return <CardContent {...props} className={cn("p-6", className)} />
 }
 

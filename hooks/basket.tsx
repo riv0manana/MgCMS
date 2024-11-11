@@ -33,30 +33,28 @@ effect(()=> {
 
 export const useBasketStore = () => {
     useSignals();
-    const increment = ($id: string) => {
-        const product = basket.value.find(p => p.product.$id === $id);
+    const increment = (item: OrderInfo) => {
+        const product = basket.value.find(p => p.product.$id === item.product.$id);
         if (!product) return;
 
         product.qte++;
-        basket.value = [...basket.value.filter(p => p.product.$id !== $id), product]
+        basket.value = [...basket.value.filter(p => p.product.$id !== item.product.$id), product]
     }
 
-    const decrement = ($id: string) => {
-        const product = basket.value.find(p => p.product.$id === $id);
+    const decrement = (item: OrderInfo) => {
+        const product = basket.value.find(p => p.product.$id === item.product.$id);
         if (!product || product.qte === 1) return;
 
         product.qte--;
-        basket.value = [...basket.value.filter(p => p.product.$id !== $id), product]
+        basket.value = [...basket.value.filter(p => p.product.$id !== item.product.$id), product]
     }
 
     const addToBasket = (product: Product, variant?: Variant) => {
         const tmp = basket.value.find(
             p => p.product.$id === product.$id && deepCompareObject(variant, p.variant)
         );
-        if (tmp) {
-            increment(product.$id!);
-            return;
-        }
+        if (tmp) return;
+        
         basket.value = [
             ...basket.value,
             {

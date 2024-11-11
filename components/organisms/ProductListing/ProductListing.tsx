@@ -21,7 +21,7 @@ import { ShoppingCart } from "lucide-react"
 import { useTranslations } from "next-intl"
 
 export type PropuctListingProps = Omit<
-    PaginatedListingProps<Product>, 'className' | 'render'
+    PaginatedListingProps<Product>, 'className' | 'renderItem'
 >
 
 const ProductListing = (props: PropuctListingProps) => {
@@ -31,7 +31,7 @@ const ProductListing = (props: PropuctListingProps) => {
             <PaginatedListing
                 {...props}
                 className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 place-items-center"
-                render={(product, i) => (
+                renderItem={(product, i) => (
                     <ProductCard isLCP={i === 0} product={product}>
                         <ProductCard.AddToBasketBtn
                             product={product}
