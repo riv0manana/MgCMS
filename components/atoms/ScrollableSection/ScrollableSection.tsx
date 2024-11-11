@@ -21,13 +21,21 @@ export type ScrollableSectionProps = {
     className?: string;
     title?: string;
     children: ReactNode;
+    render?: Render<Omit<ScrollableSectionProps, 'render'>, ReactNode>
 }
 
 const ScrollableSection = ({
     className,
     title,
     children,
+    render
 }: ScrollableSectionProps) => {
+    if (render) return render({
+        className,
+        title,
+        children,
+    })
+    
     return (
         <section className={cn("mb-12 space-y-8", className)}>
             {title && (

@@ -15,12 +15,14 @@
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useTranslations } from "next-intl";
+import { ReactNode } from "react";
 
 export type AgentSelectFilterProps = {
     agents?: Agent[];
     current?: Agent;
     disabled?: boolean;
     onSelect?: (value: string) => void;
+    render?: Render<Omit<AgentSelectFilterProps, 'render'>, ReactNode>;
 }
 
 const AgentSelectFilter = ({
@@ -28,15 +30,21 @@ const AgentSelectFilter = ({
     current,
     disabled,
     onSelect,
+    render,
 }: AgentSelectFilterProps) => {
     const t = useTranslations('components.atoms.AgentSelectFilter')
 
-    const handleChange = (id: string) => {
-        onSelect?.(id);
+    if (render) {
+        return render({
+            agents,
+            current,
+            disabled,
+            onSelect,
+        })
     }
 
     return (
-        <Select disabled={disabled} value={current?.$id} onValueChange={handleChange}>
+        <Select disabled={disabled} value={current?.$id} onValueChange={onSelect}>
             <SelectTrigger className="w-full md:w-[180px]">
                 <SelectValue placeholder={t('placeholder')} />
             </SelectTrigger>

@@ -19,6 +19,7 @@
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useTranslations } from "next-intl";
+import { ReactNode } from "react";
 
 type VALUES = ORDER_STATUS | 'All'
 export type OrderStatusFilterProps = {
@@ -26,6 +27,7 @@ export type OrderStatusFilterProps = {
     onSelect?: (value: VALUES) => void;
     hideAll?: boolean;
     disabled?: boolean;
+    render?: Render<Omit<OrderStatusFilterProps, 'render'>, ReactNode>
 }
 
 const OrderStatusFilter = ({
@@ -33,9 +35,18 @@ const OrderStatusFilter = ({
     onSelect,
     hideAll,
     disabled,
+    render,
 }: OrderStatusFilterProps) => {
     const common = useTranslations('Common.order.status');
     const t = useTranslations('components.atoms.OrderStatusFilter')
+
+    if (render) return render({
+        current,
+        onSelect,
+        hideAll,
+        disabled,
+    })
+
     return (
         <Select disabled={disabled} value={current || ''} onValueChange={(e: VALUES) => onSelect?.(e)}>
             <SelectTrigger className="w-full md:w-[180px]">

@@ -29,6 +29,7 @@ export type DialogProps = {
     change?: (value: boolean) => void;
     trigger?: ReactNode;
     className?: string;
+    render?: Render<Omit<DialogProps, 'render'>, ReactNode>;
 }
 
 const Dialog = ({
@@ -37,8 +38,17 @@ const Dialog = ({
     open,
     change,
     trigger,
-    className
+    className,
+    render,
 }: DialogProps) => {
+    if (render) return render({
+        title,
+        children,
+        open,
+        change,
+        trigger,
+        className,
+    })
     return (
         <UiDialog modal={false} open={open} onOpenChange={change}>
             {trigger && (

@@ -19,29 +19,36 @@
 import { ShoppingCart } from "lucide-react"
 import { Button, ButtonProps } from "@/components/ui/button"
 import { useBasketStore } from "@/hooks/basket"
-import { useEffect, useState } from "react"
+import { ReactNode, useEffect, useState } from "react"
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import useDialog from "@/components/atoms/Dialog/useDialog"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { cn } from "@/lib/utils"
 import { useTranslations } from "next-intl"
 
-export type BasketButtonProps = ButtonProps;
+type RenderProps = ReturnType<typeof useDialog> & Pick<ReturnType<typeof useBasketStore>, 'items'>;
+
+export type BasketButtonProps = ButtonProps & {
+    render?: Render<Omit<BasketButtonProps, 'render'> & RenderProps, ReactNode>
+};
 
 const BasketButton = ({
-    className,
-    children,
+    render,
     ...props
 }: BasketButtonProps) => {
     const [length, setLength] = useState(0);
-    const { open, change, close } = useDialog();
+    const dialog = useDialog();
 
-    const { items } = useBasketStore()
+    const { items } = useBasketStore();
+
+    const {
+        open, close, change,
+    } = dialog;
 
     useEffect(() => {
         setLength((prev) => {
             if (items.value.length === 0 && prev > 0) {
-                close();
+                dialog.close();
                 return 0;
             } else {
                 return items.value.length;
@@ -51,10 +58,16 @@ const BasketButton = ({
 
     const t = useTranslations('components.molecules.BasketButton')
 
+    if (render) return render({
+        ...props,
+        ...dialog,
+        items
+    })
+
     return (
         <Sheet open={open} onOpenChange={change}>
             <SheetTrigger asChild>
-                <Button {...props} variant="ghost" className={cn("flex h-10", { "gap-2": !!length }, className)}>
+                <Button {...props} variant="ghost" className={cn("flex h-10", { "gap-2": !!length }, props.className)}>
                     <ShoppingCart className="h-6 w-6 text-main-600" />
                     <span className="font-bold text-main-600">{!!length ? `(${length})` : ''}</span>
                     <span className="sr-only">
@@ -76,7 +89,7 @@ const BasketButton = ({
                     </SheetDescription>
                 </SheetHeader>
                 <div className="w-full h-full overflow-y-auto">
-                    {children}
+                    {props.children}
                 </div>
             </SheetContent>
         </Sheet>

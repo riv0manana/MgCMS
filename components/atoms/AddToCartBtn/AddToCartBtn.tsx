@@ -24,26 +24,33 @@ import { useBasketStore } from "@/hooks/basket";
 export type AddToCartBtnProps = {
     product: Product;
     variant?: Variant;
-    onAdd?: (product: Product) => void;
+    onAdd?: (product?: Product) => void;
     className?: string;
     icon: ReactNode
     label?: string;
+    render?: Render<Omit<AddToCartBtnProps, 'render'>, ReactNode>;
 }
 
-const AddToCartBtn = ({
-    product,
-    className,
-    variant,
-    icon,
-    label,
-    onAdd,
-}: AddToCartBtnProps) => {
+const AddToCartBtn = (props: AddToCartBtnProps) => {
+    const { render, ...data } = props;
+    const {
+        product,
+        className,
+        variant,
+        icon,
+        label,
+        onAdd,
+    } = data;
 
     const { addToBasket } = useBasketStore();
 
     const handleAdd = () => {
         addToBasket(product, variant);
         onAdd?.(product)
+    }
+
+    if (render) {
+        return render({ ...data, onAdd: handleAdd });
     }
 
     return (

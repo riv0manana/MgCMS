@@ -268,3 +268,5 @@ declare type MenuLink = {
     href: string;
     label: string;
 }
+
+declare type Render<T,K> = (props: T) => K;

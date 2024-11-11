@@ -22,12 +22,18 @@ import { Upload } from "lucide-react";
 import { useTranslations } from "next-intl";
 import useActionToast from "@/hooks/ActionToast";
 
+type RenderProps = {
+  loading?: boolean;
+  onChange?:  ChangeEventHandler<HTMLInputElement>;
+}
+
 export type UploaderProps = {
   type?: 'image' | 'video' | 'document';
   className?: string;
   children?: ReactNode;
   submit: (form: FormData) => Promise<ActionResponse<UploadData>>
   callback?: (url: string) => void;
+  render?: Render<Omit<UploaderProps, 'render' | 'submit'> & RenderProps, ReactNode>
 }
 
 const Uploader = ({
@@ -35,6 +41,7 @@ const Uploader = ({
   className,
   submit,
   callback,
+  render
 }: UploaderProps) => {
   const t = useTranslations('components.atoms.Uploader');
 
@@ -66,6 +73,14 @@ const Uploader = ({
       )
     });
   }
+
+  if (render) return render({
+    type,
+    className,
+    callback,
+    loading,
+    onChange: handleChange
+  })
 
   return (
     <div className={cn('w-full space-y-3', className)}>

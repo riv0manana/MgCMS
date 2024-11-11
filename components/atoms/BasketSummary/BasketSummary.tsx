@@ -12,8 +12,6 @@
  */
 
 
-
-
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn, formatAmount } from "@/lib/utils";
 import { useTranslations } from "next-intl";
@@ -22,15 +20,24 @@ import { ReactNode } from "react";
 export type BasketSummaryProps = {
     total: number;
     className?: string;
-    children: ReactNode
+    children: ReactNode;
+    render?: Render<Omit<BasketSummaryProps, 'render'>, ReactNode>
 }
 
 const BasketSummary = ({
     total,
     className,
     children,
+    render,
 }: BasketSummaryProps) => {
     const t = useTranslations('components.atoms.BasketSummary')
+
+    if (render) return render({
+        total,
+        className,
+        children,
+    })
+
     return (
         <Card className={cn("mt-8", className)}>
             <CardHeader>

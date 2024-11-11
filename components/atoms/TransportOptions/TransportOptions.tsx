@@ -13,15 +13,31 @@
 
 import { useTranslations } from "next-intl";
 import { SelectItem } from "@/components/ui/select";
+import { ReactNode } from "react";
 
-const TransportOptions = () => {
+type TransportType = { label: string, value: TRANSPORT_TYPE };
+type RenderProps = {
+    options: TransportType[];
+}
+
+export type TransportOptionsProps = {
+    render?: Render<Omit<TransportOptionsProps, 'render'> & RenderProps, ReactNode>
+}
+
+const TransportOptions = ({
+    render,
+    ...props
+}: TransportOptionsProps) => {
     const t = useTranslations('Common.transport.type');
-    const options: { label: string, value: TRANSPORT_TYPE }[] = [
+    const options: TransportType[] = [
         { label: t('MOTO'), value: 'MOTO' },
         { label: t('BICYCLE'), value: 'BICYCLE' },
         { label: t('CAR'), value: 'CAR' },
         { label: t('HEAVY'), value: 'HEAVY' },
     ]
+
+    if (render) return render({...props, options });
+
     return (
         <>
             {options.map(({ label, value }, idx) => (
