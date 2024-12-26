@@ -17,6 +17,7 @@ import {  ActionError, handleAppError, isParamMissing, parseStringify } from "@/
 import { revalidateTag, unstable_cache } from "next/cache"
 import { createAdminClient, createSessionClient, dbQuery } from "@/services/appwrite.service"
 import { getSessionKey } from "@/services/cookie.service"
+import { createFilteredAction } from "@/lib/filters"
 
 export async function addProduct(data: Omit<Product, 'slug'>) {
     try {
@@ -64,88 +65,20 @@ export async function deleteProduct (product_id: string) {
         revalidateTag("products")
         return parseStringify({status: 'ok'})
     } catch (error) {
-        console.log(error)
         return handleAppError(error);
     }
 }
 
-export const searchProducts = unstable_cache(async ({
-    limit = 30,
-    offset = 0,
-    search = '',
-}: BaseQuery = {}) =>  {
+export const getProducts = unstable_cache(createFilteredAction(async (queries: QueryParam = {}) =>  {
     try {
         const { database } = createAdminClient();
-        const { queryAll, queryBuilder: q } = dbQuery<Product>('product', database);
-        const products = await queryAll([
-            q.limit(limit),
-            q.offset(offset),
-            q.search('productx', search)
-        ])
-
+        const { queryAll } = dbQuery<Product>('product', database);
+        const products = await queryAll(queries as string[]);
         return parseStringify(products)
     } catch (error) {
         return handleAppError(error);
     }
-}, ['products'], { tags: ["products"] });
-
-export const getPromotedProducts = unstable_cache(async ({
-    limit = 30,
-    offset = 0,
-}: BaseQuery = {}) =>  {
-    try {
-        const { database } = createAdminClient();
-        const { queryAll, queryBuilder: q } = dbQuery<Product>('product', database);
-        const products = await queryAll([
-            q.limit(limit),
-            q.offset(offset),
-            q.equal('promoted', true)
-        ])
-
-        return parseStringify(products)
-    } catch (error) {
-        return handleAppError(error);
-    }
-}, ['products'], { tags: ["products"] });
-
-export const getNewestProduct = unstable_cache(async ({
-    limit = 30,
-    offset = 0,
-}: BaseQuery = {}) =>  {
-    try {
-        const { database } = createAdminClient();
-        const { queryAll, queryBuilder: q } = dbQuery<Product>('product', database);
-        const products = await queryAll([
-            q.limit(limit),
-            q.offset(offset),
-            q.orderDesc('$createdAt')
-        ])
-
-        return parseStringify(products)
-    } catch (error) {
-        return handleAppError(error);
-    }
-}, ['products'], { tags: ["products"] });
-
-
-export const getProducts = unstable_cache(async ({
-    limit = 30,
-    offset = 0,
-    query = [],
-}: BaseQuery = {}) =>  {
-    try {
-        const { database } = createAdminClient();
-        const { queryAll, queryBuilder: q } = dbQuery<Product>('product', database);
-        const products = await queryAll([
-            q.limit(limit),
-            q.offset(offset),
-            ...query
-        ])
-        return parseStringify(products)
-    } catch (error) {
-        return handleAppError(error);
-    }
-}, ['products'], { tags: ["products"] });
+}), ['products'], { tags: ["products"] });
 
 export const getProduct = unstable_cache(async (product_id: string) => {
     try {
@@ -155,6 +88,7 @@ export const getProduct = unstable_cache(async (product_id: string) => {
 
         return parseStringify(product)
     } catch (error) {
+        console.log(error)
         return handleAppError(error);
     }
 }, ['products'], { tags: ["products"] })

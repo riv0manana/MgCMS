@@ -15,14 +15,22 @@
 import { getProducts } from '@/services/actions/product.action'
 import ProductListing from '@/components/organisms/ProductListing/ProductListing'
 
-const TProductListing = async () => {
-    const [, data] = await getProducts({ limit: 20});
+
+export type TProductListingProps = {
+    queries: BaseQuery;
+}
+
+const TProductListing = async ({ queries }: TProductListingProps) => {
+    const [, data] = await getProducts({
+        ...queries,
+        limit: queries.limit || '8'
+    });
     return (
         <ProductListing
             getElements={getProducts}
             initialElements={data?.documents}
             total={data?.total}
-            limit={10}
+            limit={queries.limit ? Number(queries.limit) : 8}
             infinite
         />
     )

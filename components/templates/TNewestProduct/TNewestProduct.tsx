@@ -15,12 +15,16 @@
 
 import ProductCard from '@/components/molecules/ProductCard/ProductCard'
 import { ShoppingCart } from 'lucide-react'
-import { getNewestProduct } from '@/services/actions/product.action'
+import { getProducts } from '@/services/actions/product.action'
 import ScrollableSection from '@/components/atoms/ScrollableSection/ScrollableSection'
 import { getTranslations } from 'next-intl/server'
 
 const TNewestProduct = async () => {
-    const [, data] = await getNewestProduct({limit: 10});
+    const [, data] = await getProducts({
+        limit: '20',
+        sortField: '$createdAt',
+        sortOrder: 'desc',
+    });
     const products = data?.documents || [];
     if (!products.length) return null;
     

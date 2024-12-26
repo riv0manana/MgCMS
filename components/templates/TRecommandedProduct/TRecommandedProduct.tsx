@@ -15,12 +15,17 @@
 import React from 'react'
 import ProductCard from '@/components/molecules/ProductCard/ProductCard'
 import { ShoppingCart } from 'lucide-react'
-import { getPromotedProducts } from '@/services/actions/product.action'
+import { getProducts } from '@/services/actions/product.action'
 import ScrollableSection from '@/components/atoms/ScrollableSection/ScrollableSection'
 import { getTranslations } from 'next-intl/server'
 
 const TRecommendedProduct = async () => {
-    const [, data] = await getPromotedProducts({limit: 20});
+    const [, data] = await getProducts({
+        limit: '20',
+        filters: JSON.stringify({
+            filters: [{field: 'promoted', value: true, operator: 'eq'}]
+        })
+    });
     const products = data?.documents || [];
     const t = await getTranslations('components.templates.TRecommendedProduct')
 

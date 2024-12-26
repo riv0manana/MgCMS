@@ -47,12 +47,12 @@ export async function generateMetadata() {
   } as Metadata
 }
 
-export default function Home() {
+export default function Home({ searchParams }: RouteQueryProps) {
   return (
     <>
       <TRecommendedProduct />
       <TNewestProduct />
-      <TProductListing />
+      <TProductListing queries={searchParams} />
     </>
 
   );
