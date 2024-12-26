@@ -11,6 +11,23 @@
  * For commercial use, please contact: contact@riv0manana.dev
  */
 
+declare type Filter = {
+    field: string;
+    value: string;
+    value2?: string;
+    operator: 'eq' | 'ne' | 'gt' | 'lt' | 'gte' | 'lte' | 'in' | 'between' | 'search';
+};
+
+declare type Sort = {
+    field: string;
+    order: 'asc' | 'desc';
+};
+
+declare type LogicalFilter = {
+    type: 'AND' | 'OR';
+    filters: (Filter | LogicalFilter)[];
+};
+
 declare type ActionStatusMsg = 
     | 'setting_check_failed'
     | 'seeting_bootstrap_failed'
@@ -232,26 +249,22 @@ declare type ValidateResetParams = {
     password: string;
 }
 
-declare type BaseQuery = {
-    query?: string[],
-    offset?: number;
-    limit?: number;
-    search?: string;
+declare type BaseQuery = QueryParam & {
 }
 
 declare type QueryParam = {
-    limit: string;
-    offset: string;
-    query: [operand: string, attr: string, value: string | string[]]
+    limit?: string;
+    offset?: string;
+    filters?: string;
+    sortField?: string;
+    sortOrder?: string;
 }
 
 declare type RouteQueryProps = {
     params: {
         [x: string]: string;
     },
-    searchParams: {
-        [x: string]: string;
-    }
+    searchParams: BaseQuery
 }
 
 /* UIs */

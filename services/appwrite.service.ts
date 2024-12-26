@@ -135,6 +135,12 @@ export const dbQuery = <T>(collectionId: string, db: Databases) => {
         permissions?: string[]
       ) => db.createDocument<T & Models.Document>(DBID, collectionId, id || ID.unique(), data as any, permissions)
     },
+    get addManyQuery() {
+      return (
+        data: T[],
+        permissions?: string[]
+      ) => Promise.all(data.map(item => db.createDocument<T & Models.Document>(DBID, collectionId, ID.unique(), item as any, permissions)))
+    },
     get addBatchQuery() {
       return (
         data: T[],
@@ -154,10 +160,21 @@ export const dbQuery = <T>(collectionId: string, db: Databases) => {
         permissions?: string[]
       ) => db.updateDocument<T & Models.Document>(DBID, collectionId, id, data as any, permissions)
     },
+    get updateManyQuery() {
+      return (
+        data: Partial<T> & { $id: string }[],
+        permissions?: string[]
+      ) => Promise.all(data.map(item => db.updateDocument<T & Models.Document>(DBID, collectionId, item.$id, item as any, permissions)))
+    },
     get deleteQuery() {
       return (
         id: string,
       ) => db.deleteDocument(DBID, collectionId, id)
+    },
+    get deleteManyQuery() {
+      return (
+        ids: string[],
+      ) => Promise.all(ids.map(id => db.deleteDocument(DBID, collectionId, id)))
     },
     get batchDeleteQuery() {
       return (
@@ -168,4 +185,73 @@ export const dbQuery = <T>(collectionId: string, db: Databases) => {
       )
     }
   }
+}
+
+type AppwriteQueryParserParam = {
+  filters: LogicalFilter,
+  sort: Sort | null,
+  offset: number,
+  limit: number
+};
+
+export const AppwriteQueryParser = ({ filters, sort, offset, limit }: AppwriteQueryParserParam) => {
+  const queries: string[] = [];
+
+  const processOrFilter = (filter: LogicalFilter) => {
+    const subQueries: string[] = [];
+    filter.filters.forEach((filter) => {
+      subQueries.push(...processFilter(filter));
+    });
+    return Query.or(subQueries);
+  }
+
+  const processAndFilter = (filter: Filter) => {
+    switch (filter.operator) {
+      case 'eq':
+        return Query.equal(filter.field, filter.value);
+      case 'ne':
+        return Query.notEqual(filter.field, filter.value);
+      case 'gt':
+        return Query.greaterThan(filter.field, filter.value);
+      case 'lt':
+        return Query.lessThan(filter.field, filter.value);
+      case 'gte':
+        return Query.greaterThanEqual(filter.field, filter.value);
+      case 'lte':
+        return Query.lessThanEqual(filter.field, filter.value);
+      case 'between':
+        return Query.between(filter.field, filter.value, filter.value2 || '');
+      case 'in':
+        return Query.contains(filter.field, filter.value);
+      case 'search':
+        return Query.search(filter.field, filter.value);
+    }
+  }
+
+  const processFilter = (filter: Filter | LogicalFilter) => {
+    const qr: string[] = [];
+    if ('operator' in filter) {
+      qr.push(processAndFilter(filter));
+    } else {
+      qr.push(processOrFilter(filter));
+    } 
+    return qr;
+  };
+
+  if (filters.type === 'OR') {
+    queries.push(...processFilter(filters));
+  } else {
+    queries.push(...(filters.filters || []).map(processFilter).flat());
+  }
+
+  if (sort?.order === 'asc') {
+    queries.push(Query.orderAsc(sort.field));
+  } else if (sort?.order === 'desc') {
+    queries.push(Query.orderDesc(sort.field));
+  }
+
+  queries.push(Query.offset(offset));
+  queries.push(Query.limit(limit));
+
+  return queries;
 }

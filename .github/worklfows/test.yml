@@ -1,0 +1,15 @@
+on:
+  push:
+    branches:
+      - develop
+name: App test validation
+jobs:
+  UnitTests:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+        with:
+          fetch-depth: 0
+      - name: Run tests
+        run: npm run test

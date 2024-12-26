@@ -17,6 +17,7 @@ import { Fragment, LegacyRef, ReactNode, useEffect, useMemo, useState, useTransi
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
 import { useInView } from 'react-intersection-observer'
+import useFilters from "@/hooks/use-filters";
 
 type RenderProps = { 
     trigger?: LegacyRef<HTMLDivElement>;
@@ -32,7 +33,6 @@ export type PaginatedListingProps<T> = {
     className?: string;
     renderItem: (element: T, index?: number) => ReactNode;
     render?: Render<Omit<PaginatedListingProps<T> & RenderProps, 'render' | 'getElements'>, ReactNode>;
-
 } 
 
 /**
@@ -50,7 +50,7 @@ const PaginatedListing = <T,>({
     const {
         initialElements = [],
         total = 0,
-        limit = 30,
+        limit: xLimit = 8,
         infinite = true,
         getElements,
         className,
@@ -61,14 +61,15 @@ const PaginatedListing = <T,>({
     const [loading, action] = useTransition();
     const [scrollTrigger, isInView] = useInView();
 
+    const { next, filters } = useFilters({ limit: xLimit, total });
+
     const hasMore = useMemo(() => elements.length < total, [elements.length, total]);
 
     const t = useTranslations('components.atoms.PaginatedListing')
-
     const loadMore = () => {
         if (hasMore) {
             action(async () => {
-                const [, res] = await getElements({ offset: elements.length, limit });
+                const [, res] = await getElements(filters);
                 if (res?.documents) {
                     setElements(prev => [...prev, ...res.documents]);
                 }
@@ -78,9 +79,16 @@ const PaginatedListing = <T,>({
 
     useEffect(() => {
         if (infinite && isInView && hasMore) {
+            next();
+        }
+    }, [isInView, hasMore, infinite]);
+
+    useEffect(() => {
+        if (filters.offset && Number(filters.offset) > 0) {
             loadMore();
         }
-    }, [isInView, hasMore, infinite])
+    }, [filters.offset])
+
 
     if (render) return render({
         ...props,
@@ -99,7 +107,7 @@ const PaginatedListing = <T,>({
             </div>
             <div ref={scrollTrigger} className="flex justify-center items-center">
                 {!infinite && hasMore && (
-                    <Button onClick={loadMore} disabled={loading} className="max-w-[150px]">
+                    <Button onClick={next} disabled={loading} className="max-w-[150px]">
                         {`${t('button.label')}${loading ? ' ...' : ''}`}
                     </Button>
                 )}
