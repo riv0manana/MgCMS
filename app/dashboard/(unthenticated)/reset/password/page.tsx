@@ -44,7 +44,7 @@ const AdminResetPassword = async ({
     searchParams
   }: RouteQueryProps) => {
   return (
-    <TResetPasswordForm {...searchParams} />
+    <TResetPasswordForm {...searchParams} /> 
   )
 }
 

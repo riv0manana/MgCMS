@@ -19,6 +19,7 @@ import { createAdminClient, createSessionClient, dbQuery } from "@/services/appw
 import { getSessionKey } from "@/services/cookie.service"
 import { agentForm } from "@/lib/forms"
 import TrackingMG from "@/services/tracking-mg.service"
+import { createFilteredAction } from "@/lib/filters"
 
 export async function addAgent(agent: AgentFormParams) {
     try {
@@ -70,45 +71,16 @@ export async function deleteAgent (agent_id: string) {
     }
 }
 
-export const searchAgents = unstable_cache(async ({
-    limit = 100,
-    offset = 0,
-    search = '',
-}: BaseQuery) =>  {
+export const getAgents = unstable_cache(createFilteredAction(async (queries: BaseQuery = {}) =>  {
     try {
         const { database } = createAdminClient();
-        const { queryAll, queryBuilder: q } = dbQuery<Agent>('agent', database);
-        const agents = await queryAll([
-            q.limit(limit),
-            q.offset(offset),
-            q.search('agentx', search)
-        ])
-
+        const { queryAll } = dbQuery<Agent>('agent', database);
+        const agents = await queryAll(queries as string[])
         return parseStringify(agents)
     } catch (error) {
         return handleAppError(error);
     }
-}, ['agents'], { tags: ["agents"] });
-
-
-export const getAgents = unstable_cache(async ({
-    limit = 100,
-    offset = 0,
-    query = [],
-}: BaseQuery = {}) =>  {
-    try {
-        const { database } = createAdminClient();
-        const { queryAll, queryBuilder: q } = dbQuery<Agent>('agent', database);
-        const agents = await queryAll([
-            q.limit(limit),
-            q.offset(offset),
-            ...query
-        ])
-        return parseStringify(agents)
-    } catch (error) {
-        return handleAppError(error);
-    }
-}, ['agents'], { tags: ["agents"] });
+}), ['agents'], { tags: ["agents"] });
 
 export const getAgent = unstable_cache(async (agent_id: string) => {
     try {

@@ -264,7 +264,9 @@ declare type RouteQueryProps = {
     params: {
         [x: string]: string;
     },
-    searchParams: BaseQuery
+    searchParams: BaseQuery & {
+        [x: string]: string;
+    }
 }
 
 /* UIs */

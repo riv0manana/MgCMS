@@ -15,7 +15,7 @@
 import ResetPasswordForm, { ResetPasswordFormProps } from '@/components/molecules/forms/ResetPasswordForm/ResetPasswordForm'
 import { validateResetPassword } from '@/services/actions/admin.action'
 
-export type TResetPasswordFormProps = Omit<ResetPasswordFormProps, 'submit'>
+export type TResetPasswordFormProps = Omit<ResetPasswordFormProps, 'submit'> & BaseQuery
 
 const TResetPasswordForm = (props: TResetPasswordFormProps) => {
   return (

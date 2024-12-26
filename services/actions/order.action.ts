@@ -20,6 +20,7 @@ import { getSessionKey } from "@/services/cookie.service"
 import { orderForm } from "@/lib/forms"
 import VanillaPay from "../vanilla-pay.service"
 import { headers } from "next/headers"
+import { createFilteredAction } from "@/lib/filters"
 
 export async function createOrder({
     items, amount, reduction, ...data
@@ -153,47 +154,20 @@ export async function checkPayRef(payRef: string) {
 }
 
 
-export const searchOrder = unstable_cache(async ({
-    limit = 30,
-    offset = 0,
-    search = '',
-}: BaseQuery = {}) =>  {
+
+export const getOrders = unstable_cache(createFilteredAction(async (queries: BaseQuery = {
+    sortField: 'datetime',
+    sortOrder: 'desc'
+}) =>  {
     try {
         const { database } = createAdminClient();
-        const { queryAll, queryBuilder: q } = dbQuery<Order>('order', database);
-        const orders = await queryAll([
-            q.limit(limit),
-            q.offset(offset),
-            q.search('orderx', search)
-        ])
-
+        const { queryAll } = dbQuery<Order>('order', database);
+        const orders = await queryAll(queries as string[]);
         return parseStringify(orders)
     } catch (error) {
         return handleAppError(error);
     }
-}, ['orders'], { tags: ["orders"]})
-
-
-export const getOrders = unstable_cache(async ({
-    limit = 30,
-    offset = 0,
-    query = [],
-}: BaseQuery = {}) =>  {
-    try {
-        const { database } = createAdminClient();
-        const { queryAll, queryBuilder: q } = dbQuery<Order>('order', database);
-        const orders = await queryAll([
-            q.limit(limit),
-            q.offset(offset),
-            q.orderDesc('datetime'),
-            ...query
-        ])
-        
-        return parseStringify(orders)
-    } catch (error) {
-        return handleAppError(error);
-    }
-}, ['orders'], { tags: ["orders"]})
+}), ['orders'], { tags: ["orders"]})
 
 export const getOrder = unstable_cache(async (order_id: string) => {
     try {
