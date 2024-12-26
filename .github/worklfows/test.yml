@@ -1,7 +1,4 @@
-on:
-  push:
-    branches:
-      - develop
+on: [pull_request]
 name: App test validation
 jobs:
   UnitTests:
