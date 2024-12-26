@@ -1,7 +1,4 @@
-on:
-  push:
-    branches:
-      - develop
+on: [pull_request]
 name: App test validation
 jobs:
   UnitTests:
@@ -11,5 +8,7 @@ jobs:
       - uses: actions/checkout@master
         with:
           fetch-depth: 0
+      - name: Install dependencies
+        run: npm install
       - name: Run tests
         run: npm run test
