@@ -21,7 +21,7 @@ class FilterHandler {
         try {
             if (!filters) throw new Error('Filters is required');
             this.filters = JSON.parse(filters);
-        } catch (error) {
+        } catch {
             this.filters = { type: 'AND', filters: [] };
         }
     }
@@ -47,7 +47,7 @@ class FilterHandler {
         if (filters) {
             try {
                 this.filters = JSON.parse(filters);
-            } catch (error) {
+            } catch {
                 this.filters = { type: 'AND', filters: [] };
             }
         }
