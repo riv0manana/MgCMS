@@ -15,16 +15,17 @@
 import Footer from '@/components/molecules/Footer/Footer'
 import { ReactNode } from 'react'
 import PublicHeader from '@/components/organisms/PublicHeader/PublicHeader'
+import { BrowserQuery } from '@/components/atoms/BrowserQuery/BrowserQuery'
 
 const PublicLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <>
+    <BrowserQuery>
       <PublicHeader />
       <main className="min-h-screen container px-4 py-8 space-y-4">
         {children}
       </main>
       <Footer />
-    </>
+    </BrowserQuery>
   )
 }
 

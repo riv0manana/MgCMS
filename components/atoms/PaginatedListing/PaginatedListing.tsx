@@ -13,11 +13,12 @@
  * For commercial use, please contact: contact@riv0manana.dev
  */
 
-import { Fragment, LegacyRef, ReactNode, useEffect, useMemo, useState, useTransition } from "react";
+import { Fragment, LegacyRef, ReactNode, useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
 import { useInView } from 'react-intersection-observer'
 import useFilters from "@/hooks/use-filters";
+import { useQuery } from "@tanstack/react-query";
 
 type RenderProps = { 
     trigger?: LegacyRef<HTMLDivElement>;
@@ -25,6 +26,7 @@ type RenderProps = {
 }
 
 export type PaginatedListingProps<T> = {
+    queryKey: string,
     total?: number;
     initialElements?: T[];
     limit?: number;
@@ -54,26 +56,34 @@ const PaginatedListing = <T,>({
         infinite = true,
         getElements,
         className,
+        queryKey,
         renderItem,
     } = props;
+    const t = useTranslations('components.atoms.PaginatedListing')
 
     const [elements, setElements] = useState<T[]>(initialElements);
-    const [loading, action] = useTransition();
     const [scrollTrigger, isInView] = useInView();
 
     const { next, filters } = useFilters({ limit: xLimit, total });
 
+    const { refetch, isLoading: loading } = useQuery<T[]>({
+        queryKey: [queryKey, JSON.stringify(filters)],
+        queryFn: async () => {
+            const [err, res] = await getElements(filters);
+            if (err) Promise.reject(err.message)
+            return res?.documents || [];
+        },
+        initialData: initialElements,
+        maxPages: total,
+        enabled: false
+    })
+
     const hasMore = useMemo(() => elements.length < total, [elements.length, total]);
 
-    const t = useTranslations('components.atoms.PaginatedListing')
-    const loadMore = () => {
+    const loadMore = async () => {
         if (hasMore) {
-            action(async () => {
-                const [, res] = await getElements(filters);
-                if (res?.documents) {
-                    setElements(prev => [...prev, ...res.documents]);
-                }
-            })
+            const { data: res } = await refetch()
+            setElements(prev => [...prev, ...(res || [])]);
         }
     }
 

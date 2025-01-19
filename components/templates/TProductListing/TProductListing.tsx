@@ -27,6 +27,7 @@ const TProductListing = async ({ queries }: TProductListingProps) => {
     });
     return (
         <ProductListing
+            queryKey='product'
             getElements={getProducts}
             initialElements={data?.documents}
             total={data?.total}
